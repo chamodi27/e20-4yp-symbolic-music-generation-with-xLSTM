@@ -101,7 +101,7 @@ int cudaForwardLauncher(
         )
     );
 
-    THCudaCheck(cudaGetLastError());
+    AT_CUDA_CHECK(cudaGetLastError());
 
     return 0;
 }

@@ -1,0 +1,2 @@
+Model,avg_offdiag,rep_density,struct_entropy,block_coherence
+xLSTM,0.630 ± 0.210,0.463 ± 0.257,5.398 ± 1.701,0.386 ± 0.187
