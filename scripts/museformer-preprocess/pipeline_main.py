@@ -233,6 +233,9 @@ Examples:
   # Run with strict MuseFormer filtering
   python pipeline_main.py --stage all --mode prod --filter-preset strict
 
+  # Resume stage 5 after a reboot/crash
+  python pipeline_main.py --stage 5 --mode prod --resume
+
 Stage IDs:
   1       - Parse MIDI files
   2-pre   - Prepare files for midiminer (copy to input directory)
@@ -287,6 +290,12 @@ Stage IDs:
         default=None,
         help='Filter preset for Stage 5: strict (MuseFormer paper) or permissive (more lenient)'
     )
+
+    parser.add_argument(
+        '--resume',
+        action='store_true',
+        help='Resume stage 5: skip files already in 06_pitch_normalize/ and continue from where it left off'
+    )
     
     args = parser.parse_args()
     
@@ -307,6 +316,11 @@ Stage IDs:
         import pipeline_config
         pipeline_config.FILTER_PRESET = args.filter_preset
         print(f"Filter preset: {args.filter_preset}")
+
+    # Set resume flag on config (consumed by stage_05_filter_wrapper)
+    config.resume = args.resume
+    if args.resume:
+        print("Resume mode: stage 5 will skip already-processed files")
     
     # Setup directories
     config.setup_directories(mode=config.mode)

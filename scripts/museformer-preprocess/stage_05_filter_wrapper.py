@@ -2,6 +2,8 @@
 Stage 5: Filter and Pitch Normalization
 
 Temporarily modifies filter_config_v2.py and runs filter_and_normalize_v2.py.
+Supports batch mode and resume via pipeline_config.STAGE5_BATCH_SIZE and
+pipeline_config.STAGE5_TIMEOUT, and config.resume flag.
 """
 
 from pathlib import Path
@@ -12,7 +14,7 @@ from typing import Dict, Any
 import sys
 
 from manifest_utils import ManifestManager
-from pipeline_config import PipelineConfig, STAGE_NAMES
+from pipeline_config import PipelineConfig, STAGE_NAMES, STAGE5_BATCH_SIZE, STAGE5_TIMEOUT
 
 logger = logging.getLogger(__name__)
 
@@ -113,17 +115,37 @@ def run_stage_5(config: PipelineConfig, manifest: ManifestManager) -> dict:
         cmd = [sys.executable, str(filter_script)]
         if FILTER_PRESET:
             cmd.extend(['--preset', FILTER_PRESET])
-        
-        logger.info(f"Running command: {' '.join(cmd)}")
+
+        # Add batch-size argument
+        batch_size = STAGE5_BATCH_SIZE
+        if batch_size and batch_size > 0:
+            cmd.extend(['--batch-size', str(batch_size)])
+            logger.info(f"  Batch size: {batch_size}")
+        else:
+            logger.info("  Batch size: unlimited (single pass)")
+
+        # Add resume flag if requested
+        if getattr(config, 'resume', False):
+            cmd.append('--resume')
+            logger.info("  Resume mode: ON (skipping already-processed files)")
+
+        logger.info(f"Running command: {' '.join(str(c) for c in cmd)}")
         logger.info("")
-        
+
+        # Determine timeout
+        timeout = STAGE5_TIMEOUT  # None = no limit
+        if timeout:
+            logger.info(f"  Subprocess timeout: {timeout}s")
+        else:
+            logger.info("  Subprocess timeout: none (batch mode manages its own progress)")
+
         # Run the filter script
         result = subprocess.run(
             cmd,
             cwd=str(script_dir),
             capture_output=True,
             text=True,
-            timeout=3600  # 1 hour timeout
+            timeout=timeout
         )
         
         # Log the output

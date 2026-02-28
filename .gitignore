@@ -50,3 +50,7 @@ repos/midi-miner/*_model
 
 evaluation/results/
 evaluation/bar_ssm_outputs/
+evaluation/bar_ssm_outputs_model3/
+
+# Extracted PDF text (derived files, not source of truth — regenerate with gs)
+paper/refs_text/

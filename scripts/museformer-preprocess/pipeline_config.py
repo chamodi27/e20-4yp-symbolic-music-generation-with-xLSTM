@@ -193,6 +193,14 @@ FILTER_PRESET = 'strict'  # Options: None, 'strict', 'permissive'
 # Whether to save filtered files (before pitch norm) in dev mode
 FILTER_SAVE_INTERMEDIATE_DEV = True
 
+# Batch size for stage 5 processing (0 = process all at once)
+# Recommended: 5000 for ~99k files to avoid timeout
+STAGE5_BATCH_SIZE = 5000
+
+# Subprocess timeout for stage 5 in seconds (None = no limit)
+# Set to None when using batch mode since batches self-manage
+STAGE5_TIMEOUT = None
+
 # =============================================================================
 # LOGGING
 # =============================================================================
@@ -243,6 +251,10 @@ class PipelineConfig:
         self.base_dir = Path(base_dir)
         self.mode = mode
         self.auto_mode = auto_mode
+
+        # Resume flag: if True, stage 5 skips already-processed files
+        # Set by pipeline_main.py --resume flag
+        self.resume = False
         
         # Create directory paths
         self.dirs = {

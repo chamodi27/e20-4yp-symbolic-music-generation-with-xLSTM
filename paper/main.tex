@@ -1,0 +1,757 @@
+% ============================================================
+%  main.tex — Conference paper draft
+%  Title: Implicit Hierarchical Modeling of Long-Term Structure
+%         in Symbolic Music Generation Using xLSTM
+%  Template: IEEE Conference (IEEEtran, two-column)
+%  Status: DRAFT — placeholders marked with TODO:
+% ============================================================
+
+\documentclass[conference]{IEEEtran}
+
+% ---- Packages -----------------------------------------------
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{hyperref}
+\usepackage{cite}
+\usepackage{url}
+\usepackage{xcolor}
+\usepackage{microtype}      % better text justification
+
+% Highlight placeholders in red so they are easy to spot
+\newcommand{\TODO}[1]{\textcolor{red}{\textbf{[TODO: #1]}}}
+
+% ---- Document -----------------------------------------------
+\begin{document}
+
+% ---- Title --------------------------------------------------
+\title{Implicit Hierarchical Modeling of Long-Term Structure in Symbolic Music Generation Using xLSTM}
+
+% ---- Authors ------------------------------------------------
+\author{
+\IEEEauthorblockN{Haritha Bandara}
+\IEEEauthorblockA{Dept. of Computer Engineering\\
+University of Peradeniya\\
+Peradeniya, Sri Lanka\\
+e20037@eng.pdn.ac.lk}
+\and
+\IEEEauthorblockN{Yohan Senanayake}
+\IEEEauthorblockA{Dept. of Computer Engineering\\
+University of Peradeniya\\
+Peradeniya, Sri Lanka\\
+e20363@eng.pdn.ac.lk}
+\and
+\IEEEauthorblockN{Chamodi Senaratne}
+\IEEEauthorblockA{Dept. of Computer Engineering\\
+University of Peradeniya\\
+Peradeniya, Sri Lanka\\
+e20365@eng.pdn.ac.lk}
+\and
+\IEEEauthorblockN{Isuru Nawinne}
+\IEEEauthorblockA{Dept. of Computer Engineering\\
+University of Peradeniya\\
+Peradeniya, Sri Lanka\\
+isurunawinne@eng.pdn.ac.lk}
+}
+
+\maketitle
+
+% ---- Abstract -----------------------------------------------
+\begin{abstract}
+Deep learning has significantly advanced symbolic music generation,yet maintaining long-term structural coherence—including thematic repetition, phrase symmetry, and sectional contrast—remains a core open challenge. Existing approaches face a fundamental trade-off:
+explicit hierarchical models achieve structural consistency but rely on rigid, predefined segmentation, while standard autoregressive models are flexible but tend to lose global coherence over long sequences. This work investigates the Extended Long Short-Term Memory (xLSTM) architecture as an approach for \emph{implicit} multi-timescale modeling in symbolic music generation. We train xLSTM models on the Lakh MIDI Dataset (LMD) using the REMIGEN2 token representation and evaluate their performance across multiple context lengths. We further evaluate structural coherence using bar-level self-similarity matrices (SSMs) and motif recurrence metrics, and complement these with human listening evaluations. \TODO{Update with final findings after all experiments complete.}
+% Our findings suggest that xLSTM's exponential gating and matrix memory mechanisms allow it to capture hierarchical musical dependencies organically, without explicitly defined structural boundaries, offering a promising direction for scalable, long-form symbolic music generation.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Symbolic Music Generation, xLSTM, Long-Term Structure, Hierarchical Modeling, Self-Similarity Matrix, Recurrent Neural Networks
+\end{IEEEkeywords}
+
+% =============================================================
+\section{Introduction}
+\label{sec:intro}
+% =============================================================
+
+Music generation is one of the most active applications of generative artificial intelligence. Beyond artistic exploration, automatic music composition has practical value in areas such as soundtrack production, interactive media, affective computing, and music therapy~\cite{dash2024}.
+Deep learning, in particular, has transformed this field by enabling data-driven discovery of complex temporal and harmonic patterns from large corpora of symbolic and audio data~\cite{mitra2025, le2025}.
+
+Despite remarkable progress, a persistent challenge remains: generated music often lacks long-term structural coherence. While modern models excel at local note-to-note continuation, they struggle to reproduce the large-scale organisation that characterises human-composed music, such as the repetition of themes, the symmetry of phrases, and the contrast between sections~\cite{bhandari2024, deberardinis2022}.
+This limitation arises from the difficulty of capturing hierarchical temporal dependencies that span multiple timescales simultaneously:
+from individual notes, to motifs of a few notes, to phrases of a few bars, to complete sections that define the global form of a piece.
+
+To address this challenge, the research community has developed two broad classes of models. The first class comprises \emph{explicit hierarchical architectures}, such as MusicVAE~\cite{roberts2018}, Museformer~\cite{yu2022}, and the Bar Transformer~\cite{qin2023}. These models achieve strong structural consistency by explicitly dividing musical material into bars, phrases, or sections and modeling each level separately. However, their reliance on predefined
+segmentation schemes limits their adaptability to irregular musical forms and diverse musical styles, and their multi-level training introduces significant engineering complexity.
+
+The second class comprises \emph{implicit autoregressive models},
+including Music Transformer~\cite{huang2019}, Pop Music
+Transformer~\cite{huang2020}, and large-language-model-based systems like MuPT~\cite{qu2024}. These models are flexible and scalable, and they do not depend on manual structural annotations. However, their context windows and memory mechanisms are typically dominated by local dependencies, and they consistently struggle to maintain global structural coherence over long durations~\cite{bhandari2024}.
+
+
+This suggests a research gap: it remains challenging for many existing architectures to simultaneously achieve the long-term structural modeling capability of explicit hierarchical designs while retaining the flexibility and generality of implicit sequence models. Addressing this gap motivates the exploration of architectures capable of learning hierarchical dependencies directly from data, across multiple timescales, without strictly predefined boundaries.
+
+
+We propose to investigate the Extended Long Short-Term Memory (xLSTM) architecture~\cite{beck2024} as a solution to this problem. xLSTM introduces two key innovations over standard LSTM: (1) exponential gating for more selective memory updates, and (2) a matrix-valued memory cell (mLSTM) that stores associative key-value pairs and supports parallel updates. Together, these mechanisms enable implicit multi-timescale dynamics within a unified recurrent framework, without requiring a manually imposed hierarchical structure. Cross-domain studies have shown that xLSTM outperforms both traditional LSTMs and Transformers on tasks requiring long-range temporal reasoning, such as time-series forecasting and audio representation learning~\cite{alharthi2024, axlstm2024}. However, to the best of our knowledge, the specific capacity of xLSTM to model long-term structural coherence in symbolic music generation has not yet been formally evaluated in the literature.
+
+This paper makes the following contributions:
+\begin{itemize}
+    \item We present the first study of xLSTM applied to symbolic music generation, training on the Lakh MIDI Dataset with the REMIGEN2 token representation.
+    \item We analyse model behaviour across a range of context lengths, showing that xLSTM can generalise beyond its training context window.
+    \item We provide a structured evaluation framework combining perplexity, structural self-similarity, motif recurrence, and human listening tests, offering a reusable benchmark for future work in long-form music generation.
+    \item We identify promising directions for further research,
+    including the effect of preprocessing, context length, and
+    architectural variants on structural coherence.
+\end{itemize}
+
+The remainder of this paper is organised as follows.
+Section~\ref{sec:background} reviews related work on symbolic music representations, model architectures, and evaluation strategies.
+Section~\ref{sec:method} describes our dataset, model configuration, training procedure, and evaluation framework.
+Section~\ref{sec:results} presents our experimental results.
+Section~\ref{sec:discussion} discusses the findings and their
+implications.
+Section~\ref{sec:conclusion} concludes the paper by summarising our findings and outlining future research directions for xLSTM in long-form symbolic music generation.
+
+% =============================================================
+\section{Background and Related Work}
+\label{sec:background}
+% =============================================================
+
+\subsection{Musical Structure and Symbolic Representation}
+\label{ssec:repr}
+
+Music has an inherently hierarchical structure: individual notes combine into short recognisable patterns (motifs), motifs group into phrases (typically 4--8 bars), and phrases form larger sections that define the global form of a composition, such as verse--chorus patterns or AABA structures~\cite{le2025, ji2023}. Capturing these multi-level dependencies is the central challenge in long-form music generation.
+
+For a model to learn musical structure from data, the music must first be encoded into a sequence of discrete tokens. A wide range of symbolic representations has been proposed, broadly divided into \emph{time-slice} and \emph{event-based} approaches~\cite{le2025}. Time-slice representations (e.g., piano rolls) discretise time into a fixed grid but produce very long sequences and represent rhythm inefficiently.
+
+Event-based representations, which only advance the sequence when a musical event occurs, produce shorter sequences. A significant advance in this space was REMI (Revamped MIDI Events)~\cite{huang2020}, which introduced explicit metrical markers such as \texttt{BAR} and \texttt{POSITION} tokens, helping models learn rhythmic structure. Building on this, composite token formats such as OctupleMIDI~\cite{zeng2021} group all attributes of a single note (pitch, duration, velocity, position) into a single compound token, reducing sequence length by roughly 4$\times$ compared to REMI and improving the model's ability to capture long-range dependencies.
+
+In this work, we use the \textbf{REMIGEN2} format, an event-based
+elementary representation used by Museformer, which encodes speed, onset, time, instrument, pitch, duration, and velocity as separate tokens. This choice ensures compatibility with the Museformer baseline and the Lakh MIDI preprocessing pipeline.
+
+\subsection{Model Architectures for Symbolic Music Generation}
+\label{ssec:arch}
+
+\subsubsection{Recurrent and Foundational Approaches}
+Early deep learning models for music generation used Recurrent Neural Networks (RNNs) and LSTMs. Notable examples from Google Magenta include the \emph{LookBack RNN} and \emph{Attention RNN}~\cite{waite2016}, which extended standard RNNs with lookback inputs and early self-attention, respectively. These models improved short-term repetition and motif consistency but were unable to reliably sustain global form across an
+entire piece.
+
+\subsubsection{Transformer-Based Approaches}
+The Music Transformer~\cite{huang2019} applied relative positional
+self-attention to symbolic MIDI, enabling it to generate long, stylistically rich piano performances while preserving rhythmic relationships. The Pop Music Transformer~\cite{huang2020} further improved rhythmic and harmonic coherence by using REMI encoding. These models showed strong local continuation quality but lacked an explicit mechanism for modeling repetition or sectional structure.
+
+To address thematic coherence, the Theme Transformer~\cite{shih2021} used contrastive learning to identify recurring themes and conditioned
+generation on them via cross-attention. 
+Museformer~\cite{yu2022} introduced a two-level attention mechanism—fine-grained attention within the current bar and coarse-grained attention (via summary tokens) over previous bars—allowing it to capture long-range bar-level structure without the quadratic cost of full self-attention.
+
+\subsubsection{Explicit Hierarchical Models}
+Several models impose structure explicitly through multi-level
+generation. MusicVAE~\cite{roberts2018} employs a hierarchical
+variational autoencoder with a two-level decoder: a "conductor" RNN
+generates bar-level embeddings that guide a lower-level decoder to
+produce individual notes. This design mitigates posterior collapse and
+enables smooth latent-space interpolation, but it relies on fixed-length
+bar divisions and a static latent representation. The Bar
+Transformer~\cite{qin2023} and hierarchical diffusion
+models~\cite{wang2024} take similar approaches, conditioning generation
+at multiple structural levels. While these models achieve strong
+long-term coherence, they require predefined segmentation and do not
+generalise easily across different musical styles or forms.
+
+\subsubsection{xLSTM: An Implicit Multi-Timescale Alternative}
+The Extended Long Short-Term Memory (xLSTM) architecture was proposed
+by Beck et al.~\cite{beck2024} as a recurrent alternative to
+Transformers for sequence modeling. xLSTM introduces two improvements
+over the standard LSTM:
+
+\begin{enumerate}
+    \item \textbf{sLSTM (scalar LSTM)}: Replaces sigmoid gates with
+    exponential activation functions, enabling sharper, more selective
+    memory updates. Memory mixing through head-wise recurrence allows
+    the model to share information across different memory heads.
+    \item \textbf{mLSTM (matrix LSTM)}: Stores memory as a matrix of
+    key-value associations rather than a scalar cell state. Updates
+    follow a covariance rule, and the mechanism is fully parallelisable,
+    offering training efficiency comparable to Transformers while
+    retaining linear inference cost in sequence length.
+\end{enumerate}
+
+Together, these mechanisms allow xLSTM to model dependencies at
+different timescales within a single recurrent pass, without requiring
+an explicitly defined hierarchical structure. Cross-domain evidence
+supports this capability: xLSTM-based models have outperformed both
+LSTMs and Transformers on long-range tasks such as time-series
+forecasting~\cite{alharthi2024} and wind energy
+prediction~\cite{kraus2024xl}. In audio representation learning,
+AxLSTM~\cite{axlstm2024} applies xLSTM to masked spectrogram modeling
+and outperforms Transformer baselines by up to 20\% on ten downstream
+audio tasks with 45\% fewer parameters. Despite this alignment with the
+demands of musical structure modeling, xLSTM has not yet been evaluated
+for symbolic music generation.
+
+A summary of representative related models is provided in
+Table~\ref{tab:related_work}.
+
+\begin{table}[t]
+  \caption{Summary of Related Models for Symbolic Music Generation}
+  \label{tab:related_work}
+  \centering
+  \renewcommand{\arraystretch}{1.2}
+  \begin{tabular}{@{}p{1.7cm}p{1.5cm}p{1.7cm}p{1.7cm}@{}}
+    \toprule
+    \textbf{Model} & \textbf{Architecture} & \textbf{Strength} & \textbf{Weakness} \\
+    \midrule
+    LookBack RNN \cite{waite2016}
+      & RNN
+      & Short-term repetition
+      & No global form \\
+    Music Transformer \cite{huang2019}
+      & Transformer
+      & Rich style, long continuations
+      & Limited structural awareness \\
+    Museformer \cite{yu2022}
+      & Transformer (hier.\ attn)
+      & Multi-scale bar structure
+      & Explicit bar segmentation \\
+    MusicVAE \cite{roberts2018}
+      & Hierarchical VAE
+      & Structural interpolation
+      & Fixed-length bar divisions \\
+    \textbf{xLSTM (ours)}
+      & Recurrent (mLSTM + sLSTM)
+      & Implicit multi-timescale
+      & Not yet evaluated for music \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsection{Evaluation of Musical and Structural Quality}
+\label{ssec:eval_bg}
+
+Evaluation in symbolic music generation remains fragmented and
+underdeveloped relative to other generative tasks~\cite{ji2023}.
+Three broad strategies are commonly used:
+
+\textbf{Quantitative metrics} such as perplexity and negative
+log-likelihood measure predictive accuracy but say little about musical
+structure~\cite{mitra2025}. Additional statistical descriptors—including
+pitch-class histograms, rhythmic entropy, and tonal distance—capture
+stylistic similarity to real data but do not quantify global form.
+
+\textbf{Structure-aware metrics} go beyond per-token accuracy to
+directly measure whether generated music exhibits the repetitive and
+sectional patterns found in real music. De Berardinis et al.~\cite{deberardinis2022} proposed computing a Self-Similarity Matrix (SSM) for each piece—a 2D heatmap that shows which pairs of bars are musically similar—and using it to automatically evaluate the structural complexity of generated music. Museformer~\cite{yu2022} takes a complementary approach: it measures the average similarity between bars separated by a given number of bars across the entire dataset, and defines a \emph{Similarity Error(SE)} metric that quantifies how closely the repetition patterns of generated music match those of real music. Together, these metrics provide a more direct assessment of structural coherence than
+perplexity alone.
+
+\textbf{Human perceptual evaluation} via listening tests is the gold
+standard for assessing musicality and structural coherence. Studies
+commonly use Mean Opinion Score (MOS) ratings on Likert scales, or
+pairwise A/B preference tests where listeners compare generated samples
+from different models. These evaluations are subjective and
+labour-intensive but capture qualities—such as emotional flow and
+thematic development—that automatic metrics cannot~\cite{chen2024eval}.
+
+In this work, we adopt all three strategies to provide a comprehensive
+and reproducible assessment of our model.
+
+% =============================================================
+\section{Methodology}
+\label{sec:method}
+% =============================================================
+
+\subsection{Dataset}
+\label{ssec:dataset}
+
+We train and evaluate on the \textbf{Lakh MIDI Dataset
+(LMD)}~\cite{raffel2016}, a large-scale corpus of 176,581 unique MIDI
+files collected from the web. Following the experimental protocol of
+Museformer~\cite{yu2022}, we use the specific subset of MIDI files
+identified by Museformer for training, validation, and testing. This
+ensures that our results are directly comparable to the Museformer
+baseline and reflects performance on a well-defined, reproducible data
+split.
+
+The dataset is divided into three partitions:
+\begin{itemize}
+    \item \textbf{Training set}: \TODO{report number of songs} songs
+    \item \textbf{Validation set}: \TODO{report number of songs} songs
+    \item \textbf{Test set}: 2,974 songs
+\end{itemize}
+
+Each MIDI file is tokenised using the \textbf{REMIGEN2} format via the
+MidiProcessor tool, producing sequences of elementary event tokens. The
+token vocabulary covers seven musical attributes: speed (\texttt{s-}),
+onset (\texttt{o-}), time (\texttt{t-}), instrument (\texttt{i-}),
+pitch (\texttt{p-}), duration (\texttt{d-}), and velocity (\texttt{v-}).
+A whitespace tokeniser is used with \texttt{[EOS]} as the fill token,
+yielding a total vocabulary size of \textbf{675 tokens}.
+
+\textit{Note on preprocessing:} The initial experiments reported in
+this paper use the tokenised MIDI files without the full Museformer
+preprocessing steps (e.g., percussion removal, transposition, and
+quality filtering). A separate training run on fully preprocessed data
+is under preparation and will form the basis for a more controlled
+comparison with Museformer in future work.
+
+\subsection{xLSTM Architecture and Configuration}
+\label{ssec:model}
+
+We use the xLSTM architecture~\cite{beck2024} as implemented in the
+\textbf{Helibrunna} framework, an open-source training system for xLSTM
+language models. The model is configured as a 12-block stack of xLSTM
+cells, alternating between mLSTM and sLSTM blocks. sLSTM blocks are
+placed at positions 3, 6, and 9 (1-indexed), with mLSTM blocks at all
+remaining positions.
+
+The key hyperparameters of our model are summarised in
+Table~\ref{tab:model_config}.
+
+\begin{table}[t]
+  \caption{xLSTM Model Configuration}
+  \label{tab:model_config}
+  \centering
+  \renewcommand{\arraystretch}{1.2}
+  \begin{tabular}{@{}ll@{}}
+    \toprule
+    \textbf{Hyperparameter} & \textbf{Value} \\
+    \midrule
+    Architecture            & xLSTM (mLSTM + sLSTM) \\
+    Number of blocks        & 12 \\
+    sLSTM positions         & 3, 6, 9 \\
+    Embedding dimension     & 512 \\
+    Training context length & 2,048 tokens \\
+    Vocabulary size         & 675 \\
+    mLSTM heads             & 4 \\
+    mLSTM conv1d kernel     & 4 \\
+    sLSTM heads             & 4 \\
+    Feedforward activation  & GELU \\
+    Total parameters        & \TODO{compute and report} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsection{Training Setup}
+\label{ssec:training}
+
+Training is performed using the Helibrunna framework with the following
+configuration:
+
+\begin{itemize}
+    \item \textbf{Optimiser}: AdamW, weight decay $= 0.01$
+    \item \textbf{Learning rate}: $10^{-3}$, with linear warmup over
+          15,874 steps and cosine decay to $10^{-6}$ over 158,746 steps
+    \item \textbf{Batch size}: 1 sequence per step
+    \item \textbf{Precision}: Mixed precision (float16 forward,
+          float32 weights)
+    \item \textbf{Training duration}: 20 epochs
+    \item \textbf{Checkpoint frequency}: Every 2,000 steps
+    \item \textbf{Hardware}: \TODO{report GPU type and count}
+\end{itemize}
+
+Checkpoints are saved throughout training. The best checkpoint is
+selected based on validation set perplexity. For all experiments
+reported in this paper, we use \textbf{checkpoint-66000} (step 66,000),
+which achieved the lowest validation perplexity.
+
+\subsection{Evaluation Protocol}
+\label{ssec:eval_protocol}
+
+Our evaluation follows a three-level strategy designed to assess both
+language modeling quality and musical structural coherence.
+
+\subsubsection{Perplexity at Multiple Context Lengths}
+We compute perplexity on the test set using the trained model evaluated
+at several context lengths: 1,024, 2,048, 3,072, 4,096, 5,120, and
+10,240 tokens. This analysis examines how the model's predictive quality
+changes as longer musical context is provided, and in particular,
+whether the model can generalise to context lengths beyond the 2,048
+tokens it was trained on.
+
+\subsubsection{Structural Self-Similarity Analysis}
+We generate a set of MIDI samples from the best checkpoint and compute
+\textbf{bar-level self-similarity matrices (SSMs)} for each generated
+piece. An SSM encodes the pairwise similarity between every pair of
+bars in a piece, based on shared note content (pitch, duration, and
+onset position). We report the proportion of bar pairs with similarity
+above a threshold, the distribution of similar-bar intervals, and
+compare these statistics against the training data and samples from
+baseline models. Similar analysis was used in Museformer~\cite{yu2022}
+to characterise the structural properties of the LMD.
+
+\subsubsection{Motif Recurrence}
+We measure the recurrence of short note patterns (motifs) within each
+generated piece. A motif is defined as a sequence of 3--5 consecutive
+notes. For each generated piece, we compute the fraction of motifs that
+appear more than once. A higher motif recurrence rate indicates that the
+model generates music with repetitive, structured patterns rather than
+random sequences.
+\TODO{Finalize motif recurrence algorithm and report results.}
+
+\subsubsection{Human Listening Evaluation}
+We conduct a structured human listening study with two components:
+
+\begin{itemize}
+    \item \textbf{Pairwise A/B Preference Test}: Listeners are presented
+          with pairs of generated samples from different models—xLSTM vs.\
+          Museformer and xLSTM vs.\ LookBack RNN—and asked to select the
+          sample they prefer based on overall quality and structural
+          coherence. We report the preference rate (\%) for each model pair.
+    \item \textbf{Likert Scale Rating (MOS)}: Listeners rate each sample
+          on a 1--5 scale for: (1) structural coherence (does the piece
+          have clear sections and repetition?), (2) phrase quality (are
+          individual phrases musical and well-formed?), and (3) global
+          flow (does the piece feel complete and well-organised?).
+\end{itemize}
+
+\TODO{Conduct human evaluation with minimum 10 listeners. Report MOS with
+standard deviation and preference rates. If time permits, compare against
+baseline models directly. Otherwise, reference published scores from
+Museformer and LookBack RNN papers.}
+
+% =============================================================
+\section{Results}
+\label{sec:results}
+% =============================================================
+
+\subsection{Perplexity Analysis}
+\label{ssec:ppl}
+
+Table~\ref{tab:ppl_results} presents the test-set perplexity of our
+xLSTM model (checkpoint-66000) evaluated at multiple context lengths.
+
+\begin{table}[t]
+  \caption{Test-set Perplexity at Varying Context Lengths\\
+           (Model: \textit{xlstm\_lmd\_512d\_2048ctx\_12b},
+            checkpoint-66000, test set: 2,974 songs)}
+  \label{tab:ppl_results}
+  \centering
+  \renewcommand{\arraystretch}{1.2}
+  \begin{tabular}{@{}cc@{}}
+    \toprule
+    \textbf{Context Length (tokens)} & \textbf{Perplexity} \\
+    \midrule
+    1,024  & 1.918 \\
+    2,048  & 1.776 \\
+    3,072  & \textbf{1.775} \\
+    4,096  & 1.882 \\
+    5,120  & 2.085 \\
+    10,240 & 3.550 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+The model was trained with a context length of 2,048 tokens. As shown
+in Table~\ref{tab:ppl_results}, perplexity improves as context length
+increases from 1,024 to 3,072 tokens, reaching a minimum of
+\textbf{1.775} at 3,072 tokens. This is notable because the model
+achieves its best performance at a context length \emph{beyond} its
+training window, suggesting that xLSTM's memory mechanisms can
+partially generalise to longer contexts.
+
+Beyond 3,072 tokens, perplexity increases monotonically, reaching
+3.550 at 10,240 tokens. This degradation is expected, as the model
+was not exposed to sequences of this length during training and the
+additional context provides no useful signal under such an out-of-distribution
+condition.
+
+\begin{figure}[t]
+  \centering
+  % TODO: insert perplexity vs context length chart here
+  % \includegraphics[width=\columnwidth]{figures/ppl_vs_ctx.png}
+  \TODO{Insert perplexity vs.\ context length figure.}
+  \caption{Perplexity of the xLSTM model as a function of context
+           length on the test set. The dashed vertical line marks the
+           training context length (2,048 tokens). The model achieves
+           its lowest perplexity at 3,072 tokens, slightly beyond the
+           training context.}
+  \label{fig:ppl_curve}
+\end{figure}
+
+Comparison with baselines:
+\begin{itemize}
+    \item \textbf{Museformer}: \TODO{Report perplexity from Yu et al.\
+          (2022)~\cite{yu2022}, if reported on LMD test set.}
+    \item \textbf{LookBack RNN}: \TODO{Report perplexity from Waite et al.\
+          (2016)~\cite{waite2016}, if reported on a comparable dataset.}
+\end{itemize}
+
+\subsection{Structural Self-Similarity Analysis}
+\label{ssec:ssm}
+
+\TODO{Generate MIDI samples and compute bar-level SSMs. Report:
+(1) average bar-similarity distribution across generated pieces,
+(2) proportion of bars with similarity $> 0.5$ at different intervals,
+(3) comparison with training data SSM (see Museformer Fig.\ 3 for reference format),
+(4) comparison with Museformer-generated music SSM.}
+
+\begin{figure}[t]
+  \centering
+  % TODO: insert SSM figure here
+  \TODO{Insert bar-level SSM figure.}
+  \caption{Bar-level self-similarity matrix of a representative
+           generated sample. Bright regions indicate bars with high
+           mutual note similarity, revealing the repetitive structure
+           in the generated music.}
+  \label{fig:ssm}
+\end{figure}
+
+\subsection{Motif Recurrence}
+\label{ssec:motif}
+
+\TODO{Report motif recurrence results. Compare xLSTM vs.\ Museformer
+vs.\ LookBack RNN. Discuss whether higher motif recurrence correlates
+with subjective perception of structure in the human evaluation.}
+
+\subsection{Human Listening Evaluation}
+\label{ssec:human}
+
+\TODO{Report results of the pairwise A/B preference test and MOS Likert
+scale ratings. Include: preference rate (\%) for xLSTM vs.\ Museformer
+and xLSTM vs.\ LookBack RNN; MOS scores for structural coherence, phrase
+quality, and global flow with standard deviation.}
+
+Table~\ref{tab:human_eval} summarises the planned structure of the human
+evaluation results.
+
+\begin{table}[t]
+  \caption{Human Evaluation Results (Planned)}
+  \label{tab:human_eval}
+  \centering
+  \renewcommand{\arraystretch}{1.2}
+  \begin{tabular}{@{}lccc@{}}
+    \toprule
+    \textbf{Model} & \textbf{MOS (Coherence)} & \textbf{MOS (Phrase)} & \textbf{MOS (Flow)} \\
+    \midrule
+    LookBack RNN \cite{waite2016} & \TODO{} & \TODO{} & \TODO{} \\
+    Museformer \cite{yu2022}      & \TODO{} & \TODO{} & \TODO{} \\
+    xLSTM (ours)                  & \TODO{} & \TODO{} & \TODO{} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+% =============================================================
+\section{Discussion}
+\label{sec:discussion}
+% =============================================================
+
+\subsection{What the Perplexity Curve Reveals}
+
+The perplexity curve across context lengths (Table~\ref{tab:ppl_results})
+shows that xLSTM benefits from increasing context up to 3,072 tokens,
+beyond its 2,048-token training window. This is an encouraging result:
+it indicates that the model's matrix memory does not simply memorise
+short-range patterns but can integrate information from longer contexts
+when it is available. This aligns with theoretical properties of the
+mLSTM cell, which stores information in a matrix of key-value associations
+rather than a fixed scalar state, allowing it to hold more information
+from earlier in the sequence.
+
+The steep perplexity increase beyond 5,120 tokens is not surprising
+given that the model was never exposed to such long sequences during
+training. Future experiments with a 4,096-token training context are
+expected to push this limit further and provide a clearer picture of
+xLSTM's structural range.
+
+\subsection{Structural Coherence and Implicit Hierarchy}
+
+\TODO{Discuss SSM and motif recurrence results here. Address:
+Does the model show repetition patterns similar to real music?
+How does it compare to Museformer's explicit hierarchical attention?
+Does the implicit multi-timescale memory of xLSTM lead to emergent structural
+patterns without manual segmentation?}
+
+A key hypothesis of this work is that xLSTM's exponential gating and
+matrix memory allow hierarchical dependencies to emerge organically from
+training data, without requiring manually imposed structural boundaries.
+If the SSM analysis shows repetition patterns similar to real music and
+comparable to Museformer, this would support the hypothesis that implicit
+multi-timescale modeling is a viable alternative to explicit hierarchical
+design.
+
+\subsection{Limitations and Future Directions}
+
+Several limitations of the current work should be acknowledged. First,
+the training data was not preprocessed using the full Museformer pipeline
+(which includes percussion removal, transposition normalisation, and
+quality filtering). This means our results may not be directly comparable
+to published Museformer results, and some of the noise in the perplexity
+curve may be attributable to data quality rather than model behaviour.
+A follow-up training run on preprocessed data will address this.
+
+Second, the current model was trained with a 2,048-token context. Music at
+REMIGEN2 token resolution is sparse—a single bar of 4/4 music may
+correspond to tens or hundreds of tokens—so 2,048 tokens may cover only
+a few bars in a complex multi-track piece. Training with longer contexts
+(e.g., 4,096 tokens) may be necessary to fully assess xLSTM's capacity
+for section-level structural modeling.
+
+Third, perplexity alone does not measure musical structure. A model can
+achieve low perplexity by predicting common note transitions well, even
+if the generated music lacks long-range coherence. The SSM and motif
+recurrence metrics are designed precisely to address this gap, and the
+human evaluation provides the ultimate ground truth.
+
+Future work will explore: (1) training on Museformer-preprocessed data
+for a fair comparison; (2) a 4,096-token context variant; (3) larger
+model sizes; and (4) conditioning strategies that guide the model toward
+specific structural forms without requiring explicit segmentation.
+
+% =============================================================
+\section{Conclusion}
+\label{sec:conclusion}
+% =============================================================
+
+This paper presented the first investigation of the xLSTM architecture
+for symbolic music generation. We trained an xLSTM model on the Lakh
+MIDI Dataset using the REMIGEN2 tokenisation and evaluated it using a
+multi-level assessment framework combining perplexity, structural
+self-similarity, motif recurrence, and human listening tests.
+
+Our perplexity analysis demonstrates that the model achieves its lowest
+next-token prediction error at a context length beyond its training
+window, suggesting that xLSTM's matrix memory can generalise to longer
+musical sequences. \TODO{Add 1--2 sentences summarising SSM and human
+evaluation findings after experiments complete.}
+
+The central motivation of this work is the hypothesis that xLSTM's
+implicit multi-timescale memory can reproduce the structural coherence
+of explicitly hierarchical models, without requiring predefined
+segmentation of musical form. \TODO{Add a sentence confirming or
+qualifying this hypothesis based on final results.} Regardless of the
+final quantitative outcome, this work establishes xLSTM as a worthy
+candidate for future research in long-form symbolic music generation and
+provides a structured evaluation framework that future studies can build on.
+
+\section*{Acknowledgment}
+
+The authors would like to thank their supervisor, Dr.\ Isuru Nawinne,
+for guidance and support throughout this research.
+
+% ---- References ---------------------------------------------
+\bibliographystyle{IEEEtran}
+% \bibliography{references}
+% NOTE: Bibliography entries are inlined below for portability.
+% When adding more references, switch to a .bib file.
+
+\begin{thebibliography}{10}
+
+\bibitem{dash2024}
+A.~Dash and K.~Agres,
+``AI-Based Affective Music Generation Systems: A Review of Methods and Challenges,''
+\textit{ACM Computing Surveys}, vol.~56, no.~11, pp.~1--34, Nov. 2024.
+
+\bibitem{mitra2025}
+R.~Mitra and I.~Zualkernan,
+``Music Generation Using Deep Learning and Generative AI: A Systematic Review,''
+\textit{IEEE Access}, vol.~13, pp.~18079--18106, 2025.
+
+\bibitem{le2025}
+D.-V.-T.~Le, L.~Bigo, D.~Herremans, and M.~Keller,
+``Natural Language Processing Methods for Symbolic Music Generation and
+Information Retrieval: A Survey,''
+\textit{ACM Comput.\ Surv.}, vol.~57, no.~7, pp.~175:1--175:40, Feb. 2025.
+
+\bibitem{bhandari2024}
+K.~Bhandari and S.~Colton,
+``Motifs, Phrases, and Beyond: The Modelling of Structure in Symbolic Music Generation,''
+arXiv:2403.07995, Mar. 2024.
+
+\bibitem{deberardinis2022}
+J.~de~Berardinis, A.~Cangelosi, and E.~Coutinho,
+``Measuring the Structural Complexity of Music: From Structural Segmentations
+to the Automatic Evaluation of Models for Music Generation,''
+\textit{IEEE/ACM Trans.\ Audio, Speech, Lang.\ Process.}, vol.~30,
+pp.~1963--1976, 2022.
+
+\bibitem{ji2023}
+S.~Ji, X.~Yang, and J.~Luo,
+``A Survey on Deep Learning for Symbolic Music Generation: Representations,
+Algorithms, Evaluations, and Challenges,''
+\textit{ACM Comput.\ Surv.}, vol.~56, no.~1, pp.~7:1--7:39, Aug. 2023.
+
+\bibitem{roberts2018}
+A.~Roberts, J.~Engel, C.~Raffel, C.~Hawthorne, and D.~Eck,
+``A Hierarchical Latent Vector Model for Learning Long-Term Structure in Music,''
+in \textit{Proc.\ 35th Int.\ Conf.\ Machine Learning (ICML)}, 2018, pp.~4364--4373.
+
+\bibitem{yu2022}
+B.~Yu \textit{et al.},
+``Museformer: Transformer with Fine- and Coarse-Grained Attention for Music Generation,''
+arXiv:2210.10349, Oct. 2022.
+
+\bibitem{qin2023}
+Y.~Qin, H.~Xie, S.~Ding, B.~Tan, Y.~Li, B.~Zhao, and M.~Ye,
+``Bar transformer: a hierarchical model for learning long-term structure
+and generating impressive pop music,''
+\textit{Applied Intelligence}, vol.~53, no.~9, pp.~10130--10148, May 2023.
+
+\bibitem{wang2024}
+Z.~Wang, L.~Min, and G.~Xia,
+``Whole-Song Hierarchical Generation of Symbolic Music Using Cascaded Diffusion Models,''
+arXiv:2405.09901, May 2024.
+
+\bibitem{huang2019}
+C.-Z.~A.~Huang \textit{et al.},
+``Music Transformer: Generating Music with Long-Term Structure,''
+arXiv:1809.04281, 2019.
+
+\bibitem{huang2020}
+Y.-S.~Huang and Y.-H.~Yang,
+``Pop Music Transformer: Beat-based Modeling and Generation of Expressive
+Pop Piano Compositions,''
+arXiv:2002.00212, Aug. 2020.
+
+\bibitem{shih2021}
+Y.-J.~Shih, S.-L.~Wu, F.~Zalkow, M.~M{\"u}ller, and Y.-H.~Yang,
+``Theme Transformer: Symbolic Music Generation with Theme-Conditioned Transformer,''
+arXiv:2111.04093, Nov. 2021.
+
+\bibitem{waite2016}
+E.~Waite,
+``Generating Long-Term Structure in Songs and Stories,''
+Google Magenta Blog, Jul. 2016.
+[Online]. Available: \url{https://magenta.withgoogle.com/2016/07/15/lookback-rnn-attention-rnn}
+
+\bibitem{beck2024}
+M.~Beck \textit{et al.},
+``xLSTM: Extended Long Short-Term Memory,''
+in \textit{Advances in Neural Information Processing Systems (NeurIPS)},
+vol.~37, 2024, pp.~107547--107603.
+
+\bibitem{alharthi2024}
+M.~Alharthi and A.~Mahmood,
+``xLSTMTime: Long-term Time Series Forecasting With xLSTM,''
+arXiv:2407.10240, Aug. 2024.
+
+\bibitem{kraus2024xl}
+M.~Kraus \textit{et al.},
+``xLSTM-Mixer: Multivariate Time Series Forecasting by Mixing via Scalar
+Memories,''
+arXiv, 2024. \TODO{Add full citation.}
+
+\bibitem{axlstm2024}
+\TODO{Add AxLSTM citation: xLSTM for audio representation learning.}
+
+\bibitem{raffel2016}
+C.~Raffel,
+``Learning-Based Methods for Comparing Sequences, with Applications to
+Audio-to-MIDI Alignment and Matching,''
+Ph.D.\ dissertation, Columbia University, 2016.
+
+\bibitem{zeng2021}
+M.~Zeng \textit{et al.},
+``MusicBERT: Symbolic Music Understanding with Large-Scale Pre-Training,''
+arXiv:2106.05630, Jun. 2021.
+
+\bibitem{qu2024}
+X.~Qu \textit{et al.},
+``MuPT: A Generative Symbolic Music Pretrained Transformer,''
+arXiv:2404.06393, Nov. 2024.
+
+\bibitem{chen2024eval}
+\TODO{Add citation for human evaluation methodology reference.}
+
+\end{thebibliography}
+
+\end{document}

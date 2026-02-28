@@ -1,0 +1,3665 @@
+======================================================================
+BATCH GENERATION REPORT
+======================================================================
+Generated: 2026-02-25 15:51:34
+Total pieces: 80
+Prompt: s-9 o-0 t-35
+======================================================================
+
+SUMMARY TABLE:
+--------------------------------------------------------------------------------------------------------------------------------------------
+#    | Filename                       | Temp  | Target | Actual | Tokens | Insts | Errors | Clean | Time(s) | Status
+--------------------------------------------------------------------------------------------------------------------------------------------
+1    | temp_0.6_bars_16_001.mid       | 0.6   | 16     | 16     | 1344   | 2     | 0      | No    | 85.3    | ✓     
+2    | temp_0.6_bars_16_002.mid       | 0.6   | 16     | 16     | 4166   | 2     | 0      | No    | 494.0   | ✓     
+3    | temp_0.6_bars_16_003.mid       | 0.6   | 16     | 16     | 4554   | 3     | 0      | No    | 466.4   | ✓     
+4    | temp_0.6_bars_16_004.mid       | 0.6   | 16     | 16     | 752    | 1     | 0      | No    | 27.9    | ✓     
+5    | temp_0.6_bars_16_005.mid       | 0.6   | 16     | 20     | 1489   | 2     | 0      | No    | 80.0    | ✓     
+6    | temp_0.6_bars_32_001.mid       | 0.6   | 32     | 33     | 4443   | 2     | 0      | No    | 454.7   | ✓     
+7    | temp_0.6_bars_32_002.mid       | 0.6   | 32     | 32     | 4072   | 1     | 0      | No    | 493.0   | ✓     
+8    | temp_0.6_bars_32_003.mid       | 0.6   | 32     | 33     | 3584   | 3     | 0      | No    | 312.1   | ✓     
+9    | temp_0.6_bars_32_004.mid       | 0.6   | 32     | 32     | 3818   | 2     | 0      | No    | 322.0   | ✓     
+10   | temp_0.6_bars_32_005.mid       | 0.6   | 32     | 32     | 778    | 1     | 0      | No    | 32.7    | ✓     
+11   | temp_0.6_bars_48_001.mid       | 0.6   | 48     | 48     | 4608   | 2     | 0      | No    | 412.3   | ✓     
+12   | temp_0.6_bars_48_002.mid       | 0.6   | 48     | 50     | 5380   | 3     | 0      | No    | 547.9   | ✓     
+13   | temp_0.6_bars_48_003.mid       | 0.6   | 48     | 50     | 3916   | 1     | 0      | No    | 319.6   | ✓     
+14   | temp_0.6_bars_48_004.mid       | 0.6   | 48     | 49     | 9122   | 4     | 0      | No    | 827.3   | ✓     
+15   | temp_0.6_bars_48_005.mid       | 0.6   | 48     | 48     | 7148   | 2     | 0      | No    | 846.5   | ✓     
+16   | temp_0.6_bars_64_001.mid       | 0.6   | 64     | 52     | 11600  | 4     | 0      | No    | 1896.6  | ✓     
+17   | temp_0.6_bars_64_002.mid       | 0.6   | 64     | 64     | 7861   | 4     | 0      | No    | 742.8   | ✓     
+18   | temp_0.6_bars_64_003.mid       | 0.6   | 64     | 66     | 6504   | 2     | 0      | No    | 740.9   | ✓     
+19   | temp_0.6_bars_64_004.mid       | 0.6   | 64     | 65     | 7929   | 6     | 0      | No    | 1034.8  | ✓     
+20   | temp_0.6_bars_64_005.mid       | 0.6   | 64     | 67     | 4196   | 2     | 0      | No    | 355.9   | ✓     
+21   | temp_0.7_bars_16_001.mid       | 0.7   | 16     | 18     | 2172   | 2     | 0      | No    | 157.2   | ✓     
+22   | temp_0.7_bars_16_002.mid       | 0.7   | 16     | 20     | 1135   | 1     | 0      | No    | 50.9    | ✓     
+23   | temp_0.7_bars_16_003.mid       | 0.7   | 16     | 16     | 4040   | 4     | 0      | No    | 459.7   | ✓     
+24   | temp_0.7_bars_16_004.mid       | 0.7   | 16     | 18     | 2138   | 4     | 0      | No    | 151.9   | ✓     
+25   | temp_0.7_bars_16_005.mid       | 0.7   | 16     | 17     | 2312   | 2     | 0      | No    | 193.5   | ✓     
+26   | temp_0.7_bars_32_001.mid       | 0.7   | 32     | 32     | 3264   | 3     | 0      | No    | 311.6   | ✓     
+27   | temp_0.7_bars_32_002.mid       | 0.7   | 32     | 33     | 4551   | 4     | 0      | No    | 501.7   | ✓     
+28   | temp_0.7_bars_32_003.mid       | 0.7   | 32     | 32     | 5875   | 4     | 0      | No    | 542.1   | ✓     
+29   | temp_0.7_bars_32_004.mid       | 0.7   | 32     | 35     | 2438   | 3     | 0      | No    | 195.9   | ✓     
+30   | temp_0.7_bars_32_005.mid       | 0.7   | 32     | 32     | 4312   | 3     | 0      | No    | 497.6   | ✓     
+31   | temp_0.7_bars_48_001.mid       | 0.7   | 48     | 48     | 14960  | 3     | 0      | No    | 1804.9  | ✓     
+32   | temp_0.7_bars_48_002.mid       | 0.7   | 48     | 201    | 1479   | 1     | 0      | No    | 78.9    | ✓     
+33   | temp_0.7_bars_48_003.mid       | 0.7   | 48     | 48     | 2980   | 3     | 0      | No    | 277.0   | ✓     
+34   | temp_0.7_bars_48_004.mid       | 0.7   | 48     | 51     | 3426   | 1     | 0      | No    | 311.0   | ✓     
+35   | temp_0.7_bars_48_005.mid       | 0.7   | 48     | 48     | 10772  | 7     | 0      | No    | 1410.4  | ✓     
+36   | temp_0.7_bars_64_001.mid       | 0.7   | 64     | 66     | 8052   | 1     | 0      | No    | 786.8   | ✓     
+37   | temp_0.7_bars_64_002.mid       | 0.7   | 64     | 65     | 8612   | 4     | 0      | No    | 1125.1  | ✓     
+38   | temp_0.7_bars_64_003.mid       | 0.7   | 64     | 65     | 7255   | 3     | 0      | No    | 740.2   | ✓     
+39   | temp_0.7_bars_64_004.mid       | 0.7   | 64     | 70     | 3625   | 3     | 0      | No    | 315.1   | ✓     
+40   | temp_0.7_bars_64_005.mid       | 0.7   | 64     | 54     | 12570  | 5     | 0      | No    | 1859.3  | ✓     
+41   | temp_0.8_bars_16_001.mid       | 0.8   | 16     | 16     | 2426   | 3     | 0      | No    | 223.9   | ✓     
+42   | temp_0.8_bars_16_002.mid       | 0.8   | 16     | 16     | 4012   | 6     | 0      | No    | 495.0   | ✓     
+43   | temp_0.8_bars_16_003.mid       | 0.8   | 16     | 16     | 2168   | 3     | 0      | No    | 184.8   | ✓     
+44   | temp_0.8_bars_16_004.mid       | 0.8   | 16     | 17     | 2261   | 6     | 0      | No    | 217.5   | ✓     
+45   | temp_0.8_bars_16_005.mid       | 0.8   | 16     | 16     | 2469   | 3     | 0      | No    | 222.9   | ✓     
+46   | temp_0.8_bars_32_001.mid       | 0.8   | 32     | 50     | 1523   | 1     | 0      | No    | 81.5    | ✓     
+47   | temp_0.8_bars_32_002.mid       | 0.8   | 32     | 39     | 1809   | 1     | 0      | No    | 116.0   | ✓     
+48   | temp_0.8_bars_32_003.mid       | 0.8   | 32     | 32     | 3667   | 5     | 0      | No    | 382.8   | ✓     
+49   | temp_0.8_bars_32_004.mid       | 0.8   | 32     | 32     | 8734   | 5     | 1      | Yes   | 1131.4  | ✓     
+50   | temp_0.8_bars_32_005.mid       | 0.8   | 32     | 33     | 3224   | 4     | 0      | No    | 312.2   | ✓     
+51   | temp_0.8_bars_48_001.mid       | 0.8   | 48     | 48     | 6113   | 6     | 0      | No    | 690.8   | ✓     
+52   | temp_0.8_bars_48_002.mid       | 0.8   | 48     | 18     | 5230   | 6     | 0      | No    | 601.5   | ✓     
+53   | temp_0.8_bars_48_003.mid       | 0.8   | 48     | 48     | 9675   | 8     | 1      | Yes   | 1351.1  | ✓     
+54   | temp_0.8_bars_48_004.mid       | 0.8   | 48     | 48     | 12173  | 10    | 0      | No    | 1782.2  | ✓     
+55   | temp_0.8_bars_48_005.mid       | 0.8   | 48     | 48     | 9015   | 6     | 3      | Yes   | 1042.5  | ✓     
+56   | temp_0.8_bars_64_001.mid       | 0.8   | 64     | 58     | 12423  | 5     | 2      | Yes   | 1868.8  | ✓     
+57   | temp_0.8_bars_64_002.mid       | 0.8   | 64     | 64     | 5525   | 4     | 0      | No    | 551.4   | ✓     
+58   | temp_0.8_bars_64_003.mid       | 0.8   | 64     | 67     | 5408   | 4     | 0      | No    | 513.2   | ✓     
+59   | temp_0.8_bars_64_004.mid       | 0.8   | 64     | 67     | 5014   | 4     | 0      | No    | 473.4   | ✓     
+60   | temp_0.8_bars_64_005.mid       | 0.8   | 64     | 66     | 7251   | 5     | 2      | No    | 780.6   | ✓     
+61   | temp_0.9_bars_16_001.mid       | 0.9   | 16     | 17     | 1563   | 11    | 0      | No    | 106.4   | ✓     
+62   | temp_0.9_bars_16_002.mid       | 0.9   | 16     | 16     | 3889   | 9     | 0      | No    | 454.1   | ✓     
+63   | temp_0.9_bars_16_003.mid       | 0.9   | 16     | 16     | 2311   | 7     | 0      | No    | 218.4   | ✓     
+64   | temp_0.9_bars_16_004.mid       | 0.9   | 16     | 17     | 1647   | 5     | 0      | No    | 112.3   | ✓     
+65   | temp_0.9_bars_16_005.mid       | 0.9   | 16     | 17     | 1446   | 3     | 0      | No    | 79.9    | ✓     
+66   | temp_0.9_bars_32_001.mid       | 0.9   | 32     | 24     | 4067   | 5     | 0      | No    | 541.2   | ✓     
+67   | temp_0.9_bars_32_002.mid       | 0.9   | 32     | 33     | 5701   | 6     | 2      | Yes   | 627.6   | ✓     
+68   | temp_0.9_bars_32_003.mid       | 0.9   | 32     | 33     | 3629   | 5     | 0      | No    | 317.1   | ✓     
+69   | temp_0.9_bars_32_004.mid       | 0.9   | 32     | 32     | 3797   | 7     | 1      | Yes   | 346.6   | ✓     
+70   | temp_0.9_bars_32_005.mid       | 0.9   | 32     | 33     | 4938   | 9     | 0      | No    | 578.4   | ✓     
+71   | temp_0.9_bars_48_001.mid       | 0.9   | 48     | 49     | 5217   | 5     | 0      | No    | 516.2   | ✓     
+72   | temp_0.9_bars_48_002.mid       | 0.9   | 48     | 50     | 4404   | 4     | 0      | No    | 393.2   | ✓     
+73   | temp_0.9_bars_48_003.mid       | 0.9   | 48     | 54     | 1897   | 4     | 0      | No    | 119.2   | ✓     
+74   | temp_0.9_bars_48_004.mid       | 0.9   | 48     | 15     | 2630   | 5     | 0      | No    | 268.6   | ✓     
+75   | temp_0.9_bars_48_005.mid       | 0.9   | 48     | 48     | 2209   | 1     | 1      | Yes   | 155.1   | ✓     
+76   | temp_0.9_bars_64_001.mid       | 0.9   | 64     | 64     | 11927  | 13    | 4      | Yes   | 1313.2  | ✓     
+77   | temp_0.9_bars_64_002.mid       | 0.9   | 64     | 66     | 8164   | 5     | 0      | No    | 897.0   | ✓     
+78   | temp_0.9_bars_64_003.mid       | 0.9   | 64     | 66     | 3008   | 1     | 2      | Yes   | 239.5   | ✓     
+79   | temp_0.9_bars_64_004.mid       | 0.9   | 64     | 0      | 3      | 0     | 0      | No    | 12.0    | ✓     
+80   | temp_0.9_bars_64_005.mid       | 0.9   | 64     | 64     | 10271  | 9     | 0      | No    | 1168.6  | ✓     
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+======================================================================
+DETAILED ANALYSIS
+======================================================================
+
+[1/80] temp_0.6_bars_16_001.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.6
+Target bars: 16, Actual bars: 16
+Generation time: 85.3s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 1344
+   Total bars: 16
+   Total notes: 288
+   Unique instruments: 2
+
+🎵 BAR STATISTICS:
+   Average bar length: 83.0 tokens
+   Min bar length: 83 tokens
+   Max bar length: 83 tokens
+
+🔤 TOKEN TYPES:
+   b-: 16
+   d-: 288
+   i-: 192
+   o-: 128
+   p-: 288
+   s-: 16
+   t-: 128
+   v-: 288
+
+🎹 INSTRUMENTS:
+   i-128
+   i-33
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-33 p-43 d-12 v-29 i-128 p-170 d-0
+   Last 10: d-3 v-28 i-128 p-170 d-0 v-22 p-163 d-0 v-31 b-1
+
+----------------------------------------------------------------------
+
+[2/80] temp_0.6_bars_16_002.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.6
+Target bars: 16, Actual bars: 16
+Generation time: 494.0s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 4166
+   Total bars: 16
+   Total notes: 1054
+   Unique instruments: 2
+
+🎵 BAR STATISTICS:
+   Average bar length: 259.4 tokens
+   Min bar length: 25 tokens
+   Max bar length: 275 tokens
+
+🔤 TOKEN TYPES:
+   b-: 16
+   d-: 1054
+   i-: 484
+   o-: 244
+   p-: 1054
+   s-: 16
+   t-: 244
+   v-: 1054
+
+🎹 INSTRUMENTS:
+   i-128
+   i-48
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-128 p-170 d-1 v-21 o-12 t-35 i-128
+   Last 10: d-1 v-27 i-128 p-182 d-1 v-31 p-170 d-1 v-31 b-1
+
+----------------------------------------------------------------------
+
+[3/80] temp_0.6_bars_16_003.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.6
+Target bars: 16, Actual bars: 16
+Generation time: 466.4s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 4554
+   Total bars: 16
+   Total notes: 1350
+   Unique instruments: 3
+
+🎵 BAR STATISTICS:
+   Average bar length: 283.6 tokens
+   Min bar length: 25 tokens
+   Max bar length: 321 tokens
+
+🔤 TOKEN TYPES:
+   b-: 16
+   d-: 1350
+   i-: 232
+   o-: 120
+   p-: 1350
+   s-: 16
+   t-: 120
+   v-: 1350
+
+🎹 INSTRUMENTS:
+   i-0
+   i-1
+   i-128
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-128 p-170 d-0 v-31 o-12 t-35 i-128
+   Last 10: p-43 d-6 v-31 p-36 d-6 v-31 p-24 d-6 v-31 b-1
+
+----------------------------------------------------------------------
+
+[4/80] temp_0.6_bars_16_004.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.6
+Target bars: 16, Actual bars: 16
+Generation time: 27.9s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 752
+   Total bars: 16
+   Total notes: 192
+   Unique instruments: 1
+
+🎵 BAR STATISTICS:
+   Average bar length: 46.0 tokens
+   Min bar length: 46 tokens
+   Max bar length: 46 tokens
+
+🔤 TOKEN TYPES:
+   b-: 16
+   d-: 192
+   i-: 48
+   o-: 48
+   p-: 192
+   s-: 16
+   t-: 48
+   v-: 192
+
+🎹 INSTRUMENTS:
+   i-0
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-0 p-67 d-18 v-25 p-60 d-18 v-25
+   Last 10: p-65 d-12 v-25 p-53 d-12 v-25 p-48 d-12 v-25 b-1
+
+----------------------------------------------------------------------
+
+[5/80] temp_0.6_bars_16_005.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.6
+Target bars: 16, Actual bars: 20
+Generation time: 80.0s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 1489
+   Total bars: 20
+   Total notes: 326
+   Unique instruments: 2
+
+🎵 BAR STATISTICS:
+   Average bar length: 73.5 tokens
+   Min bar length: 34 tokens
+   Max bar length: 79 tokens
+
+🔤 TOKEN TYPES:
+   b-: 20
+   d-: 326
+   i-: 157
+   o-: 157
+   p-: 326
+   s-: 20
+   t-: 157
+   v-: 326
+
+🎹 INSTRUMENTS:
+   i-0
+   i-128
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-128 p-170 d-2 v-22 o-12 t-35 i-128
+   Last 10: o-42 t-35 i-0 p-79 d-6 v-30 p-67 d-6 v-30 b-1
+
+----------------------------------------------------------------------
+
+[6/80] temp_0.6_bars_32_001.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.6
+Target bars: 32, Actual bars: 33
+Generation time: 454.7s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 4443
+   Total bars: 33
+   Total notes: 1000
+   Unique instruments: 2
+
+🎵 BAR STATISTICS:
+   Average bar length: 133.6 tokens
+   Min bar length: 25 tokens
+   Max bar length: 155 tokens
+
+🔤 TOKEN TYPES:
+   b-: 33
+   d-: 1000
+   i-: 507
+   o-: 435
+   p-: 1000
+   s-: 33
+   t-: 435
+   v-: 1000
+
+🎹 INSTRUMENTS:
+   i-0
+   i-128
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-128 p-170 d-0 v-15 o-12 t-35 i-128
+   Last 10: o-45 t-35 i-128 p-194 d-0 v-14 p-170 d-0 v-15 b-1
+
+----------------------------------------------------------------------
+
+[7/80] temp_0.6_bars_32_002.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.6
+Target bars: 32, Actual bars: 32
+Generation time: 493.0s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 4072
+   Total bars: 32
+   Total notes: 848
+   Unique instruments: 1
+
+🎵 BAR STATISTICS:
+   Average bar length: 126.2 tokens
+   Min bar length: 25 tokens
+   Max bar length: 133 tokens
+
+🔤 TOKEN TYPES:
+   b-: 32
+   d-: 848
+   i-: 488
+   o-: 488
+   p-: 848
+   s-: 32
+   t-: 488
+   v-: 848
+
+🎹 INSTRUMENTS:
+   i-128
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-128 p-170 d-1 v-23 o-12 t-35 i-128
+   Last 10: p-174 d-1 v-22 o-45 t-35 i-128 p-198 d-0 v-15 b-1
+
+----------------------------------------------------------------------
+
+[8/80] temp_0.6_bars_32_003.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.6
+Target bars: 32, Actual bars: 33
+Generation time: 312.1s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 3584
+   Total bars: 33
+   Total notes: 857
+   Unique instruments: 3
+
+🎵 BAR STATISTICS:
+   Average bar length: 107.6 tokens
+   Min bar length: 25 tokens
+   Max bar length: 119 tokens
+
+🔤 TOKEN TYPES:
+   b-: 33
+   d-: 857
+   i-: 451
+   o-: 248
+   p-: 857
+   s-: 33
+   t-: 248
+   v-: 857
+
+🎹 INSTRUMENTS:
+   i-0
+   i-128
+   i-33
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-128 p-170 d-2 v-27 o-12 t-35 i-128
+   Last 10: o-42 t-35 i-128 p-170 d-2 v-20 p-164 d-2 v-31 b-1
+
+----------------------------------------------------------------------
+
+[9/80] temp_0.6_bars_32_004.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.6
+Target bars: 32, Actual bars: 32
+Generation time: 322.0s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 3818
+   Total bars: 32
+   Total notes: 934
+   Unique instruments: 2
+
+🎵 BAR STATISTICS:
+   Average bar length: 118.3 tokens
+   Min bar length: 25 tokens
+   Max bar length: 129 tokens
+
+🔤 TOKEN TYPES:
+   b-: 32
+   d-: 934
+   i-: 456
+   o-: 248
+   p-: 934
+   s-: 32
+   t-: 248
+   v-: 934
+
+🎹 INSTRUMENTS:
+   i-0
+   i-128
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-128 p-170 d-0 v-16 o-12 t-35 i-128
+   Last 10: d-2 v-20 p-67 d-2 v-18 i-128 p-170 d-0 v-12 b-1
+
+----------------------------------------------------------------------
+
+[10/80] temp_0.6_bars_32_005.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.6
+Target bars: 32, Actual bars: 32
+Generation time: 32.7s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 778
+   Total bars: 32
+   Total notes: 174
+   Unique instruments: 1
+
+🎵 BAR STATISTICS:
+   Average bar length: 23.3 tokens
+   Min bar length: 19 tokens
+   Max bar length: 25 tokens
+
+🔤 TOKEN TYPES:
+   b-: 32
+   d-: 174
+   i-: 64
+   o-: 64
+   p-: 174
+   s-: 32
+   t-: 64
+   v-: 174
+
+🎹 INSTRUMENTS:
+   i-0
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-0 p-55 d-18 v-15 p-52 d-18 v-15
+   Last 10: p-64 d-18 v-15 p-60 d-18 v-15 p-55 d-18 v-15 b-1
+
+----------------------------------------------------------------------
+
+[11/80] temp_0.6_bars_48_001.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.6
+Target bars: 48, Actual bars: 48
+Generation time: 412.3s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 4608
+   Total bars: 48
+   Total notes: 1056
+   Unique instruments: 2
+
+🎵 BAR STATISTICS:
+   Average bar length: 95.0 tokens
+   Min bar length: 95 tokens
+   Max bar length: 95 tokens
+
+🔤 TOKEN TYPES:
+   b-: 48
+   d-: 1056
+   i-: 576
+   o-: 384
+   p-: 1056
+   s-: 48
+   t-: 384
+   v-: 1056
+
+🎹 INSTRUMENTS:
+   i-0
+   i-128
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-0 p-43 d-0 v-28 p-36 d-0 v-28
+   Last 10: d-0 v-28 i-128 p-170 d-0 v-24 p-164 d-0 v-28 b-1
+
+----------------------------------------------------------------------
+
+[12/80] temp_0.6_bars_48_002.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.6
+Target bars: 48, Actual bars: 50
+Generation time: 547.9s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 5380
+   Total bars: 50
+   Total notes: 1256
+   Unique instruments: 3
+
+🎵 BAR STATISTICS:
+   Average bar length: 106.6 tokens
+   Min bar length: 25 tokens
+   Max bar length: 110 tokens
+
+🔤 TOKEN TYPES:
+   b-: 50
+   d-: 1256
+   i-: 728
+   o-: 392
+   p-: 1256
+   s-: 50
+   t-: 392
+   v-: 1256
+
+🎹 INSTRUMENTS:
+   i-1
+   i-128
+   i-33
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-128 p-170 d-3 v-25 o-12 t-35 i-128
+   Last 10: p-166 d-3 v-25 o-42 t-35 i-128 p-170 d-3 v-25 b-1
+
+----------------------------------------------------------------------
+
+[13/80] temp_0.6_bars_48_003.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.6
+Target bars: 48, Actual bars: 50
+Generation time: 319.6s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 3916
+   Total bars: 50
+   Total notes: 872
+   Unique instruments: 1
+
+🎵 BAR STATISTICS:
+   Average bar length: 77.3 tokens
+   Min bar length: 76 tokens
+   Max bar length: 79 tokens
+
+🔤 TOKEN TYPES:
+   b-: 50
+   d-: 872
+   i-: 400
+   o-: 400
+   p-: 872
+   s-: 50
+   t-: 400
+   v-: 872
+
+🎹 INSTRUMENTS:
+   i-0
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-0 p-67 d-12 v-23 p-64 d-12 v-23
+   Last 10: p-55 d-6 v-23 o-42 t-35 i-0 p-59 d-6 v-23 b-1
+
+----------------------------------------------------------------------
+
+[14/80] temp_0.6_bars_48_004.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.6
+Target bars: 48, Actual bars: 49
+Generation time: 827.3s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 9122
+   Total bars: 49
+   Total notes: 2450
+   Unique instruments: 4
+
+🎵 BAR STATISTICS:
+   Average bar length: 185.2 tokens
+   Min bar length: 25 tokens
+   Max bar length: 202 tokens
+
+🔤 TOKEN TYPES:
+   b-: 49
+   d-: 2450
+   i-: 918
+   o-: 378
+   p-: 2450
+   s-: 49
+   t-: 378
+   v-: 2450
+
+🎹 INSTRUMENTS:
+   i-0
+   i-128
+   i-25
+   i-33
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-128 p-170 d-0 v-31 o-12 t-35 i-128
+   Last 10: p-164 d-0 v-31 o-42 t-35 i-128 p-170 d-0 v-10 b-1
+
+----------------------------------------------------------------------
+
+[15/80] temp_0.6_bars_48_005.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.6
+Target bars: 48, Actual bars: 48
+Generation time: 846.5s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 7148
+   Total bars: 48
+   Total notes: 1896
+   Unique instruments: 2
+
+🎵 BAR STATISTICS:
+   Average bar length: 147.9 tokens
+   Min bar length: 124 tokens
+   Max bar length: 156 tokens
+
+🔤 TOKEN TYPES:
+   b-: 48
+   d-: 1896
+   i-: 596
+   o-: 384
+   p-: 1896
+   s-: 48
+   t-: 384
+   v-: 1896
+
+🎹 INSTRUMENTS:
+   i-0
+   i-128
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-0 p-72 d-5 v-28 p-67 d-5 v-28
+   Last 10: d-5 v-28 p-48 d-5 v-28 i-128 p-168 d-5 v-20 b-1
+
+----------------------------------------------------------------------
+
+[16/80] temp_0.6_bars_64_001.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.6
+Target bars: 64, Actual bars: 52
+Generation time: 1896.6s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 11600
+   Total bars: 52
+   Total notes: 3024
+   Unique instruments: 4
+
+🎵 BAR STATISTICS:
+   Average bar length: 222.1 tokens
+   Min bar length: 25 tokens
+   Max bar length: 253 tokens
+
+🔤 TOKEN TYPES:
+   b-: 52
+   d-: 3024
+   i-: 1608
+   o-: 408
+   p-: 3024
+   s-: 52
+   t-: 408
+   v-: 3024
+
+🎹 INSTRUMENTS:
+   i-128
+   i-21
+   i-25
+   i-35
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-128 p-170 d-0 v-13 o-12 t-35 i-128
+   Last 10: v-17 i-35 p-31 d-4 v-25 i-128 p-170 d-0 v-13 b-1
+
+----------------------------------------------------------------------
+
+[17/80] temp_0.6_bars_64_002.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.6
+Target bars: 64, Actual bars: 64
+Generation time: 742.8s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 7861
+   Total bars: 64
+   Total notes: 1925
+   Unique instruments: 4
+
+🎵 BAR STATISTICS:
+   Average bar length: 121.8 tokens
+   Min bar length: 25 tokens
+   Max bar length: 132 tokens
+
+🔤 TOKEN TYPES:
+   b-: 64
+   d-: 1925
+   i-: 986
+   o-: 486
+   p-: 1925
+   s-: 64
+   t-: 486
+   v-: 1925
+
+🎹 INSTRUMENTS:
+   i-128
+   i-27
+   i-35
+   i-48
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-128 p-170 d-0 v-25 o-12 t-35 i-128
+   Last 10: p-168 d-0 v-30 o-42 t-35 i-128 p-168 d-0 v-30 b-1
+
+----------------------------------------------------------------------
+
+[18/80] temp_0.6_bars_64_003.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.6
+Target bars: 64, Actual bars: 66
+Generation time: 740.9s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 6504
+   Total bars: 66
+   Total notes: 1524
+   Unique instruments: 2
+
+🎵 BAR STATISTICS:
+   Average bar length: 97.5 tokens
+   Min bar length: 25 tokens
+   Max bar length: 101 tokens
+
+🔤 TOKEN TYPES:
+   b-: 66
+   d-: 1524
+   i-: 768
+   o-: 516
+   p-: 1524
+   s-: 66
+   t-: 516
+   v-: 1524
+
+🎹 INSTRUMENTS:
+   i-0
+   i-128
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-128 p-170 d-0 v-25 o-12 t-35 i-128
+   Last 10: d-6 v-25 p-48 d-6 v-25 i-128 p-170 d-0 v-25 b-1
+
+----------------------------------------------------------------------
+
+[19/80] temp_0.6_bars_64_004.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.6
+Target bars: 64, Actual bars: 65
+Generation time: 1034.8s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 7929
+   Total bars: 65
+   Total notes: 2097
+   Unique instruments: 6
+
+🎵 BAR STATISTICS:
+   Average bar length: 121.0 tokens
+   Min bar length: 25 tokens
+   Max bar length: 199 tokens
+
+🔤 TOKEN TYPES:
+   b-: 65
+   d-: 2097
+   i-: 860
+   o-: 324
+   p-: 2097
+   s-: 65
+   t-: 324
+   v-: 2097
+
+🎹 INSTRUMENTS:
+   i-11
+   i-128
+   i-24
+   i-25
+   i-33
+   i-5
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-128 p-170 d-0 v-28 o-12 t-35 i-128
+   Last 10: p-179 d-1 v-28 o-36 t-35 i-128 p-179 d-1 v-28 b-1
+
+----------------------------------------------------------------------
+
+[20/80] temp_0.6_bars_64_005.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.6
+Target bars: 64, Actual bars: 67
+Generation time: 355.9s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 4196
+   Total bars: 67
+   Total notes: 979
+   Unique instruments: 2
+
+🎵 BAR STATISTICS:
+   Average bar length: 61.6 tokens
+   Min bar length: 25 tokens
+   Max bar length: 63 tokens
+
+🔤 TOKEN TYPES:
+   b-: 67
+   d-: 979
+   i-: 459
+   o-: 333
+   p-: 979
+   s-: 67
+   t-: 333
+   v-: 979
+
+🎹 INSTRUMENTS:
+   i-0
+   i-128
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-128 p-170 d-0 v-25 o-12 t-35 i-128
+   Last 10: d-12 v-31 p-36 d-12 v-31 i-128 p-170 d-0 v-20 b-1
+
+----------------------------------------------------------------------
+
+[21/80] temp_0.7_bars_16_001.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.7
+Target bars: 16, Actual bars: 18
+Generation time: 157.2s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 2172
+   Total bars: 18
+   Total notes: 523
+   Unique instruments: 2
+
+🎵 BAR STATISTICS:
+   Average bar length: 119.7 tokens
+   Min bar length: 119 tokens
+   Max bar length: 123 tokens
+
+🔤 TOKEN TYPES:
+   b-: 18
+   d-: 523
+   i-: 279
+   o-: 144
+   p-: 523
+   s-: 18
+   t-: 144
+   v-: 523
+
+🎹 INSTRUMENTS:
+   i-0
+   i-128
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-0 p-74 d-5 v-27 p-67 d-5 v-27
+   Last 10: t-35 i-0 p-48 d-2 v-27 i-128 p-170 d-2 v-25 b-1
+
+----------------------------------------------------------------------
+
+[22/80] temp_0.7_bars_16_002.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.7
+Target bars: 16, Actual bars: 20
+Generation time: 50.9s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 1135
+   Total bars: 20
+   Total notes: 287
+   Unique instruments: 1
+
+🎵 BAR STATISTICS:
+   Average bar length: 55.8 tokens
+   Min bar length: 31 tokens
+   Max bar length: 61 tokens
+
+🔤 TOKEN TYPES:
+   b-: 20
+   d-: 287
+   i-: 78
+   o-: 78
+   p-: 287
+   s-: 20
+   t-: 78
+   v-: 287
+
+🎹 INSTRUMENTS:
+   i-0
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-0 p-62 d-12 v-22 p-59 d-12 v-24
+   Last 10: o-36 t-35 i-0 p-60 d-12 v-24 p-55 d-12 v-24 b-1
+
+----------------------------------------------------------------------
+
+[23/80] temp_0.7_bars_16_003.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.7
+Target bars: 16, Actual bars: 16
+Generation time: 459.7s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 4040
+   Total bars: 16
+   Total notes: 1076
+   Unique instruments: 4
+
+🎵 BAR STATISTICS:
+   Average bar length: 251.5 tokens
+   Min bar length: 25 tokens
+   Max bar length: 283 tokens
+
+🔤 TOKEN TYPES:
+   b-: 16
+   d-: 1076
+   i-: 400
+   o-: 190
+   p-: 1076
+   s-: 16
+   t-: 190
+   v-: 1076
+
+🎹 INSTRUMENTS:
+   i-128
+   i-25
+   i-28
+   i-35
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-128 p-197 d-2 v-31 o-12 t-35 i-128
+   Last 10: d-6 v-31 i-128 p-197 d-2 v-31 p-192 d-2 v-31 b-1
+
+----------------------------------------------------------------------
+
+[24/80] temp_0.7_bars_16_004.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.7
+Target bars: 16, Actual bars: 18
+Generation time: 151.9s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 2138
+   Total bars: 18
+   Total notes: 498
+   Unique instruments: 4
+
+🎵 BAR STATISTICS:
+   Average bar length: 117.8 tokens
+   Min bar length: 103 tokens
+   Max bar length: 130 tokens
+
+🔤 TOKEN TYPES:
+   b-: 18
+   d-: 498
+   i-: 320
+   o-: 144
+   p-: 498
+   s-: 18
+   t-: 144
+   v-: 498
+
+🎹 INSTRUMENTS:
+   i-0
+   i-128
+   i-33
+   i-48
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-33 p-36 d-6 v-23 i-48 p-72 d-27
+   Last 10: t-35 i-33 p-36 d-6 v-23 i-128 p-170 d-2 v-25 b-1
+
+----------------------------------------------------------------------
+
+[25/80] temp_0.7_bars_16_005.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.7
+Target bars: 16, Actual bars: 17
+Generation time: 193.5s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 2312
+   Total bars: 17
+   Total notes: 644
+   Unique instruments: 2
+
+🎵 BAR STATISTICS:
+   Average bar length: 135.0 tokens
+   Min bar length: 97 tokens
+   Max bar length: 181 tokens
+
+🔤 TOKEN TYPES:
+   b-: 17
+   d-: 644
+   i-: 140
+   o-: 103
+   p-: 644
+   s-: 17
+   t-: 103
+   v-: 644
+
+🎹 INSTRUMENTS:
+   i-0
+   i-38
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-0 p-76 d-12 v-23 p-76 d-12 v-23
+   Last 10: d-6 v-22 p-67 d-6 v-22 i-38 p-45 d-6 v-22 b-1
+
+----------------------------------------------------------------------
+
+[26/80] temp_0.7_bars_32_001.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.7
+Target bars: 32, Actual bars: 32
+Generation time: 311.6s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 3264
+   Total bars: 32
+   Total notes: 736
+   Unique instruments: 3
+
+🎵 BAR STATISTICS:
+   Average bar length: 101.0 tokens
+   Min bar length: 73 tokens
+   Max bar length: 105 tokens
+
+🔤 TOKEN TYPES:
+   b-: 32
+   d-: 736
+   i-: 480
+   o-: 256
+   p-: 736
+   s-: 32
+   t-: 256
+   v-: 736
+
+🎹 INSTRUMENTS:
+   i-0
+   i-68
+   i-70
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-0 p-76 d-9 v-20 p-67 d-9 v-20
+   Last 10: p-67 d-9 v-20 o-42 t-35 i-0 p-55 d-6 v-20 b-1
+
+----------------------------------------------------------------------
+
+[27/80] temp_0.7_bars_32_002.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.7
+Target bars: 32, Actual bars: 33
+Generation time: 501.7s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 4551
+   Total bars: 33
+   Total notes: 1109
+   Unique instruments: 4
+
+🎵 BAR STATISTICS:
+   Average bar length: 136.9 tokens
+   Min bar length: 37 tokens
+   Max bar length: 156 tokens
+
+🔤 TOKEN TYPES:
+   b-: 33
+   d-: 1109
+   i-: 634
+   o-: 262
+   p-: 1109
+   s-: 33
+   t-: 262
+   v-: 1109
+
+🎹 INSTRUMENTS:
+   i-128
+   i-27
+   i-33
+   i-48
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-128 p-170 d-1 v-28 o-12 t-35 i-128
+   Last 10: d-6 v-20 i-128 p-197 d-1 v-8 p-170 d-1 v-22 b-1
+
+----------------------------------------------------------------------
+
+[28/80] temp_0.7_bars_32_003.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.7
+Target bars: 32, Actual bars: 32
+Generation time: 542.1s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 5875
+   Total bars: 32
+   Total notes: 1435
+   Unique instruments: 4
+
+🎵 BAR STATISTICS:
+   Average bar length: 182.6 tokens
+   Min bar length: 40 tokens
+   Max bar length: 193 tokens
+
+🔤 TOKEN TYPES:
+   b-: 32
+   d-: 1435
+   i-: 998
+   o-: 254
+   p-: 1435
+   s-: 32
+   t-: 254
+   v-: 1435
+
+🎹 INSTRUMENTS:
+   i-128
+   i-28
+   i-29
+   i-33
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-128 p-170 d-2 v-25 o-12 t-35 i-128
+   Last 10: v-27 i-33 p-31 d-5 v-31 i-128 p-170 d-2 v-31 b-1
+
+----------------------------------------------------------------------
+
+[29/80] temp_0.7_bars_32_004.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.7
+Target bars: 32, Actual bars: 35
+Generation time: 195.9s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 2438
+   Total bars: 35
+   Total notes: 582
+   Unique instruments: 3
+
+🎵 BAR STATISTICS:
+   Average bar length: 68.7 tokens
+   Min bar length: 19 tokens
+   Max bar length: 74 tokens
+
+🔤 TOKEN TYPES:
+   b-: 35
+   d-: 582
+   i-: 276
+   o-: 173
+   p-: 582
+   s-: 35
+   t-: 173
+   v-: 582
+
+🎹 INSTRUMENTS:
+   i-0
+   i-128
+   i-90
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-128 p-170 d-2 v-24 o-12 t-35 i-128
+   Last 10: p-163 d-1 v-31 o-36 t-35 i-128 p-163 d-1 v-31 b-1
+
+----------------------------------------------------------------------
+
+[30/80] temp_0.7_bars_32_005.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.7
+Target bars: 32, Actual bars: 32
+Generation time: 497.6s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 4312
+   Total bars: 32
+   Total notes: 968
+   Unique instruments: 3
+
+🎵 BAR STATISTICS:
+   Average bar length: 133.8 tokens
+   Min bar length: 25 tokens
+   Max bar length: 141 tokens
+
+🔤 TOKEN TYPES:
+   b-: 32
+   d-: 968
+   i-: 608
+   o-: 368
+   p-: 968
+   s-: 32
+   t-: 368
+   v-: 968
+
+🎹 INSTRUMENTS:
+   i-128
+   i-25
+   i-33
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-128 p-170 d-0 v-30 o-12 t-35 i-128
+   Last 10: p-55 d-5 v-20 o-42 t-35 i-128 p-170 d-0 v-17 b-1
+
+----------------------------------------------------------------------
+
+[31/80] temp_0.7_bars_48_001.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.7
+Target bars: 48, Actual bars: 48
+Generation time: 1804.9s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 14960
+   Total bars: 48
+   Total notes: 4320
+   Unique instruments: 3
+
+🎵 BAR STATISTICS:
+   Average bar length: 310.7 tokens
+   Min bar length: 305 tokens
+   Max bar length: 353 tokens
+
+🔤 TOKEN TYPES:
+   b-: 48
+   d-: 4320
+   i-: 1136
+   o-: 384
+   p-: 4320
+   s-: 48
+   t-: 384
+   v-: 4320
+
+🎹 INSTRUMENTS:
+   i-25
+   i-29
+   i-32
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-25 p-55 d-6 v-27 p-50 d-6 v-27
+   Last 10: d-6 v-27 p-31 d-6 v-27 i-32 p-31 d-6 v-27 b-1
+
+----------------------------------------------------------------------
+
+[32/80] temp_0.7_bars_48_002.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.7
+Target bars: 48, Actual bars: 201
+Generation time: 78.9s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 1479
+   Total bars: 201
+   Total notes: 220
+   Unique instruments: 1
+
+🎵 BAR STATISTICS:
+   Average bar length: 6.4 tokens
+   Min bar length: 1 tokens
+   Max bar length: 73 tokens
+
+🔤 TOKEN TYPES:
+   b-: 201
+   d-: 220
+   i-: 139
+   o-: 139
+   p-: 220
+   s-: 201
+   t-: 139
+   v-: 220
+
+🎹 INSTRUMENTS:
+   i-48
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-48 p-81 d-27 v-25 p-69 d-27 v-25
+   Last 10: s-9 b-1 s-9 b-1 s-9 b-1 s-9 b-1 s-9 b-1
+
+----------------------------------------------------------------------
+
+[33/80] temp_0.7_bars_48_003.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.7
+Target bars: 48, Actual bars: 48
+Generation time: 277.0s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 2980
+   Total bars: 48
+   Total notes: 637
+   Unique instruments: 3
+
+🎵 BAR STATISTICS:
+   Average bar length: 61.1 tokens
+   Min bar length: 1 tokens
+   Max bar length: 111 tokens
+
+🔤 TOKEN TYPES:
+   b-: 48
+   d-: 637
+   i-: 427
+   o-: 273
+   p-: 637
+   s-: 48
+   t-: 273
+   v-: 637
+
+🎹 INSTRUMENTS:
+   i-128
+   i-26
+   i-33
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-128 p-170 d-3 v-25 o-12 t-35 i-128
+   Last 10: v-20 i-33 p-28 d-5 v-23 i-128 p-164 d-3 v-25 b-1
+
+----------------------------------------------------------------------
+
+[34/80] temp_0.7_bars_48_004.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.7
+Target bars: 48, Actual bars: 51
+Generation time: 311.0s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 3426
+   Total bars: 51
+   Total notes: 554
+   Unique instruments: 1
+
+🎵 BAR STATISTICS:
+   Average bar length: 66.2 tokens
+   Min bar length: 25 tokens
+   Max bar length: 67 tokens
+
+🔤 TOKEN TYPES:
+   b-: 51
+   d-: 554
+   i-: 554
+   o-: 554
+   p-: 554
+   s-: 51
+   t-: 554
+   v-: 554
+
+🎹 INSTRUMENTS:
+   i-128
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-128 p-170 d-2 v-13 o-12 t-35 i-128
+   Last 10: p-168 d-2 v-24 o-45 t-35 i-128 p-168 d-2 v-24 b-1
+
+----------------------------------------------------------------------
+
+[35/80] temp_0.7_bars_48_005.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.7
+Target bars: 48, Actual bars: 48
+Generation time: 1410.4s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 10772
+   Total bars: 48
+   Total notes: 2625
+   Unique instruments: 7
+
+🎵 BAR STATISTICS:
+   Average bar length: 223.4 tokens
+   Min bar length: 145 tokens
+   Max bar length: 338 tokens
+
+🔤 TOKEN TYPES:
+   b-: 48
+   d-: 2625
+   i-: 1265
+   o-: 768
+   p-: 2625
+   s-: 48
+   t-: 768
+   v-: 2625
+
+🎹 INSTRUMENTS:
+   i-128
+   i-17
+   i-27
+   i-29
+   i-33
+   i-81
+   i-82
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-17 p-69 d-37 v-16 p-64 d-37 v-16
+   Last 10: p-198 d-0 v-16 p-170 d-0 v-16 p-166 d-0 v-29 b-1
+
+----------------------------------------------------------------------
+
+[36/80] temp_0.7_bars_64_001.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.7
+Target bars: 64, Actual bars: 66
+Generation time: 786.8s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 8052
+   Total bars: 66
+   Total notes: 2112
+   Unique instruments: 1
+
+🎵 BAR STATISTICS:
+   Average bar length: 121.0 tokens
+   Min bar length: 121 tokens
+   Max bar length: 121 tokens
+
+🔤 TOKEN TYPES:
+   b-: 66
+   d-: 2112
+   i-: 528
+   o-: 528
+   p-: 2112
+   s-: 66
+   t-: 528
+   v-: 2112
+
+🎹 INSTRUMENTS:
+   i-0
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-0 p-60 d-6 v-23 p-55 d-6 v-23
+   Last 10: p-55 d-6 v-23 p-52 d-6 v-23 p-48 d-6 v-23 b-1
+
+----------------------------------------------------------------------
+
+[37/80] temp_0.7_bars_64_002.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.7
+Target bars: 64, Actual bars: 65
+Generation time: 1125.1s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 8612
+   Total bars: 65
+   Total notes: 1866
+   Unique instruments: 4
+
+🎵 BAR STATISTICS:
+   Average bar length: 131.5 tokens
+   Min bar length: 31 tokens
+   Max bar length: 137 tokens
+
+🔤 TOKEN TYPES:
+   b-: 65
+   d-: 1866
+   i-: 1866
+   o-: 509
+   p-: 1866
+   s-: 65
+   t-: 509
+   v-: 1866
+
+🎹 INSTRUMENTS:
+   i-128
+   i-27
+   i-28
+   i-33
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-128 p-170 d-0 v-22 o-12 t-35 i-128
+   Last 10: v-25 i-28 p-50 d-3 v-25 i-33 p-38 d-3 v-25 b-1
+
+----------------------------------------------------------------------
+
+[38/80] temp_0.7_bars_64_003.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.7
+Target bars: 64, Actual bars: 65
+Generation time: 740.2s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 7255
+   Total bars: 65
+   Total notes: 1670
+   Unique instruments: 3
+
+🎵 BAR STATISTICS:
+   Average bar length: 110.6 tokens
+   Min bar length: 53 tokens
+   Max bar length: 122 tokens
+
+🔤 TOKEN TYPES:
+   b-: 65
+   d-: 1670
+   i-: 1065
+   o-: 525
+   p-: 1670
+   s-: 65
+   t-: 525
+   v-: 1670
+
+🎹 INSTRUMENTS:
+   i-128
+   i-35
+   i-4
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-4 p-52 d-12 v-25 i-128 p-170 d-1
+   Last 10: t-35 i-35 p-33 d-3 v-25 i-128 p-168 d-1 v-25 b-1
+
+----------------------------------------------------------------------
+
+[39/80] temp_0.7_bars_64_004.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.7
+Target bars: 64, Actual bars: 70
+Generation time: 315.1s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 3625
+   Total bars: 70
+   Total notes: 747
+   Unique instruments: 3
+
+🎵 BAR STATISTICS:
+   Average bar length: 50.8 tokens
+   Min bar length: 43 tokens
+   Max bar length: 57 tokens
+
+🔤 TOKEN TYPES:
+   b-: 70
+   d-: 747
+   i-: 747
+   o-: 249
+   p-: 747
+   s-: 69
+   t-: 249
+   v-: 747
+
+🎹 INSTRUMENTS:
+   i-0
+   i-13
+   i-33
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-0 p-79 d-18 v-31 i-13 p-79 d-18
+   Last 10: v-31 i-13 p-76 d-12 v-31 i-33 p-40 d-12 v-31 b-1
+
+----------------------------------------------------------------------
+
+[40/80] temp_0.7_bars_64_005.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.7
+Target bars: 64, Actual bars: 54
+Generation time: 1859.3s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 12570
+   Total bars: 54
+   Total notes: 3391
+   Unique instruments: 5
+
+🎵 BAR STATISTICS:
+   Average bar length: 231.8 tokens
+   Min bar length: 158 tokens
+   Max bar length: 271 tokens
+
+🔤 TOKEN TYPES:
+   b-: 54
+   d-: 3391
+   i-: 1425
+   o-: 432
+   p-: 3391
+   s-: 54
+   t-: 432
+   v-: 3391
+
+🎹 INSTRUMENTS:
+   i-0
+   i-128
+   i-25
+   i-33
+   i-48
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-0 p-60 d-6 v-19 p-55 d-7 v-18
+   Last 10: d-6 v-19 i-128 p-170 d-0 v-18 p-163 d-0 v-21 b-1
+
+----------------------------------------------------------------------
+
+[41/80] temp_0.8_bars_16_001.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.8
+Target bars: 16, Actual bars: 16
+Generation time: 223.9s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 2426
+   Total bars: 16
+   Total notes: 572
+   Unique instruments: 3
+
+🎵 BAR STATISTICS:
+   Average bar length: 150.6 tokens
+   Min bar length: 143 tokens
+   Max bar length: 156 tokens
+
+🔤 TOKEN TYPES:
+   b-: 16
+   d-: 572
+   i-: 306
+   o-: 186
+   p-: 572
+   s-: 16
+   t-: 186
+   v-: 572
+
+🎹 INSTRUMENTS:
+   i-0
+   i-128
+   i-35
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-0 p-59 d-5 v-24 p-55 d-5 v-24
+   Last 10: p-163 d-2 v-17 o-43 t-35 i-35 p-31 d-1 v-21 b-1
+
+----------------------------------------------------------------------
+
+[42/80] temp_0.8_bars_16_002.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.8
+Target bars: 16, Actual bars: 16
+Generation time: 495.0s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 4012
+   Total bars: 16
+   Total notes: 1075
+   Unique instruments: 6
+
+🎵 BAR STATISTICS:
+   Average bar length: 249.8 tokens
+   Min bar length: 25 tokens
+   Max bar length: 283 tokens
+
+🔤 TOKEN TYPES:
+   b-: 16
+   d-: 1075
+   i-: 507
+   o-: 124
+   p-: 1075
+   s-: 16
+   t-: 124
+   v-: 1075
+
+🎹 INSTRUMENTS:
+   i-114
+   i-128
+   i-18
+   i-25
+   i-26
+   i-33
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-128 p-170 d-3 v-27 o-12 t-35 i-128
+   Last 10: v-23 i-114 p-57 d-6 v-23 i-128 p-182 d-3 v-18 b-1
+
+----------------------------------------------------------------------
+
+[43/80] temp_0.8_bars_16_003.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.8
+Target bars: 16, Actual bars: 16
+Generation time: 184.8s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 2168
+   Total bars: 16
+   Total notes: 544
+   Unique instruments: 3
+
+🎵 BAR STATISTICS:
+   Average bar length: 134.5 tokens
+   Min bar length: 121 tokens
+   Max bar length: 177 tokens
+
+🔤 TOKEN TYPES:
+   b-: 16
+   d-: 544
+   i-: 248
+   o-: 128
+   p-: 544
+   s-: 16
+   t-: 128
+   v-: 544
+
+🎹 INSTRUMENTS:
+   i-128
+   i-24
+   i-25
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-25 p-50 d-13 v-19 p-47 d-13 v-16
+   Last 10: p-165 d-1 v-31 o-42 t-35 i-128 p-170 d-1 v-31 b-1
+
+----------------------------------------------------------------------
+
+[44/80] temp_0.8_bars_16_004.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.8
+Target bars: 16, Actual bars: 17
+Generation time: 217.5s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 2261
+   Total bars: 17
+   Total notes: 573
+   Unique instruments: 6
+
+🎵 BAR STATISTICS:
+   Average bar length: 132.0 tokens
+   Min bar length: 45 tokens
+   Max bar length: 180 tokens
+
+🔤 TOKEN TYPES:
+   b-: 17
+   d-: 573
+   i-: 236
+   o-: 136
+   p-: 573
+   s-: 17
+   t-: 136
+   v-: 573
+
+🎹 INSTRUMENTS:
+   i-128
+   i-25
+   i-27
+   i-35
+   i-4
+   i-46
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-128 p-170 d-0 v-30 o-12 t-35 i-128
+   Last 10: p-60 d-5 v-25 p-55 d-5 v-25 p-48 d-5 v-25 b-1
+
+----------------------------------------------------------------------
+
+[45/80] temp_0.8_bars_16_005.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.8
+Target bars: 16, Actual bars: 16
+Generation time: 222.9s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 2469
+   Total bars: 16
+   Total notes: 538
+   Unique instruments: 3
+
+🎵 BAR STATISTICS:
+   Average bar length: 153.3 tokens
+   Min bar length: 142 tokens
+   Max bar length: 161 tokens
+
+🔤 TOKEN TYPES:
+   b-: 16
+   d-: 538
+   i-: 311
+   o-: 256
+   p-: 538
+   s-: 16
+   t-: 256
+   v-: 538
+
+🎹 INSTRUMENTS:
+   i-128
+   i-33
+   i-49
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-128 p-192 d-0 v-30 p-190 d-0 v-29
+   Last 10: p-170 d-0 v-31 o-45 t-35 i-128 p-170 d-0 v-31 b-1
+
+----------------------------------------------------------------------
+
+[46/80] temp_0.8_bars_32_001.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.8
+Target bars: 32, Actual bars: 50
+Generation time: 81.5s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 1523
+   Total bars: 50
+   Total notes: 243
+   Unique instruments: 1
+
+🎵 BAR STATISTICS:
+   Average bar length: 29.5 tokens
+   Min bar length: 0 tokens
+   Max bar length: 37 tokens
+
+🔤 TOKEN TYPES:
+   b-: 50
+   d-: 243
+   i-: 232
+   o-: 232
+   p-: 243
+   s-: 48
+   t-: 232
+   v-: 243
+
+🎹 INSTRUMENTS:
+   i-1
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-1 p-48 d-25 v-20 o-12 t-35 i-1
+   Last 10: p-58 d-18 v-20 o-36 t-35 i-1 p-62 d-12 v-20 b-1
+
+----------------------------------------------------------------------
+
+[47/80] temp_0.8_bars_32_002.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.8
+Target bars: 32, Actual bars: 39
+Generation time: 116.0s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 1809
+   Total bars: 39
+   Total notes: 406
+   Unique instruments: 1
+
+🎵 BAR STATISTICS:
+   Average bar length: 45.4 tokens
+   Min bar length: 34 tokens
+   Max bar length: 64 tokens
+
+🔤 TOKEN TYPES:
+   b-: 39
+   d-: 406
+   i-: 171
+   o-: 171
+   p-: 406
+   s-: 39
+   t-: 171
+   v-: 406
+
+🎹 INSTRUMENTS:
+   i-0
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-0 p-64 d-15 v-22 p-55 d-15 v-22
+   Last 10: o-42 t-35 i-0 p-50 d-6 v-22 p-41 d-6 v-22 b-1
+
+----------------------------------------------------------------------
+
+[48/80] temp_0.8_bars_32_003.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.8
+Target bars: 32, Actual bars: 32
+Generation time: 382.8s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 3667
+   Total bars: 32
+   Total notes: 876
+   Unique instruments: 5
+
+🎵 BAR STATISTICS:
+   Average bar length: 113.6 tokens
+   Min bar length: 25 tokens
+   Max bar length: 160 tokens
+
+🔤 TOKEN TYPES:
+   b-: 32
+   d-: 876
+   i-: 415
+   o-: 280
+   p-: 876
+   s-: 32
+   t-: 280
+   v-: 876
+
+🎹 INSTRUMENTS:
+   i-1
+   i-128
+   i-33
+   i-49
+   i-5
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-128 p-172 d-0 v-24 o-12 t-35 i-128
+   Last 10: p-174 d-0 v-24 o-45 t-35 i-128 p-170 d-0 v-25 b-1
+
+----------------------------------------------------------------------
+
+[49/80] temp_0.8_bars_32_004.mid
+----------------------------------------------------------------------
+Status: ✓ Success (with cleaning)
+Temperature: 0.8
+Target bars: 32, Actual bars: 32
+Generation time: 1131.4s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 8734
+   Total bars: 32
+   Total notes: 2244
+   Unique instruments: 5
+
+🎵 BAR STATISTICS:
+   Average bar length: 271.9 tokens
+   Min bar length: 178 tokens
+   Max bar length: 291 tokens
+
+🔤 TOKEN TYPES:
+   b-: 32
+   d-: 2245
+   i-: 888
+   o-: 524
+   p-: 2244
+   s-: 32
+   t-: 524
+   v-: 2245
+
+🎹 INSTRUMENTS:
+   i-128
+   i-27
+   i-33
+   i-5
+   i-66
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 1
+
+⚠️  GRAMMAR ERRORS (showing first 5):
+   - Orphan token at 3592: d-0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-128 p-182 d-0 v-16 p-171 d-0 v-15
+   Last 10: p-169 d-0 v-15 o-45 t-35 i-128 p-182 d-0 v-10 b-1
+
+----------------------------------------------------------------------
+
+[50/80] temp_0.8_bars_32_005.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.8
+Target bars: 32, Actual bars: 33
+Generation time: 312.2s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 3224
+   Total bars: 33
+   Total notes: 741
+   Unique instruments: 4
+
+🎵 BAR STATISTICS:
+   Average bar length: 96.7 tokens
+   Min bar length: 25 tokens
+   Max bar length: 108 tokens
+
+🔤 TOKEN TYPES:
+   b-: 33
+   d-: 741
+   i-: 345
+   o-: 295
+   p-: 741
+   s-: 33
+   t-: 295
+   v-: 741
+
+🎹 INSTRUMENTS:
+   i-0
+   i-128
+   i-22
+   i-33
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-128 p-170 d-0 v-17 o-12 t-35 i-128
+   Last 10: p-64 d-3 v-24 p-48 d-3 v-24 p-36 d-3 v-24 b-1
+
+----------------------------------------------------------------------
+
+[51/80] temp_0.8_bars_48_001.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.8
+Target bars: 48, Actual bars: 48
+Generation time: 690.8s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 6113
+   Total bars: 48
+   Total notes: 1364
+   Unique instruments: 6
+
+🎵 BAR STATISTICS:
+   Average bar length: 126.4 tokens
+   Min bar length: 60 tokens
+   Max bar length: 143 tokens
+
+🔤 TOKEN TYPES:
+   b-: 48
+   d-: 1364
+   i-: 891
+   o-: 517
+   p-: 1364
+   s-: 48
+   t-: 517
+   v-: 1364
+
+🎹 INSTRUMENTS:
+   i-128
+   i-25
+   i-30
+   i-31
+   i-33
+   i-38
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-128 p-173 d-0 v-16 p-172 d-0 v-27
+   Last 10: p-174 d-0 v-14 o-45 t-35 i-128 p-172 d-0 v-16 b-1
+
+----------------------------------------------------------------------
+
+[52/80] temp_0.8_bars_48_002.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.8
+Target bars: 48, Actual bars: 18
+Generation time: 601.5s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 5230
+   Total bars: 18
+   Total notes: 1361
+   Unique instruments: 6
+
+🎵 BAR STATISTICS:
+   Average bar length: 289.6 tokens
+   Min bar length: 25 tokens
+   Max bar length: 343 tokens
+
+🔤 TOKEN TYPES:
+   b-: 18
+   d-: 1361
+   i-: 687
+   o-: 212
+   p-: 1361
+   s-: 18
+   t-: 212
+   v-: 1361
+
+🎹 INSTRUMENTS:
+   i-128
+   i-13
+   i-38
+   i-46
+   i-48
+   i-61
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-128 p-165 d-3 v-15 o-12 t-35 i-128
+   Last 10: p-172 d-2 v-31 o-45 t-35 i-128 p-191 d-1 v-31 b-1
+
+----------------------------------------------------------------------
+
+[53/80] temp_0.8_bars_48_003.mid
+----------------------------------------------------------------------
+Status: ✓ Success (with cleaning)
+Temperature: 0.8
+Target bars: 48, Actual bars: 48
+Generation time: 1351.1s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 9675
+   Total bars: 48
+   Total notes: 2487
+   Unique instruments: 8
+
+🎵 BAR STATISTICS:
+   Average bar length: 200.6 tokens
+   Min bar length: 53 tokens
+   Max bar length: 237 tokens
+
+🔤 TOKEN TYPES:
+   b-: 48
+   d-: 2486
+   i-: 1353
+   o-: 383
+   p-: 2487
+   s-: 48
+   t-: 383
+   v-: 2487
+
+🎹 INSTRUMENTS:
+   i-1
+   i-128
+   i-2
+   i-24
+   i-26
+   i-35
+   i-37
+   i-61
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 1
+
+⚠️  GRAMMAR ERRORS (showing first 5):
+   - Incomplete triplet at token 6676: p-55 (missing duration)
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-37 p-36 d-4 v-29 i-61 p-72 d-4
+   Last 10: t-35 i-26 p-50 d-6 v-26 i-128 p-170 d-0 v-28 b-1
+
+----------------------------------------------------------------------
+
+[54/80] temp_0.8_bars_48_004.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.8
+Target bars: 48, Actual bars: 48
+Generation time: 1782.2s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 12173
+   Total bars: 48
+   Total notes: 3210
+   Unique instruments: 10
+
+🎵 BAR STATISTICS:
+   Average bar length: 252.6 tokens
+   Min bar length: 219 tokens
+   Max bar length: 309 tokens
+
+🔤 TOKEN TYPES:
+   b-: 48
+   d-: 3210
+   i-: 1449
+   o-: 499
+   p-: 3210
+   s-: 48
+   t-: 499
+   v-: 3210
+
+🎹 INSTRUMENTS:
+   i-0
+   i-128
+   i-13
+   i-16
+   i-20
+   i-35
+   i-4
+   i-44
+   i-48
+   i-65
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-0 p-48 d-17 v-17 i-4 p-64 d-3
+   Last 10: p-163 d-2 v-22 o-45 t-35 i-16 p-52 d-2 v-19 b-1
+
+----------------------------------------------------------------------
+
+[55/80] temp_0.8_bars_48_005.mid
+----------------------------------------------------------------------
+Status: ✓ Success (with cleaning)
+Temperature: 0.8
+Target bars: 48, Actual bars: 48
+Generation time: 1042.5s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 9015
+   Total bars: 48
+   Total notes: 2316
+   Unique instruments: 6
+
+🎵 BAR STATISTICS:
+   Average bar length: 186.8 tokens
+   Min bar length: 25 tokens
+   Max bar length: 224 tokens
+
+🔤 TOKEN TYPES:
+   b-: 48
+   d-: 2317
+   i-: 1194
+   o-: 387
+   p-: 2316
+   s-: 48
+   t-: 387
+   v-: 2318
+
+🎹 INSTRUMENTS:
+   i-1
+   i-128
+   i-24
+   i-35
+   i-7
+   i-87
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 3
+
+⚠️  GRAMMAR ERRORS (showing first 5):
+   - Incomplete triplet at token 2126: p-163 (missing duration)
+   - Orphan token at 3958: d-2
+   - Orphan token at 3990: d-2
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-128 p-170 d-0 v-31 o-12 t-35 i-128
+   Last 10: d-3 v-25 i-128 p-174 d-0 v-31 p-163 d-3 v-31 b-1
+
+----------------------------------------------------------------------
+
+[56/80] temp_0.8_bars_64_001.mid
+----------------------------------------------------------------------
+Status: ✓ Success (with cleaning)
+Temperature: 0.8
+Target bars: 64, Actual bars: 58
+Generation time: 1868.8s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 12423
+   Total bars: 58
+   Total notes: 3246
+   Unique instruments: 5
+
+🎵 BAR STATISTICS:
+   Average bar length: 213.2 tokens
+   Min bar length: 19 tokens
+   Max bar length: 331 tokens
+
+🔤 TOKEN TYPES:
+   b-: 58
+   d-: 3248
+   i-: 1675
+   o-: 445
+   p-: 3246
+   s-: 58
+   t-: 445
+   v-: 3248
+
+🎹 INSTRUMENTS:
+   i-0
+   i-128
+   i-29
+   i-30
+   i-33
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 2
+
+⚠️  GRAMMAR ERRORS (showing first 5):
+   - Orphan token at 9399: d-35
+   - Orphan token at 10761: d-2
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-0 p-72 d-17 v-19 p-69 d-17 v-22
+   Last 10: d-2 v-21 p-53 d-2 v-20 i-128 p-170 d-0 v-13 b-1
+
+----------------------------------------------------------------------
+
+[57/80] temp_0.8_bars_64_002.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.8
+Target bars: 64, Actual bars: 64
+Generation time: 551.4s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 5525
+   Total bars: 64
+   Total notes: 1203
+   Unique instruments: 4
+
+🎵 BAR STATISTICS:
+   Average bar length: 85.3 tokens
+   Min bar length: 68 tokens
+   Max bar length: 100 tokens
+
+🔤 TOKEN TYPES:
+   b-: 64
+   d-: 1203
+   i-: 762
+   o-: 513
+   p-: 1203
+   s-: 64
+   t-: 513
+   v-: 1203
+
+🎹 INSTRUMENTS:
+   i-128
+   i-26
+   i-27
+   i-33
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-26 p-55 d-25 v-19 i-27 p-55 d-25
+   Last 10: p-166 d-2 v-22 o-42 t-35 i-128 p-170 d-2 v-9 b-1
+
+----------------------------------------------------------------------
+
+[58/80] temp_0.8_bars_64_003.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.8
+Target bars: 64, Actual bars: 67
+Generation time: 513.2s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 5408
+   Total bars: 67
+   Total notes: 1301
+   Unique instruments: 4
+
+🎵 BAR STATISTICS:
+   Average bar length: 79.7 tokens
+   Min bar length: 66 tokens
+   Max bar length: 106 tokens
+
+🔤 TOKEN TYPES:
+   b-: 67
+   d-: 1301
+   i-: 745
+   o-: 313
+   p-: 1301
+   s-: 67
+   t-: 313
+   v-: 1301
+
+🎹 INSTRUMENTS:
+   i-0
+   i-128
+   i-33
+   i-49
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-0 p-52 d-16 v-18 p-48 d-16 v-18
+   Last 10: t-35 i-33 p-36 d-12 v-20 i-128 p-170 d-3 v-17 b-1
+
+----------------------------------------------------------------------
+
+[59/80] temp_0.8_bars_64_004.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.8
+Target bars: 64, Actual bars: 67
+Generation time: 473.4s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 5014
+   Total bars: 67
+   Total notes: 1204
+   Unique instruments: 4
+
+🎵 BAR STATISTICS:
+   Average bar length: 73.8 tokens
+   Min bar length: 21 tokens
+   Max bar length: 124 tokens
+
+🔤 TOKEN TYPES:
+   b-: 67
+   d-: 1204
+   i-: 794
+   o-: 237
+   p-: 1204
+   s-: 67
+   t-: 237
+   v-: 1204
+
+🎹 INSTRUMENTS:
+   i-1
+   i-100
+   i-24
+   i-4
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-1 p-72 d-18 v-23 p-69 d-18 v-23
+   Last 10: v-15 i-24 p-57 d-12 v-15 i-100 p-57 d-12 v-19 b-1
+
+----------------------------------------------------------------------
+
+[60/80] temp_0.8_bars_64_005.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.8
+Target bars: 64, Actual bars: 66
+Generation time: 780.6s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 7251
+   Total bars: 66
+   Total notes: 1545
+   Unique instruments: 5
+
+🎵 BAR STATISTICS:
+   Average bar length: 108.9 tokens
+   Min bar length: 83 tokens
+   Max bar length: 132 tokens
+
+🔤 TOKEN TYPES:
+   b-: 66
+   d-: 1545
+   i-: 1396
+   o-: 545
+   p-: 1545
+   s-: 66
+   t-: 545
+   v-: 1543
+
+🎹 INSTRUMENTS:
+   i-100
+   i-108
+   i-128
+   i-24
+   i-32
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 2
+
+⚠️  GRAMMAR ERRORS (showing first 5):
+   - Incomplete triplet at token 4178: p-163 d-0 (missing velocity)
+   - Incomplete triplet at token 5464: p-163 d-0 (missing velocity)
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-24 p-55 d-36 v-20 p-52 d-36 v-20
+   Last 10: v-24 i-32 p-43 d-6 v-24 i-128 p-163 d-0 v-27 b-1
+
+----------------------------------------------------------------------
+
+[61/80] temp_0.9_bars_16_001.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.9
+Target bars: 16, Actual bars: 17
+Generation time: 106.4s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 1563
+   Total bars: 17
+   Total notes: 326
+   Unique instruments: 11
+
+🎵 BAR STATISTICS:
+   Average bar length: 90.9 tokens
+   Min bar length: 49 tokens
+   Max bar length: 158 tokens
+
+🔤 TOKEN TYPES:
+   b-: 17
+   d-: 326
+   i-: 257
+   o-: 147
+   p-: 326
+   s-: 17
+   t-: 147
+   v-: 326
+
+🎹 INSTRUMENTS:
+   i-0
+   i-12
+   i-128
+   i-20
+   i-32
+   i-46
+   i-48
+   i-57
+   i-61
+   i-64
+   i-75
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-128 p-198 d-0 v-31 p-164 d-0 v-31
+   Last 10: v-31 i-46 p-52 d-2 v-31 i-128 p-170 d-0 v-31 b-1
+
+----------------------------------------------------------------------
+
+[62/80] temp_0.9_bars_16_002.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.9
+Target bars: 16, Actual bars: 16
+Generation time: 454.1s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 3889
+   Total bars: 16
+   Total notes: 963
+   Unique instruments: 9
+
+🎵 BAR STATISTICS:
+   Average bar length: 242.1 tokens
+   Min bar length: 58 tokens
+   Max bar length: 305 tokens
+
+🔤 TOKEN TYPES:
+   b-: 16
+   d-: 963
+   i-: 514
+   o-: 227
+   p-: 963
+   s-: 16
+   t-: 227
+   v-: 963
+
+🎹 INSTRUMENTS:
+   i-1
+   i-128
+   i-16
+   i-20
+   i-22
+   i-25
+   i-28
+   i-33
+   i-65
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-22 p-77 d-2 v-23 o-6 t-35 i-22
+   Last 10: d-4 v-15 i-20 p-81 d-2 v-20 p-78 d-2 v-20 b-1
+
+----------------------------------------------------------------------
+
+[63/80] temp_0.9_bars_16_003.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.9
+Target bars: 16, Actual bars: 16
+Generation time: 218.4s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 2311
+   Total bars: 16
+   Total notes: 557
+   Unique instruments: 7
+
+🎵 BAR STATISTICS:
+   Average bar length: 143.4 tokens
+   Min bar length: 136 tokens
+   Max bar length: 160 tokens
+
+🔤 TOKEN TYPES:
+   b-: 16
+   d-: 557
+   i-: 352
+   o-: 128
+   p-: 557
+   s-: 16
+   t-: 128
+   v-: 557
+
+🎹 INSTRUMENTS:
+   i-12
+   i-128
+   i-35
+   i-44
+   i-45
+   i-46
+   i-73
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-12 p-60 d-26 v-24 p-55 d-26 v-24
+   Last 10: t-35 i-35 p-26 d-6 v-26 i-128 p-187 d-6 v-24 b-1
+
+----------------------------------------------------------------------
+
+[64/80] temp_0.9_bars_16_004.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.9
+Target bars: 16, Actual bars: 17
+Generation time: 112.3s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 1647
+   Total bars: 17
+   Total notes: 332
+   Unique instruments: 5
+
+🎵 BAR STATISTICS:
+   Average bar length: 95.9 tokens
+   Min bar length: 53 tokens
+   Max bar length: 156 tokens
+
+🔤 TOKEN TYPES:
+   b-: 17
+   d-: 332
+   i-: 279
+   o-: 169
+   p-: 332
+   s-: 17
+   t-: 169
+   v-: 332
+
+🎹 INSTRUMENTS:
+   i-128
+   i-33
+   i-49
+   i-50
+   i-54
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-33 p-36 d-9 v-23 i-50 p-64 d-48
+   Last 10: p-170 d-2 v-18 o-45 t-35 i-128 p-170 d-2 v-18 b-1
+
+----------------------------------------------------------------------
+
+[65/80] temp_0.9_bars_16_005.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.9
+Target bars: 16, Actual bars: 17
+Generation time: 79.9s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 1446
+   Total bars: 17
+   Total notes: 340
+   Unique instruments: 3
+
+🎵 BAR STATISTICS:
+   Average bar length: 84.1 tokens
+   Min bar length: 67 tokens
+   Max bar length: 99 tokens
+
+🔤 TOKEN TYPES:
+   b-: 17
+   d-: 340
+   i-: 196
+   o-: 98
+   p-: 340
+   s-: 17
+   t-: 98
+   v-: 340
+
+🎹 INSTRUMENTS:
+   i-25
+   i-26
+   i-33
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-26 p-65 d-12 v-22 p-60 d-12 v-20
+   Last 10: o-36 t-35 i-33 p-45 d-12 v-23 p-45 d-1 v-25 b-1
+
+----------------------------------------------------------------------
+
+[66/80] temp_0.9_bars_32_001.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.9
+Target bars: 32, Actual bars: 24
+Generation time: 541.2s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 4067
+   Total bars: 24
+   Total notes: 970
+   Unique instruments: 5
+
+🎵 BAR STATISTICS:
+   Average bar length: 168.5 tokens
+   Min bar length: 19 tokens
+   Max bar length: 339 tokens
+
+🔤 TOKEN TYPES:
+   b-: 24
+   d-: 970
+   i-: 522
+   o-: 294
+   p-: 970
+   s-: 24
+   t-: 293
+   v-: 970
+
+🎹 INSTRUMENTS:
+   i-0
+   i-128
+   i-30
+   i-33
+   i-50
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-50 p-76 d-25 v-25 p-72 d-25 v-25
+   Last 10: o-45 t-35 i-128 p-190 d-3 v-25 p-166 d-3 v-25 b-1
+
+----------------------------------------------------------------------
+
+[67/80] temp_0.9_bars_32_002.mid
+----------------------------------------------------------------------
+Status: ✓ Success (with cleaning)
+Temperature: 0.9
+Target bars: 32, Actual bars: 33
+Generation time: 627.6s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 5701
+   Total bars: 33
+   Total notes: 1371
+   Unique instruments: 6
+
+🎵 BAR STATISTICS:
+   Average bar length: 171.8 tokens
+   Min bar length: 25 tokens
+   Max bar length: 245 tokens
+
+🔤 TOKEN TYPES:
+   b-: 33
+   d-: 1371
+   i-: 788
+   o-: 367
+   p-: 1371
+   s-: 33
+   t-: 367
+   v-: 1371
+
+🎹 INSTRUMENTS:
+   i-11
+   i-128
+   i-25
+   i-29
+   i-34
+   i-61
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 2
+
+⚠️  GRAMMAR ERRORS (showing first 5):
+   - Orphan token at 1353: v-17
+   - Incomplete triplet at token 4129: p-83 d-23 (missing velocity)
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-128 p-170 d-4 v-30 o-12 t-35 i-128
+   Last 10: p-194 d-0 v-30 p-174 d-5 v-30 p-164 d-0 v-31 b-1
+
+----------------------------------------------------------------------
+
+[68/80] temp_0.9_bars_32_003.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.9
+Target bars: 32, Actual bars: 33
+Generation time: 317.1s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 3629
+   Total bars: 33
+   Total notes: 824
+   Unique instruments: 5
+
+🎵 BAR STATISTICS:
+   Average bar length: 109.0 tokens
+   Min bar length: 73 tokens
+   Max bar length: 189 tokens
+
+🔤 TOKEN TYPES:
+   b-: 33
+   d-: 824
+   i-: 453
+   o-: 319
+   p-: 824
+   s-: 33
+   t-: 319
+   v-: 824
+
+🎹 INSTRUMENTS:
+   i-128
+   i-17
+   i-24
+   i-52
+   i-57
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-128 p-170 d-2 v-31 p-164 d-12 v-30
+   Last 10: p-164 d-12 v-30 o-42 t-35 i-128 p-170 d-2 v-31 b-1
+
+----------------------------------------------------------------------
+
+[69/80] temp_0.9_bars_32_004.mid
+----------------------------------------------------------------------
+Status: ✓ Success (with cleaning)
+Temperature: 0.9
+Target bars: 32, Actual bars: 32
+Generation time: 346.6s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 3797
+   Total bars: 32
+   Total notes: 831
+   Unique instruments: 7
+
+🎵 BAR STATISTICS:
+   Average bar length: 117.7 tokens
+   Min bar length: 94 tokens
+   Max bar length: 170 tokens
+
+🔤 TOKEN TYPES:
+   b-: 32
+   d-: 830
+   i-: 653
+   o-: 294
+   p-: 831
+   s-: 32
+   t-: 294
+   v-: 831
+
+🎹 INSTRUMENTS:
+   i-11
+   i-128
+   i-16
+   i-22
+   i-26
+   i-35
+   i-5
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 1
+
+⚠️  GRAMMAR ERRORS (showing first 5):
+   - Incomplete triplet at token 1922: p-45 (missing duration)
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-16 p-67 d-21 v-28 p-64 d-21 v-28
+   Last 10: v-31 i-35 p-42 d-4 v-25 i-128 p-174 d-2 v-27 b-1
+
+----------------------------------------------------------------------
+
+[70/80] temp_0.9_bars_32_005.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.9
+Target bars: 32, Actual bars: 33
+Generation time: 578.4s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 4938
+   Total bars: 33
+   Total notes: 1113
+   Unique instruments: 9
+
+🎵 BAR STATISTICS:
+   Average bar length: 148.6 tokens
+   Min bar length: 1 tokens
+   Max bar length: 287 tokens
+
+🔤 TOKEN TYPES:
+   b-: 33
+   d-: 1113
+   i-: 761
+   o-: 386
+   p-: 1113
+   s-: 33
+   t-: 386
+   v-: 1113
+
+🎹 INSTRUMENTS:
+   i-0
+   i-128
+   i-18
+   i-28
+   i-35
+   i-4
+   i-52
+   i-56
+   i-73
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-4 p-56 d-18 v-15 p-51 d-18 v-17
+   Last 10: p-170 d-2 v-11 o-45 t-35 i-128 p-170 d-2 v-11 b-1
+
+----------------------------------------------------------------------
+
+[71/80] temp_0.9_bars_48_001.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.9
+Target bars: 48, Actual bars: 49
+Generation time: 516.2s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 5217
+   Total bars: 49
+   Total notes: 1210
+   Unique instruments: 5
+
+🎵 BAR STATISTICS:
+   Average bar length: 105.5 tokens
+   Min bar length: 7 tokens
+   Max bar length: 170 tokens
+
+🔤 TOKEN TYPES:
+   b-: 49
+   d-: 1210
+   i-: 831
+   o-: 329
+   p-: 1210
+   s-: 49
+   t-: 329
+   v-: 1210
+
+🎹 INSTRUMENTS:
+   i-128
+   i-33
+   i-50
+   i-52
+   i-8
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-128 p-170 d-0 v-21 o-12 t-35 i-128
+   Last 10: v-13 i-33 p-45 d-3 v-17 i-128 p-170 d-0 v-25 b-1
+
+----------------------------------------------------------------------
+
+[72/80] temp_0.9_bars_48_002.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.9
+Target bars: 48, Actual bars: 50
+Generation time: 393.2s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 4404
+   Total bars: 50
+   Total notes: 914
+   Unique instruments: 4
+
+🎵 BAR STATISTICS:
+   Average bar length: 87.1 tokens
+   Min bar length: 70 tokens
+   Max bar length: 109 tokens
+
+🔤 TOKEN TYPES:
+   b-: 50
+   d-: 914
+   i-: 736
+   o-: 413
+   p-: 914
+   s-: 50
+   t-: 413
+   v-: 914
+
+🎹 INSTRUMENTS:
+   i-0
+   i-26
+   i-35
+   i-4
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-0 p-50 d-26 v-16 p-43 d-26 v-13
+   Last 10: v-15 i-26 p-48 d-6 v-8 i-35 p-43 d-6 v-14 b-1
+
+----------------------------------------------------------------------
+
+[73/80] temp_0.9_bars_48_003.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.9
+Target bars: 48, Actual bars: 54
+Generation time: 119.2s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 1897
+   Total bars: 54
+   Total notes: 344
+   Unique instruments: 4
+
+🎵 BAR STATISTICS:
+   Average bar length: 34.1 tokens
+   Min bar length: 11 tokens
+   Max bar length: 55 tokens
+
+🔤 TOKEN TYPES:
+   b-: 54
+   d-: 344
+   i-: 321
+   o-: 218
+   p-: 344
+   s-: 54
+   t-: 218
+   v-: 344
+
+🎹 INSTRUMENTS:
+   i-1
+   i-119
+   i-42
+   i-89
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-42 p-72 d-27 v-22 p-69 d-27 v-22
+   Last 10: p-67 d-12 v-22 o-36 t-35 i-1 p-64 d-12 v-22 b-1
+
+----------------------------------------------------------------------
+
+[74/80] temp_0.9_bars_48_004.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.9
+Target bars: 48, Actual bars: 15
+Generation time: 268.6s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 2630
+   Total bars: 15
+   Total notes: 674
+   Unique instruments: 5
+
+🎵 BAR STATISTICS:
+   Average bar length: 174.3 tokens
+   Min bar length: 67 tokens
+   Max bar length: 330 tokens
+
+🔤 TOKEN TYPES:
+   b-: 15
+   d-: 674
+   i-: 328
+   o-: 125
+   p-: 674
+   s-: 15
+   t-: 125
+   v-: 674
+
+🎹 INSTRUMENTS:
+   i-128
+   i-16
+   i-27
+   i-28
+   i-32
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-27 p-69 d-5 v-20 p-66 d-5 v-20
+   Last 10: p-170 d-2 v-17 p-169 d-2 v-22 p-168 d-2 v-20 b-1
+
+----------------------------------------------------------------------
+
+[75/80] temp_0.9_bars_48_005.mid
+----------------------------------------------------------------------
+Status: ✓ Success (with cleaning)
+Temperature: 0.9
+Target bars: 48, Actual bars: 48
+Generation time: 155.1s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 2209
+   Total bars: 48
+   Total notes: 500
+   Unique instruments: 1
+
+🎵 BAR STATISTICS:
+   Average bar length: 45.0 tokens
+   Min bar length: 16 tokens
+   Max bar length: 73 tokens
+
+🔤 TOKEN TYPES:
+   b-: 48
+   d-: 500
+   i-: 204
+   o-: 204
+   p-: 500
+   s-: 48
+   t-: 204
+   v-: 501
+
+🎹 INSTRUMENTS:
+   i-1
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 1
+
+⚠️  GRAMMAR ERRORS (showing first 5):
+   - Orphan token at 1122: v-5
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-1 p-60 d-15 v-22 p-55 d-16 v-23
+   Last 10: p-69 d-11 v-21 p-65 d-11 v-24 p-60 d-12 v-19 b-1
+
+----------------------------------------------------------------------
+
+[76/80] temp_0.9_bars_64_001.mid
+----------------------------------------------------------------------
+Status: ✓ Success (with cleaning)
+Temperature: 0.9
+Target bars: 64, Actual bars: 64
+Generation time: 1313.2s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 11927
+   Total bars: 64
+   Total notes: 3028
+   Unique instruments: 13
+
+🎵 BAR STATISTICS:
+   Average bar length: 185.4 tokens
+   Min bar length: 151 tokens
+   Max bar length: 222 tokens
+
+🔤 TOKEN TYPES:
+   b-: 64
+   d-: 3029
+   i-: 1376
+   o-: 669
+   p-: 3028
+   s-: 64
+   t-: 669
+   v-: 3028
+
+🎹 INSTRUMENTS:
+   i-0
+   i-114
+   i-128
+   i-16
+   i-17
+   i-24
+   i-27
+   i-33
+   i-35
+   i-36
+   i-4
+   i-45
+   i-46
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 4
+
+⚠️  GRAMMAR ERRORS (showing first 5):
+   - Orphan token at 3586: d-3
+   - Incomplete triplet at token 10121: p-65 (missing duration)
+   - Orphan token at 10403: d-2
+   - Incomplete triplet at token 10738: p-36 d-2 (missing velocity)
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-36 p-36 d-12 v-16 i-128 p-198 d-2
+   Last 10: d-4 v-18 i-128 p-198 d-2 v-17 p-170 d-2 v-17 b-1
+
+----------------------------------------------------------------------
+
+[77/80] temp_0.9_bars_64_002.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.9
+Target bars: 64, Actual bars: 66
+Generation time: 897.0s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 8164
+   Total bars: 66
+   Total notes: 1914
+   Unique instruments: 5
+
+🎵 BAR STATISTICS:
+   Average bar length: 122.7 tokens
+   Min bar length: 73 tokens
+   Max bar length: 170 tokens
+
+🔤 TOKEN TYPES:
+   b-: 66
+   d-: 1914
+   i-: 1096
+   o-: 597
+   p-: 1914
+   s-: 66
+   t-: 597
+   v-: 1914
+
+🎹 INSTRUMENTS:
+   i-10
+   i-128
+   i-25
+   i-27
+   i-33
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-25 p-52 d-27 v-24 p-52 d-9 v-27
+   Last 10: p-163 d-3 v-21 o-45 t-35 i-10 p-86 d-3 v-25 b-1
+
+----------------------------------------------------------------------
+
+[78/80] temp_0.9_bars_64_003.mid
+----------------------------------------------------------------------
+Status: ✓ Success (with cleaning)
+Temperature: 0.9
+Target bars: 64, Actual bars: 66
+Generation time: 239.5s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 3008
+   Total bars: 66
+   Total notes: 692
+   Unique instruments: 1
+
+🎵 BAR STATISTICS:
+   Average bar length: 44.6 tokens
+   Min bar length: 0 tokens
+   Max bar length: 73 tokens
+
+🔤 TOKEN TYPES:
+   b-: 66
+   d-: 694
+   i-: 267
+   o-: 267
+   p-: 692
+   s-: 61
+   t-: 267
+   v-: 694
+
+🎹 INSTRUMENTS:
+   i-1
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 2
+
+⚠️  GRAMMAR ERRORS (showing first 5):
+   - Orphan token at 2603: d-10
+   - Orphan token at 2609: d-6
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-1 p-64 d-10 v-27 p-60 d-10 v-27
+   Last 10: p-67 d-10 v-27 p-64 d-12 v-27 p-36 d-10 v-27 b-1
+
+----------------------------------------------------------------------
+
+[79/80] temp_0.9_bars_64_004.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.9
+Target bars: 64, Actual bars: 0
+Generation time: 12.0s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 3
+   Total bars: 0
+   Total notes: 0
+   Unique instruments: 0
+
+🎵 BAR STATISTICS:
+   Average bar length: 0.0 tokens
+   Min bar length: 0 tokens
+   Max bar length: 0 tokens
+
+🔤 TOKEN TYPES:
+   o-: 1
+   s-: 1
+   t-: 1
+
+🎹 INSTRUMENTS:
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✗
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35
+   Last 10: s-9 o-0 t-35
+
+----------------------------------------------------------------------
+
+[80/80] temp_0.9_bars_64_005.mid
+----------------------------------------------------------------------
+Status: ✓ Success (no cleaning needed)
+Temperature: 0.9
+Target bars: 64, Actual bars: 64
+Generation time: 1168.6s
+
+📊 OVERALL STATISTICS:
+   Total tokens: 10271
+   Total bars: 64
+   Total notes: 2445
+   Unique instruments: 9
+
+🎵 BAR STATISTICS:
+   Average bar length: 159.5 tokens
+   Min bar length: 68 tokens
+   Max bar length: 215 tokens
+
+🔤 TOKEN TYPES:
+   b-: 64
+   d-: 2445
+   i-: 1672
+   o-: 568
+   p-: 2445
+   s-: 64
+   t-: 568
+   v-: 2445
+
+🎹 INSTRUMENTS:
+   i-128
+   i-21
+   i-24
+   i-25
+   i-27
+   i-33
+   i-4
+   i-5
+   i-50
+
+✅ SEQUENCE HEALTH:
+   Ends with b-1: ✓
+   Grammar errors: 0
+
+🔍 SEQUENCE EDGES:
+   First 10: s-9 o-0 t-35 i-5 p-55 d-30 v-21 p-52 d-30 v-19
+   Last 10: p-182 d-0 v-18 p-170 d-0 v-19 p-164 d-0 v-21 b-1
+
+----------------------------------------------------------------------
+
+======================================================================
+SUMMARY STATISTICS
+======================================================================
+Total pieces: 80
+Successful: 80 (100.0%)
+Failed: 0 (0.0%)
+Required cleaning: 9 (11.2% of successful)
+
+Average bars generated: 41.1
+Average tokens: 4950.9
+Average generation time: 546.9s
+Average instruments: 4.0
+Average grammar errors: 0.2
+======================================================================

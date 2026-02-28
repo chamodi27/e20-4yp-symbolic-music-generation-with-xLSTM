@@ -636,6 +636,12 @@ Examples:
   
   # Use permissive preset
   python filter_and_normalize.py --preset permissive
+
+  # Process in batches of 5000 files
+  python filter_and_normalize.py --preset strict --batch-size 5000
+
+  # Resume after a crash/reboot (skips already-processed files)
+  python filter_and_normalize.py --preset strict --batch-size 5000 --resume
   
   # Use custom config file
   python filter_and_normalize.py --config my_config.py
@@ -663,6 +669,20 @@ Configuration Methods:
         action='store_true',
         help='Show what would be done without actually processing files'
     )
+
+    parser.add_argument(
+        '--batch-size',
+        type=int,
+        default=0,
+        metavar='N',
+        help='Process files in batches of N (0 = all at once, recommended: 5000)'
+    )
+
+    parser.add_argument(
+        '--resume',
+        action='store_true',
+        help='Skip files already present in OUTPUT_PITCH_NORM_DIR and resume from last checkpoint'
+    )
     
     return parser.parse_args()
 
@@ -670,6 +690,236 @@ Configuration Methods:
 # =============================================================================
 # MAIN PIPELINE
 # =============================================================================
+
+def _make_json_safe(obj):
+    """Recursively convert numpy scalars and tuples to JSON-safe Python types."""
+    import numpy as np
+    if isinstance(obj, (np.integer,)):
+        return int(obj)
+    if isinstance(obj, (np.floating,)):
+        return float(obj)
+    if isinstance(obj, tuple):
+        return [_make_json_safe(v) for v in obj]
+    if isinstance(obj, list):
+        return [_make_json_safe(v) for v in obj]
+    return obj  # str, int, float — already safe
+
+
+def _restore_sig(lst):
+    """Restore a dup_signature from its JSON list representation.
+    Structure: [num_bars, duration_beats, num_notes, distinct_onsets, [[kind, prog], ...]]
+    """
+    num_bars, duration_beats, num_notes, distinct_onsets, prog_list = lst
+    programs_sig = tuple((pair[0], pair[1]) for pair in prog_list)
+    return (int(num_bars), float(duration_beats), int(num_notes), int(distinct_onsets), programs_sig)
+
+
+def _load_progress(progress_path: Path) -> dict:
+    """Load progress/checkpoint file from a previous run."""
+    if not progress_path.exists():
+        return {'global_sigs': [], 'processed_count': 0}
+    try:
+        import json as _json
+        with open(progress_path) as f:
+            data = _json.load(f)
+        data['global_sigs'] = [_restore_sig(s) for s in data.get('global_sigs', [])]
+        return data
+    except Exception as e:
+        print(f"WARNING: Could not load progress file ({e}), starting fresh")
+        return {'global_sigs': [], 'processed_count': 0}
+
+
+def _save_progress(progress_path: Path, global_sigs: set, processed_count: int):
+    """Save progress checkpoint after each batch."""
+    import json as _json
+    data = {
+        'global_sigs': [_make_json_safe(sig) for sig in global_sigs],
+        'processed_count': processed_count,
+        'timestamp': datetime.now().isoformat(),
+    }
+    with open(progress_path, 'w') as f:
+        _json.dump(data, f)
+
+
+
+
+def _process_batch(
+    batch: list,
+    global_sigs: set,
+    df: 'pd.DataFrame',
+    batch_idx: int,
+    total_batches: int,
+) -> dict:
+    """
+    Process a single batch of MIDI files through the full filter+pitch-norm pipeline.
+
+    Modifies global_sigs in-place (adds new signatures).
+    Returns a stats dict with keys: total, failed, dups, kept, dropped, pitch_ok, pitch_dropped.
+    Also updates the manifest DataFrame df in-place.
+    """
+    print(f"\nBatch {batch_idx + 1}/{total_batches}: processing {len(batch)} files...")
+
+    # ---- 1. Extract stats -----------------------------------------------
+    stats_list = []
+    failed = []
+    for i, path in enumerate(batch, 1):
+        try:
+            s = extract_stats(path)
+            stats_list.append(s)
+        except Exception as e:
+            failed.append((path.name, str(e)))
+            print(f"  ERROR parsing {path.name}: {e}")
+        if i % 500 == 0:
+            print(f"  Extracted stats: {i}/{len(batch)}")
+
+    # ---- 2. Duplicate detection (global) --------------------------------
+    is_dup = {}
+    for s in stats_list:
+        sig = s.dup_signature()
+        if sig not in global_sigs:
+            global_sigs.add(sig)
+            is_dup[s.basename] = False
+        else:
+            is_dup[s.basename] = True
+
+    num_dups = sum(is_dup.values())
+
+    # ---- 3. Filter -------------------------------------------------------
+    keep = []
+    drop_reason_map = {}
+    drop_stats = defaultdict(int)
+
+    for s in stats_list:
+        if is_dup.get(s.basename, False):
+            drop_reason_map[s.basename] = "filter_duplicate_signature"
+            drop_stats["filter_duplicate_signature"] += 1
+            continue
+        reason = filter_reason(s)
+        if reason is None:
+            keep.append(s)
+        else:
+            drop_reason_map[s.basename] = reason
+            drop_stats[reason] += 1
+
+    print(f"  Batch {batch_idx + 1}: kept={len(keep)}, dropped={len(drop_reason_map)}, dups={num_dups}")
+
+    # ---- 4. Copy filtered files ------------------------------------------
+    config.OUTPUT_FILTERED_DIR.mkdir(parents=True, exist_ok=True)
+    for s in keep:
+        shutil.copy2(s.path, config.OUTPUT_FILTERED_DIR / s.basename)
+
+    # ---- 5. Pitch normalization ------------------------------------------
+    config.OUTPUT_PITCH_NORM_DIR.mkdir(parents=True, exist_ok=True)
+    pitch_updates = {}
+    pitch_drops = {}
+
+    for i, s in enumerate(keep, 1):
+        src = config.OUTPUT_FILTERED_DIR / s.basename
+        dst = config.OUTPUT_PITCH_NORM_DIR / s.basename
+        try:
+            midi = load_midi(src)
+            mode, tonic, shift = detect_key_and_shift(midi)
+            if mode is None:
+                pitch_drops[s.basename] = "pitchnorm_no_pitched_content"
+                continue
+            ok = apply_pitch_norm(midi, shift)
+            if not ok:
+                pitch_drops[s.basename] = "pitchnorm_out_of_range"
+                continue
+            midi.dump(str(dst))
+            pitch_updates[s.basename] = {
+                "pitchnorm_mode": mode,
+                "pitchnorm_tonic_pc": tonic,
+                "pitchnorm_semitones": shift,
+                "pitchnorm_path": str(dst),
+            }
+        except Exception as e:
+            pitch_drops[s.basename] = f"pitchnorm_error:{e}"
+
+        if i % 500 == 0:
+            print(f"  Pitch normalized: {i}/{len(keep)}")
+
+    print(f"  Pitch norm: {len(pitch_updates)} OK, {len(pitch_drops)} dropped")
+
+    # ---- 6. Update manifest (in-place) -----------------------------------
+    kept_basenames = set(s.basename for s in keep)
+    updates = {}
+
+    for s in stats_list:
+        b = s.basename
+        if b in kept_basenames:
+            updates[b] = {
+                "stage": config.STAGE_FILTER,
+                "status": "ok",
+                "drop_reason": pd.NA,
+                "error_msg": pd.NA,
+                "mscore_norm_path": str(config.INPUT_NORMALIZED_DIR / b),
+                "filtered_path": str(config.OUTPUT_FILTERED_DIR / b),
+                "filter_is_duplicate": bool(is_dup.get(b, False)),
+                "filter_empty_bars": s.empty_bars,
+                "filter_consecutive_empty_bars": s.consecutive_empty_bars,
+                "filter_num_bars": s.num_bars,
+                "filter_duration_beats": s.duration_beats,
+                "filter_nonempty_tracks": s.nonempty_tracks,
+                "filter_pitch_min": s.pitch_min,
+                "filter_pitch_max": s.pitch_max,
+                "filter_tempo_min": s.tempo_min,
+                "filter_tempo_max": s.tempo_max,
+                "filter_max_note_dur_beats": s.max_note_dur_beats,
+                "filter_distinct_onsets": s.distinct_onsets,
+                "filter_num_notes": s.num_notes,
+            }
+        else:
+            reason = drop_reason_map.get(b, "filter_unknown")
+            updates[b] = {
+                "stage": config.STAGE_FILTER,
+                "status": "dropped",
+                "drop_reason": reason,
+                "error_msg": pd.NA,
+                "mscore_norm_path": str(config.INPUT_NORMALIZED_DIR / b),
+                "filtered_path": pd.NA,
+            }
+
+    for b, cols in pitch_updates.items():
+        updates.setdefault(b, {})
+        updates[b].update({
+            "stage": config.STAGE_PITCH_NORM,
+            "status": "ok",
+            "drop_reason": pd.NA,
+            "error_msg": pd.NA,
+        })
+        updates[b].update(cols)
+
+    for b, reason in pitch_drops.items():
+        updates.setdefault(b, {})
+        updates[b].update({
+            "stage": config.STAGE_PITCH_NORM,
+            "status": "dropped",
+            "drop_reason": reason,
+            "error_msg": pd.NA,
+        })
+
+    for b, row_data in updates.items():
+        if "raw_basename" not in df.columns:
+            df["raw_basename"] = df["raw_path"].astype(str).map(lambda p: Path(p).name)
+        all_cols = set(row_data.keys())
+        for col in all_cols:
+            if col not in df.columns:
+                df[col] = pd.NA
+        mask = df["raw_basename"].astype(str) == b
+        for k, v in row_data.items():
+            df.loc[mask, k] = v
+
+    return {
+        'total': len(batch),
+        'failed': len(failed),
+        'dups': num_dups,
+        'kept': len(keep),
+        'dropped': len(drop_reason_map),
+        'pitch_ok': len(pitch_updates),
+        'pitch_dropped': len(pitch_drops),
+    }
+
 
 def main():
     # Parse command line arguments
@@ -700,7 +950,10 @@ def main():
     print("MuseFormer MIDI Filtering and Pitch Normalization Pipeline")
     print("=" * 80)
     print()
-    
+
+    batch_size = args.batch_size  # 0 means process all at once
+    resume = args.resume
+
     # Display active configuration
     print("Active Configuration:")
     print(f"  Preset: {args.preset if args.preset else 'default'}")
@@ -712,6 +965,8 @@ def main():
     print(f"  Max empty bars: {config.MAX_EMPTY_BARS_ALLOWED}")
     print(f"  Empty bar method: {config.EMPTY_BAR_METHOD}")
     print(f"  Min tracks: {config.MIN_NONEMPTY_TRACKS}")
+    print(f"  Batch size: {batch_size if batch_size > 0 else 'unlimited (single pass)'}")
+    print(f"  Resume: {resume}")
     print()
     
     if args.dry_run:
@@ -722,9 +977,12 @@ def main():
     # Create output directories
     config.OUTPUT_FILTERED_DIR.mkdir(parents=True, exist_ok=True)
     config.OUTPUT_PITCH_NORM_DIR.mkdir(parents=True, exist_ok=True)
+
+    # Progress/checkpoint file (stored alongside final output)
+    progress_path = config.OUTPUT_PITCH_NORM_DIR / "progress.json"
     
-    # Find input files
-    midi_files = sorted(
+    # Find all input files
+    all_midi_files = sorted(
         list(config.INPUT_NORMALIZED_DIR.glob("*.mid")) + 
         list(config.INPUT_NORMALIZED_DIR.glob("*.midi"))
     )
@@ -732,18 +990,31 @@ def main():
     print(f"Input directory: {config.INPUT_NORMALIZED_DIR}")
     print(f"Output directory (filtered): {config.OUTPUT_FILTERED_DIR}")
     print(f"Output directory (pitch norm): {config.OUTPUT_PITCH_NORM_DIR}")
-    print(f"MIDI files found: {len(midi_files)}")
-    print()
+    print(f"Total MIDI files found: {len(all_midi_files)}")
     
-    if len(midi_files) == 0:
+    if len(all_midi_files) == 0:
         print("ERROR: No MIDI files found!")
         return
-    
-    # Load and backup manifest
+
+    # ---- Resume: skip already processed files ----------------------------
+    progress = _load_progress(progress_path)
+    global_sigs = set(progress['global_sigs'])
+
+    if resume:
+        already_done = {f.name for f in config.OUTPUT_PITCH_NORM_DIR.glob("*.mid")}
+        midi_files = [f for f in all_midi_files if f.name not in already_done]
+        print(f"Resume mode: {len(already_done)} already done, {len(midi_files)} remaining")
+    else:
+        midi_files = all_midi_files
+        # Fresh start: clear progress state
+        global_sigs = set()
+
+    print()
+
     if not config.MANIFEST_PATH.exists():
         print(f"ERROR: Manifest not found: {config.MANIFEST_PATH}")
         return
-    
+
     df = pd.read_csv(config.MANIFEST_PATH)
     backup_path = config.MANIFEST_PATH.with_suffix(
         f".backup_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
@@ -751,260 +1022,75 @@ def main():
     df.to_csv(backup_path, index=False)
     print(f"Manifest backup: {backup_path}")
     print()
-    
-    # =========================================================================
-    # STAGE 1: Extract Statistics
-    # =========================================================================
-    print("-" * 80)
-    print("STAGE 1: Extracting statistics from MIDI files...")
-    print("-" * 80)
-    
-    stats = []
-    failed = []
-    
-    for i, path in enumerate(midi_files, 1):
-        try:
-            s = extract_stats(path)
-            stats.append(s)
-            if i % 50 == 0:
-                print(f"  Processed {i}/{len(midi_files)} files...")
-        except Exception as e:
-            failed.append((path.name, str(e)))
-            print(f"  ERROR parsing {path.name}: {e}")
-    
-    print(f"\nStatistics extracted: {len(stats)} OK, {len(failed)} failed")
+
+    # ---- Split into batches ----------------------------------------------
+    if batch_size > 0:
+        batches = [midi_files[i:i + batch_size] for i in range(0, len(midi_files), batch_size)]
+    else:
+        batches = [midi_files]  # Single pass (original behaviour)
+
+    total_batches = len(batches)
+    print(f"Processing {len(midi_files)} files in {total_batches} batch(es)")
     print()
-    
-    # =========================================================================
-    # STAGE 2: Duplicate Detection
-    # =========================================================================
-    print("-" * 80)
-    print("STAGE 2: Detecting duplicates...")
-    print("-" * 80)
-    
-    sig_to_first = {}
-    is_dup = {}
-    
-    for s in stats:
-        sig = s.dup_signature()
-        if sig not in sig_to_first:
-            sig_to_first[sig] = s.basename
-            is_dup[s.basename] = False
-        else:
-            is_dup[s.basename] = True
-            print(f"  Duplicate: {s.basename} (same as {sig_to_first[sig]})")
-    
-    num_dups = sum(is_dup.values())
-    print(f"\nDuplicates found: {num_dups}")
+
+    # ---- Totals across all batches ---------------------------------------
+    totals = dict(total=0, failed=0, dups=0, kept=0, dropped=0, pitch_ok=0, pitch_dropped=0)
+    processed_so_far = progress.get('processed_count', 0)
+
+    for batch_idx, batch in enumerate(batches):
+        batch_stats = _process_batch(
+            batch=batch,
+            global_sigs=global_sigs,
+            df=df,
+            batch_idx=batch_idx,
+            total_batches=total_batches,
+        )
+        for k in totals:
+            totals[k] += batch_stats.get(k, 0)
+        processed_so_far += len(batch)
+
+        # Save manifest after each batch so progress is not lost on crash
+        df.to_csv(config.MANIFEST_PATH, index=False)
+        print(f"  Manifest saved ({processed_so_far}/{len(all_midi_files)} total processed)")
+
+        # Save progress checkpoint
+        _save_progress(progress_path, global_sigs, processed_so_far)
+
+    # ---- Final summary ---------------------------------------------------
     print()
-    
-    # =========================================================================
-    # STAGE 3: Apply Filtering Rules
-    # =========================================================================
-    print("-" * 80)
-    print("STAGE 3: Applying filtering rules...")
-    print("-" * 80)
-    
-    keep = []
-    drop_reason_map = {}
-    drop_stats = defaultdict(int)
-    
-    for s in stats:
-        # Check if duplicate
-        if is_dup.get(s.basename, False):
-            drop_reason_map[s.basename] = "filter_duplicate_signature"
-            drop_stats["filter_duplicate_signature"] += 1
-            continue
-        
-        # Apply filter rules
-        reason = filter_reason(s)
-        if reason is None:
-            keep.append(s)
-        else:
-            drop_reason_map[s.basename] = reason
-            drop_stats[reason] += 1
-    
-    print(f"Files to keep: {len(keep)}")
-    print(f"Files to drop: {len(drop_reason_map)}")
-    print()
-    print("Drop reasons breakdown:")
-    for reason, count in sorted(drop_stats.items()):
-        print(f"  {reason}: {count}")
-    print()
-    
-    # =========================================================================
-    # STAGE 4: Copy Filtered Files
-    # =========================================================================
-    print("-" * 80)
-    print("STAGE 4: Copying filtered files...")
-    print("-" * 80)
-    
-    for s in keep:
-        shutil.copy2(s.path, config.OUTPUT_FILTERED_DIR / s.basename)
-    
-    print(f"Copied {len(keep)} files to {config.OUTPUT_FILTERED_DIR}")
-    print()
-    
-    # =========================================================================
-    # STAGE 5: Pitch Normalization
-    # =========================================================================
-    print("-" * 80)
-    print("STAGE 5: Applying pitch normalization...")
-    print("-" * 80)
-    
-    pitch_updates = {}
-    pitch_drops = {}
-    
-    for i, s in enumerate(keep, 1):
-        src = config.OUTPUT_FILTERED_DIR / s.basename
-        dst = config.OUTPUT_PITCH_NORM_DIR / s.basename
-        
-        try:
-            midi = load_midi(src)
-            mode, tonic, shift = detect_key_and_shift(midi)
-            
-            if mode is None:
-                # No pitched content
-                pitch_drops[s.basename] = "pitchnorm_no_pitched_content"
-                continue
-            
-            ok = apply_pitch_norm(midi, shift)
-            
-            if not ok:
-                pitch_drops[s.basename] = "pitchnorm_out_of_range"
-                continue
-            
-            midi.dump(str(dst))
-            pitch_updates[s.basename] = {
-                "pitchnorm_mode": mode,
-                "pitchnorm_tonic_pc": tonic,
-                "pitchnorm_semitones": shift,
-                "pitchnorm_path": str(dst),
-            }
-            
-            if i % 50 == 0:
-                print(f"  Normalized {i}/{len(keep)} files...")
-                
-        except Exception as e:
-            pitch_drops[s.basename] = f"pitchnorm_error:{e}"
-            print(f"  ERROR normalizing {s.basename}: {e}")
-    
-    print(f"\nPitch normalization: {len(pitch_updates)} OK, {len(pitch_drops)} dropped")
-    print()
-    
-    # =========================================================================
-    # STAGE 6: Update Manifest
-    # =========================================================================
-    print("-" * 80)
-    print("STAGE 6: Updating manifest...")
-    print("-" * 80)
-    
-    updates = {}
-    kept_basenames = set(s.basename for s in keep)
-    
-    # Update filtering stage
-    for s in stats:
-        b = s.basename
-        
-        if b in kept_basenames:
-            # File passed filtering
-            updates[b] = {
-                "stage": config.STAGE_FILTER,
-                "status": "ok",
-                "drop_reason": pd.NA,
-                "error_msg": pd.NA,
-                "mscore_norm_path": str(config.INPUT_NORMALIZED_DIR / b),
-                "filtered_path": str(config.OUTPUT_FILTERED_DIR / b),
-                "filter_is_duplicate": bool(is_dup.get(b, False)),
-                "filter_empty_bars": s.empty_bars,
-                "filter_consecutive_empty_bars": s.consecutive_empty_bars,
-                "filter_num_bars": s.num_bars,
-                "filter_duration_beats": s.duration_beats,
-                "filter_nonempty_tracks": s.nonempty_tracks,
-                "filter_pitch_min": s.pitch_min,
-                "filter_pitch_max": s.pitch_max,
-                "filter_tempo_min": s.tempo_min,
-                "filter_tempo_max": s.tempo_max,
-                "filter_max_note_dur_beats": s.max_note_dur_beats,
-                "filter_distinct_onsets": s.distinct_onsets,
-                "filter_num_notes": s.num_notes,
-            }
-        else:
-            # File was dropped
-            reason = drop_reason_map.get(b, "filter_unknown")
-            updates[b] = {
-                "stage": config.STAGE_FILTER,
-                "status": "dropped",
-                "drop_reason": reason,
-                "error_msg": pd.NA,
-                "mscore_norm_path": str(config.INPUT_NORMALIZED_DIR / b),
-                "filtered_path": pd.NA,
-            }
-    
-    # Update pitch normalization stage
-    for b, cols in pitch_updates.items():
-        updates.setdefault(b, {})
-        updates[b].update({
-            "stage": config.STAGE_PITCH_NORM,
-            "status": "ok",
-            "drop_reason": pd.NA,
-            "error_msg": pd.NA,
-        })
-        updates[b].update(cols)
-    
-    for b, reason in pitch_drops.items():
-        updates.setdefault(b, {})
-        updates[b].update({
-            "stage": config.STAGE_PITCH_NORM,
-            "status": "dropped",
-            "drop_reason": reason,
-            "error_msg": pd.NA,
-        })
-    
-    update_manifest(df, updates)
-    df.to_csv(config.MANIFEST_PATH, index=False)
-    
-    print(f"Manifest updated: {config.MANIFEST_PATH}")
-    print()
-    
-    # =========================================================================
-    # FINAL SUMMARY
-    # =========================================================================
     print("=" * 80)
     print("PIPELINE COMPLETE")
     print("=" * 80)
-    print(f"Total input files: {len(midi_files)}")
-    print(f"  Parse failures: {len(failed)}")
-    print(f"  Duplicates removed: {num_dups}")
-    print(f"  Filtered (kept): {len(keep)}")
-    print(f"  Filtered (dropped): {len(drop_reason_map)}")
-    print(f"  Pitch normalized: {len(pitch_updates)}")
-    print(f"  Pitch norm failures: {len(pitch_drops)}")
-    print()
-    print(f"Final output: {len(pitch_updates)} files in {config.OUTPUT_PITCH_NORM_DIR}")
-    print("=" * 80)
+    print(f"Total input files processed this run: {len(midi_files)}")
+    print(f"  Parse failures:       {totals['failed']}")
+    print(f"  Duplicates removed:   {totals['dups']}")
+    print(f"  Filtered (kept):      {totals['kept']}")
+    print(f"  Filtered (dropped):   {totals['dropped']}")
+    print(f"  Pitch normalized:     {totals['pitch_ok']}")
+    print(f"  Pitch norm failures:  {totals['pitch_dropped']}")
     
-    # Save summary statistics
+    total_in_output = len(list(config.OUTPUT_PITCH_NORM_DIR.glob("*.mid")))
+    print(f"\nTotal files in {config.OUTPUT_PITCH_NORM_DIR.name}/: {total_in_output}")
+    print("=" * 80)
+
+    # Save final summary JSON
     summary = {
         "timestamp": datetime.now().isoformat(),
-        "input_files": len(midi_files),
-        "parse_failures": len(failed),
-        "duplicates_removed": num_dups,
-        "filtered_kept": len(keep),
-        "filtered_dropped": len(drop_reason_map),
-        "pitch_normalized": len(pitch_updates),
-        "pitch_norm_failures": len(pitch_drops),
-        "drop_reasons": dict(drop_stats),
-        "pitch_drop_reasons": dict(defaultdict(int, 
-            [(k.split(":")[0], v) for k, v in 
-             defaultdict(int, [(reason, 1) for reason in pitch_drops.values()]).items()]
-        ))
+        "input_files": len(all_midi_files),
+        "this_run_files": len(midi_files),
+        "parse_failures": totals['failed'],
+        "duplicates_removed": totals['dups'],
+        "filtered_kept": totals['kept'],
+        "filtered_dropped": totals['dropped'],
+        "pitch_normalized": totals['pitch_ok'],
+        "pitch_norm_failures": totals['pitch_dropped'],
+        "total_output_files": total_in_output,
+        "resume": resume,
+        "batch_size": batch_size,
     }
-    
     summary_path = config.OUTPUT_PITCH_NORM_DIR / "pipeline_summary.json"
     with open(summary_path, "w") as f:
         json.dump(summary, f, indent=2)
-    
     print(f"Summary saved to: {summary_path}")
 
 
