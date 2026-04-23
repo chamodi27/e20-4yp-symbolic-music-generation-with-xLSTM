@@ -16,7 +16,7 @@ from typing import Literal, List
 FYP_MUSICGEN_ROOT = Path("/scratch1/e20-fyp-xlstm-music-generation/e20fyptemp1/fyp-musicgen")
 
 # Base directory for dataset (can be overridden via CLI)
-DEFAULT_BASE_DIR = FYP_MUSICGEN_ROOT / "data" / "museformer_baseline" / "full"
+DEFAULT_BASE_DIR = FYP_MUSICGEN_ROOT / "data" / "museformer_baseline" / "29k"
 
 # =============================================================================
 # PROCESSING MODE
@@ -97,7 +97,7 @@ MIDIMINER_NUM_CORES = 4  # Number of CPU cores to use
 
 # Midiminer output JSON filename
 MIDIMINER_JSON_FILENAME = 'program_result.json'
-MIDIMINER_JSON_PATH = FYP_MUSICGEN_ROOT / "data" / "museformer_baseline" / "full" / "02_b_midiminer_results" / MIDIMINER_JSON_FILENAME
+MIDIMINER_JSON_PATH = FYP_MUSICGEN_ROOT / "data" / "museformer_baseline" / "29k" / "02_b_midiminer_results" / MIDIMINER_JSON_FILENAME
 
 # Whether to delete midiminer input directory after processing (prod mode)
 MIDIMINER_CLEANUP_INPUT = True
@@ -108,7 +108,7 @@ MIDIMINER_CLEANUP_INPUT = True
 
 # Batch size for midiminer processing (to prevent OOM crashes)
 # Process files in batches to reduce memory usage
-MIDIMINER_BATCH_SIZE = 15000  # Process 15k files per batch
+MIDIMINER_BATCH_SIZE = 5000  # Process 15k files per batch
 
 # Whether to enable batch processing (auto-detect if None)
 # - None: Auto-enable if total files > batch size

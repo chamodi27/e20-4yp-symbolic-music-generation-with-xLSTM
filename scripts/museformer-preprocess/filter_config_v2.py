@@ -12,16 +12,16 @@ from pathlib import Path
 # =============================================================================
 
 # Input: Directory containing MuseScore-normalized MIDI files
-INPUT_NORMALIZED_DIR = Path("/scratch1/e20-fyp-xlstm-music-generation/e20fyptemp1/fyp-musicgen/data/museformer_baseline/sample/04_musescore_norm")
+INPUT_NORMALIZED_DIR = Path("/scratch1/e20-fyp-xlstm-music-generation/e20fyptemp1/fyp-musicgen/data/museformer_baseline/29k/04_musescore_norm")
 
 # Output: Directory for filtered files (before pitch normalization)
-OUTPUT_FILTERED_DIR = Path("/scratch1/e20-fyp-xlstm-music-generation/e20fyptemp1/fyp-musicgen/data/museformer_baseline/sample/05_filtered")
+OUTPUT_FILTERED_DIR = Path("/scratch1/e20-fyp-xlstm-music-generation/e20fyptemp1/fyp-musicgen/data/museformer_baseline/29k/05_filtered")
 
 # Output: Directory for pitch-normalized files (final output)
-OUTPUT_PITCH_NORM_DIR = Path("/scratch1/e20-fyp-xlstm-music-generation/e20fyptemp1/fyp-musicgen/data/museformer_baseline/sample/06_pitch_normalize")
+OUTPUT_PITCH_NORM_DIR = Path("/scratch1/e20-fyp-xlstm-music-generation/e20fyptemp1/fyp-musicgen/data/museformer_baseline/29k/06_pitch_normalize")
 
 # Manifest CSV file to update with processing results
-MANIFEST_PATH = Path("/scratch1/e20-fyp-xlstm-music-generation/e20fyptemp1/fyp-musicgen/data/museformer_baseline/sample/logs/sample_manifest.csv")
+MANIFEST_PATH = Path("/scratch1/e20-fyp-xlstm-music-generation/e20fyptemp1/fyp-musicgen/data/museformer_baseline/29k/logs/29k_manifest.csv")
 
 # Stage names for manifest tracking
 STAGE_FILTER = "05_filtered"

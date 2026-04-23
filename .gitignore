@@ -34,6 +34,7 @@ __pycache__/
 .DS_Store
 Thumbs.db
 
+*.wav
 *.mid
 notebooks/xLSTM/generated_music/
 
@@ -49,11 +50,27 @@ temp/
 repos/midi-miner/*_model
 
 evaluation/results/
-evaluation/bar_ssm_outputs/
+evaluation/bar_ssm_outputs_model2/
 evaluation/bar_ssm_outputs_model3/
 evaluation/bar_ssm_outputs_model4/
+evaluation/bar_ssm_outputs_model5/
+evaluation/bar_ssm_outputs_lookback_rnn/
+evaluation/bar_ssm_outputs_museformer_set1/
+evaluation/bar_ssm_outputs_validation/
+evaluation/bar_ssm_outputs_model6
+evaluation/bar_ssm_outputs_museformer_set2
+evaluation/bar_ssm_outputs_xlstm-prompt-exp
+evaluation/bar_ssm_outputs_xlstm_promt
+evaluation/analysis_figures
+evaluation/chamodi_eval
 
 # Extracted PDF text (derived files, not source of truth — regenerate with gs)
 notebooks/xLSTM-3/results/
 notebooks/xLSTM-4-recurrent-state/single-shot-generation/results/*/midi
 notebooks/xLSTM-4-recurrent-state/single-shot-generation/results/*/tokens
+
+#magenta repo
+melody_rnn
+repos/magenta
+mmt-baseline/mmt
+xlstm-fairseq

@@ -1,0 +1,32 @@
+{
+  "config": {
+    "model_run_path": "/scratch1/e20-fyp-xlstm-music-generation/e20fyptemp1/fyp-musicgen/repos/helibrunna/output/xlstm_lmd_preprocessed_512d_4096ctx_12b_24k/run_20260312-1059",
+    "context_lengths": [
+      1024,
+      2048,
+      3072,
+      4096,
+      5120,
+      10240
+    ],
+    "checkpoint_selection": "auto",
+    "auto_checkpoint_count": 6,
+    "results_base_dir": "./results",
+    "save_plots": true,
+    "plot_format": "pdf"
+  },
+  "model_info": {
+    "model_name": "xlstm_lmd_preprocessed_512d_4096ctx_12b_24k",
+    "training_context_length": 4096,
+    "embedding_dim": 512,
+    "num_blocks": 12,
+    "vocab_size": 413,
+    "batch_size": 2,
+    "learning_rate": 0.001,
+    "valid_data_path": "/scratch1/e20-fyp-xlstm-music-generation/e20fyptemp1/fyp-musicgen/data/lmd_preprocessed_3/splits/valid.txt",
+    "test_data_path": "/scratch1/e20-fyp-xlstm-music-generation/e20fyptemp1/fyp-musicgen/data/lmd_preprocessed_3/splits/test.txt",
+    "tokenizer_path": "/scratch1/e20-fyp-xlstm-music-generation/e20fyptemp1/fyp-musicgen/repos/helibrunna/output/xlstm_lmd_preprocessed_512d_4096ctx_12b_24k/run_20260312-1059/tokenizer.json"
+  },
+  "best_checkpoint": "checkpoint-38000",
+  "timestamp": "20260316_051311"
+}

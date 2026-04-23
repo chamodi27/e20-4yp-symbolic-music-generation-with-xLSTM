@@ -16,8 +16,9 @@ transformers==4.44.0
 omegaconf==2.3.0
 dacite==1.9.2
 
-# MIDI decoding — pinned to tested working combination
-midiprocessor==0.1.5
+# MIDI decoding — pinned versions (do not change without testing)
+# midiprocessor is not on PyPI — must install from GitHub source
+git+https://github.com/btyu/MidiProcessor.git
 miditoolkit==0.1.16
 mido==1.3.3
 pretty-midi==0.2.11

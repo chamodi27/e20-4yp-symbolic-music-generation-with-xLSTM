@@ -68,7 +68,6 @@ class MidiGenerator(object):
     def _process_token_str(self, x):
         x = x.split('\n')[0]
         x = x.strip().split(' ')
-        x = [t for t in x if '-' in t]
         x = self.process_token_str_list_func(x)
         return x
 

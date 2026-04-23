@@ -1,4 +1,4 @@
-MODEL_NAME='mf-lmd6remi-1'
+MODEL_NAME='mf-lmd6remi-yohan-29k'
 
 DATA_DIR=data-bin/lmd6remi      # Data dir
 
@@ -10,7 +10,7 @@ WARMUP_UPDATES=16000     # Warmup the learning rate over this many updates
 
 OMP_NUM_THREADS=$(cat /proc/cpuinfo| grep "processor"| wc -l)
 
-ulimit -n 4096
+ulimit -n 65536
 
 mkdir -p log
 
@@ -42,6 +42,6 @@ fairseq-train \
   --log-format simple \
   --log-interval 10 \
   --tensorboard-logdir tb_log/$MODEL_NAME  \
-  --num-workers "$OMP_NUM_THREADS" \
+  --num-workers 8 \
   --save-dir checkpoints/$MODEL_NAME \
   | tee log/${MODEL_NAME}.log

@@ -1,0 +1,48 @@
+{
+  "model": "xlstm_lmd_preprocessed_512d_4096ctx_12b",
+  "checkpoint": "checkpoint-46000-last",
+  "gpu": "NVIDIA RTX 6000 Ada Generation",
+  "idle_vram_torch_mb": 2380.31,
+  "idle_vram_pynvml_mb": 3538.31,
+  "DMGR_L1": 1000,
+  "DMGR_L2": 12000,
+  "DMGR_pynvml_MB_per_1k_tokens": 0.5455,
+  "DMGR_torch_MB_per_1k_tokens": 0.4882,
+  "per_length": {
+    "1000": {
+      "peak_torch_mb": 2401.21,
+      "peak_pynvml_mb": 3632.31,
+      "incr_torch_mb": 20.9,
+      "incr_pynvml_mb": 94.0,
+      "generation_time_s": 9.0
+    },
+    "2000": {
+      "peak_torch_mb": 2401.69,
+      "peak_pynvml_mb": 3632.31,
+      "incr_torch_mb": 21.39,
+      "incr_pynvml_mb": 94.0,
+      "generation_time_s": 15.4
+    },
+    "4000": {
+      "peak_torch_mb": 2402.67,
+      "peak_pynvml_mb": 3634.31,
+      "incr_torch_mb": 22.36,
+      "incr_pynvml_mb": 96.0,
+      "generation_time_s": 32.0
+    },
+    "8000": {
+      "peak_torch_mb": 2404.62,
+      "peak_pynvml_mb": 3636.31,
+      "incr_torch_mb": 24.31,
+      "incr_pynvml_mb": 98.0,
+      "generation_time_s": 70.9
+    },
+    "12000": {
+      "peak_torch_mb": 2406.58,
+      "peak_pynvml_mb": 3638.31,
+      "incr_torch_mb": 26.27,
+      "incr_pynvml_mb": 100.0,
+      "generation_time_s": 115.2
+    }
+  }
+}

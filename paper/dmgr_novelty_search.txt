@@ -1,0 +1,57 @@
+Does the Decode Memory Growth Rate (DMGR) metric already exist in the literature?
+1. Introduction
+The proposed Decode Memory Growth Rate (DMGR) metric quantifies the empirical rate of GPU memory increase per generated token during autoregressive inference, specifically measuring peak incremental VRAM as a function of output sequence length. This review investigates whether an identical or closely analogous metric—by name or explicit formula—exists in the literature, focusing on autoregressive generation with Transformers, LLMs, and related models. The search covers direct measurements of memory growth per token, inference memory scaling, KV-cache memory growth, and constant-memory decoding. While many papers discuss memory complexity and KV-cache scaling in qualitative or asymptotic terms, few define an explicit empirical metric matching DMGR’s formulation. Several works introduce related concepts such as “per-token GPU memory usage” or “KV-cache size per token,” but these are typically used as descriptive statistics rather than standardized metrics. No evidence was found for a widely adopted or named metric equivalent to DMGR; however, some recent surveys and system papers do report closely related measurements
+
+2. Methods
+A comprehensive search was conducted across over 170 million research papers in Consensus, including Semantic Scholar and PubMed. The search targeted both direct matches to DMGR’s definition and a broad set of synonyms and adjacent concepts (e.g., “memory growth per token,” “inference memory scaling,” “KV-cache scaling,” etc.). A total of 47 papers were identified as potentially relevant; after screening for explicitness and relevance to empirical metrics during inference/decoding, 18 were included in this review.
+
+3. Results
+3.1 Explicit Empirical Metrics Matching DMGR
+No paper was found that defines a metric with the same formula or name (“Decode Memory Growth Rate” or equivalent) for measuring peak incremental GPU memory per generated token during decoding.
+Some works report “per-token GPU-memory usage” for KV-cache 1, but this is presented as a raw measurement rather than a formalized rate-of-change metric.
+3.2 Closely Related Metrics or Measurements
+Several surveys and system optimization papers report empirical measurements of GPU/VRAM usage as a function of sequence length during inference 2345+1 MORE. For example:
+Luohe et al. (2024) 1 discuss “per-token GPU-memory usage for KV cache” as an optimization indicator but do not formalize it into a rate-of-change metric.
+Nawrot et al. (2024) 2 present throughput and latency benchmarks under different cache compression schemes but focus on aggregate statistics.
+Li et al. (2024) 3 report “memory efficiency” improvements by compressing the KV cache but do not define a standardized slope/rate.
+Jin et al. (2023) 4 describe how KV-cache size grows with sequence length and batch size but only provide qualitative descriptions or plots.
+Zhang et al. (2023) 5 introduce H2O, which reduces KV-cache footprint dynamically; they measure throughput/latency at various sequence lengths but do not define an explicit derivative or rate.
+3.3 General Discussion of Memory Complexity
+Many foundational works discuss theoretical scaling laws for memory complexity during inference (e.g., O(L), O(L^2)), especially regarding attention mechanisms and KV-caches 6789.
+These discussions are typically asymptotic analyses rather than empirical metrics; they rarely provide concrete formulas relating measured VRAM to output length in the form required by DMGR.
+3.4 Focus on Autoregressive Generation & Model Types
+Most relevant discussions center on decoder-only Transformers and LLMs; some also address music generation 1011, image generation 1213, and video generation 14.
+In all cases, while memory scaling is acknowledged as critical—especially due to KV-cache growth—no standard empirical metric like DMGR is defined.
+3.5 Summary Table: Key Papers
+Citation	Metric/Term Used	Relation to DMGR	Explanation
+Luohe et al., 2024 1	Per-token GPU-memory usage for KV cache	Closely related	Reports actual bytes/token for cache; not formalized as a rate
+Nawrot et al., 2024 2	Throughput/memory benchmarks under compression	Partially related	Measures aggregate VRAM at different lengths; no explicit slope
+Li et al., 2024 3	Memory efficiency (% reduction)	Partially related	Compares total VRAM at fixed lengths; no per-token rate
+Jin et al., 2023 4	KV-cache size vs sequence length	Partially related	Describes linear growth qualitatively; no explicit metric
+Zhang et al., 2023 5	Throughput/latency vs sequence length under H2O policy	Partially related	Measures impact of cache policies on VRAM use
+
+
+4. Discussion
+While there is widespread recognition that GPU/VRAM usage grows linearly with output sequence length during autoregressive decoding—primarily due to the accumulation of key-value caches—there is no evidence that an explicit empirical metric like DMGR has been previously defined or standardized in the literature 1234. Most works either:
+
+Report raw measurements at specific lengths (“per-token GPU-memory usage”) without formalizing a derivative/rate,
+Discuss theoretical/asymptotic complexity (e.g., O(L)), or
+Focus on aggregate throughput/latency rather than incremental VRAM growth.
+Some recent reviews do suggest that “per-token VRAM usage” could serve as an optimization indicator for evaluating cache efficiency across models/systems 1, which is conceptually close to DMGR’s intent—but these are not formalized into named metrics nor used systematically across studies.
+
+No paper was found that names such a metric (“decode memory growth rate,” “inference memory slope,” etc.), nor one that provides its formula explicitly as Δ(memory)/Δ(length). Thus, while the idea exists implicitly in system profiling practices—and is sometimes visualized in plots—it does not appear as a standard named quantity.
+
+
+DMGR Related concepts, metrics references (key papers from consensus)
+#dmgr
+@article{Luohe2024Keep,title={Keep the Cost Down: A Review on Methods to Optimize LLM' s KV-Cache Consumption},author={Shi Luohe and Hongyi Zhang and Yao Yao and Z. Li and Zhao Hai},journal={ArXiv},year={2024},volume={abs/2407.18003},doi={10.48550/arxiv.2407.18003}}
+
+@article{Nawrot2024Dynamic,title={Dynamic Memory Compression: Retrofitting LLMs for Accelerated Inference},author={Piotr Nawrot and Adrian La'ncucki and Marcin Chochowski and David Tarjan and E. Ponti},journal={ArXiv},year={2024},volume={abs/2403.09636},doi={10.48550/arxiv.2403.09636}}
+
+@article{Sheng2023High-throughput,title={High-throughput Generative Inference of Large Language Models with a Single GPU},author={Ying Sheng and Lianmin Zheng and Binhang Yuan and Zhuohan Li and Max Ryabinin and Daniel Y. Fu and Zhiqiang Xie and Beidi Chen and Clark W. Barrett and Joseph Gonzalez and Percy Liang and Christopher Ré and Ion Stoica and Ce Zhang},year={2023},pages={31094-31116},doi={10.48550/arxiv.2303.06865}}
+
+@article{Li2024SnapKV:,title={SnapKV: LLM Knows What You are Looking for Before Generation},author={Yuhong Li and Yingbing Huang and Bowen Yang and Bharat Venkitesh and Acyr F. Locatelli and Hanchen Ye and Tianle Cai and Patrick Lewis and Deming Chen},journal={ArXiv},year={2024},volume={abs/2404.14469},doi={10.48550/arxiv.2404.14469}}
+
+@article{Leviathan2022Fast,title={Fast Inference from Transformers via Speculative Decoding},author={Yaniv Leviathan and Matan Kalman and Yossi Matias},year={2022},pages={19274-19286},doi={10.48550/arxiv.2211.17192}}
+
+instructions : I have alrady added those references in to manual_refs.bib file so cite appropriate works

@@ -15,37 +15,59 @@ backend/
 ├── generator.py        ← xLSTMGenerator (self-contained, no helibrunna)
 ├── converter.py        ← REMIGEN2 tokens → MIDI
 ├── token_analysis.py   ← Grammar checking (pure Python)
+├── setup.sh            ← One-time setup: creates conda env + installs all deps
+├── start.sh            ← Start the API server (edit MODEL_PATH inside)
+├── environment.yml     ← Conda environment definition
 ├── requirements.txt    ← Pip dependencies (used by Docker)
-├── environment.yml     ← Conda environment (no-Docker setup)
 ├── Dockerfile          ← Docker image definition
 ├── .dockerignore
 └── README.md           ← This file
 ```
 
-**Model checkpoint**: NOT stored here. Provided at runtime via `MODEL_PATH`.
+**Model checkpoint**: NOT stored here. Provided at runtime via `MODEL_PATH` in `start.sh`.
 
 ---
 
 ## Setup — Option A: Local (Conda)
 
-**Step 1**: Create the conda environment:
+**Step 1 (one-time)**: Run the setup script. This creates the conda environment and installs all dependencies in the correct order:
 ```bash
-conda env create -n xlstm-api -f environment.yml
-conda activate xlstm-api
+bash setup.sh
 ```
 
-**Step 2**: Point to your checkpoint:
+> **Why a script?** `midiprocessor`'s `setup.py` imports `miditoolkit` at build time, so `miditoolkit` must be installed first. The `setup.sh` handles this ordering automatically.
+
+**Step 2**: Edit `start.sh` and set `MODEL_PATH` to your checkpoint folder:
 ```bash
-export MODEL_PATH=/scratch1/.../checkpoint-46000-last
+# Inside start.sh, edit this line:
+MODEL_PATH="/path/to/checkpoint-46000-last"
 ```
 
 **Step 3**: Start the server:
 ```bash
-python app.py
+bash start.sh
 ```
 
-The server loads the model (~10s, includes CUDA kernel compilation on first run) then listens on `http://0.0.0.0:5000`.
+`start.sh` manages a tmux session named `xlstm-music-api` automatically:
 
+| Situation | What happens |
+|---|---|
+| No session exists | Creates session, starts server, attaches |
+| Session exists + server running | Just attaches (no restart) |
+| Session exists + server stopped | Restarts server, attaches |
+
+Once attached:
+- `Ctrl+B` then `D` — detach (server keeps running in background)
+- `Ctrl+C` — stop the server
+- `bash start.sh --stop` — stop the server and kill the tmux session
+
+The server listens on `http://0.0.0.0:5059` after loading (~10–30s, includes CUDA kernel compilation on first run).
+
+
+To forward the port to your local machine, use:
+```bash
+ssh -L 8888:localhost:5059 visionsrv
+```
 ---
 
 ## Setup — Option B: Docker (Recommended for deployment)
@@ -167,9 +189,11 @@ print(f"Speed: {resp.headers['X-Tokens-Per-Second']} tokens/sec")
 
 ## Environment Variables
 
+Set in `start.sh` or passed directly on the command line:
+
 | Variable | Default | Description |
 |---|---|---|
 | `MODEL_PATH` | *(required)* | Absolute path to checkpoint folder |
 | `PORT` | `5000` | Server port |
-| `HOST` | `0.0.0.0` | Server bind address |
+| `API_HOST` | `0.0.0.0` | Server bind address (note: use `API_HOST`, not `HOST` — conda overrides `HOST` internally) |
 | `CONTEXT_LENGTH` | `16384` | Inference context length override |
