@@ -1,29 +1,29 @@
 {
     "team": [
         {
-            "name": "Team Member Name 1",
-            "email": "email@eng.pdn.ac.lk",
-            "eNumber": "E/yy/xxx"
+            "name": "Bandara L.R.H.I.",
+            "email": "e20037@eng.pdn.ac.lk",
+            "eNumber": "E/20/037"
         },
         {
-            "name": "Team Member Name 2",
-            "email": "email@eng.pdn.ac.lk",
-            "eNumber": "E/yy/xxx"
+            "name": "Senanayake S.D.Y.V.",
+            "email": "e20363@eng.pdn.ac.lk",
+            "eNumber": "E/20/363"
         },
         {
-            "name": "Team Member Name 3",
-            "email": "email@eng.pdn.ac.lk",
-            "eNumber": "E/yy/xxx"
+            "name": "Senaratne C.K.",
+            "email": "e20365@eng.pdn.ac.lk",
+            "eNumber": "E/20/365"
         }
     ],
     "supervisors": [
         {
-            "name": "Dr. Supervisor 1",
-            "email": "email@eng.pdn.ac.lk"
+            "name": "Dr. Isuru Nawinne",
+            "email": "isurunawinne@eng.pdn.ac.lk"
         },
         {
-            "name": "Dr. Supervisor 2",
-            "email": "email@eng.pdn.ac.lk"
+            "name": "Ms. Isuri Devindi",
+            "email": "isurid@eng.pdn.ac.lk"
         }
     ],
     "media": [
@@ -33,5 +33,5 @@
             "url": "#"
         }
     ],
-    "tags": ["Final Year Projects"]
+    "tags": ["Final Year Projects", "AI", "Music", "Music generation", "xLSTM"]
 }
