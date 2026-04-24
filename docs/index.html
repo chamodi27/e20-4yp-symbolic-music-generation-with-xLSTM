@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>xLSTM Music Generation Project</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Inter, Arial, sans-serif;
+      background: #020617;
+      color: #e5e7eb;
+      line-height: 1.7;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(circle at 10% 5%, rgba(124, 58, 237, 0.36), transparent 35%),
+        radial-gradient(circle at 85% 20%, rgba(34, 211, 238, 0.18), transparent 30%),
+        linear-gradient(180deg, #020617, #0f172a);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(2, 6, 23, 0.82);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-inner,
+    .container {
+      max-width: 1180px;
+      margin: auto;
+      padding: 0 24px;
+    }
+
+    .nav-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 16px;
+      padding-bottom: 16px;
+    }
+
+    .brand {
+      font-weight: 800;
+      color: white;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 22px;
+      font-size: 14px;
+      color: #cbd5e1;
+    }
+
+    .nav-links a:hover {
+      color: white;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 42px;
+      align-items: center;
+      padding: 96px 24px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 8px 16px;
+      margin-bottom: 22px;
+      border: 1px solid rgba(103, 232, 249, 0.35);
+      border-radius: 999px;
+      background: rgba(103, 232, 249, 0.1);
+      color: #cffafe;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    h1 {
+      font-size: clamp(42px, 7vw, 76px);
+      line-height: 1.05;
+      color: white;
+      letter-spacing: -0.05em;
+    }
+
+    .gradient-text {
+      background: linear-gradient(90deg, #c4b5fd, #a5f3fc);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      margin-top: 24px;
+      font-size: 19px;
+      color: #cbd5e1;
+      max-width: 760px;
+    }
+
+    .buttons {
+      margin-top: 32px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 14px 22px;
+      border-radius: 16px;
+      font-weight: 800;
+      background: #8b5cf6;
+      color: white;
+    }
+
+    .btn.secondary {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.09);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 26px;
+      box-shadow: 0 22px 70px rgba(0, 0, 0, 0.28);
+      backdrop-filter: blur(14px);
+    }
+
+    .hero-card {
+      padding: 28px;
+    }
+
+    .metric-box {
+      margin-top: 14px;
+      padding: 18px;
+      border-radius: 18px;
+      background: rgba(2, 6, 23, 0.55);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .metric-box span {
+      color: #cbd5e1;
+      font-size: 14px;
+    }
+
+    .metric-box strong {
+      float: right;
+      font-size: 28px;
+      color: white;
+    }
+
+    section {
+      padding: 76px 0;
+    }
+
+    .eyebrow {
+      color: #c4b5fd;
+      text-transform: uppercase;
+      letter-spacing: 0.24em;
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    h2 {
+      color: white;
+      font-size: clamp(32px, 4vw, 52px);
+      line-height: 1.1;
+      margin-bottom: 32px;
+    }
+
+    h3 {
+      color: white;
+      margin-bottom: 12px;
+      font-size: 24px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 22px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 22px;
+    }
+
+    .content-card {
+      padding: 28px;
+      color: #cbd5e1;
+    }
+
+    .abstract {
+      padding: 34px;
+      font-size: 18px;
+      color: #e2e8f0;
+    }
+
+    .big-number {
+      color: white;
+      font-size: 42px;
+      font-weight: 900;
+      margin-top: 6px;
+    }
+
+    .demo-layout {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 28px;
+    }
+
+    .demo-button {
+      width: 100%;
+      text-align: left;
+      display: block;
+      margin-bottom: 12px;
+      padding: 18px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: white;
+      cursor: pointer;
+    }
+
+    .demo-button:hover,
+    .demo-button.active {
+      border-color: #67e8f9;
+      background: rgba(103, 232, 249, 0.1);
+    }
+
+    video,
+    audio {
+      width: 100%;
+      margin-top: 18px;
+      border-radius: 18px;
+    }
+
+    .person {
+      text-align: center;
+      padding: 28px;
+    }
+
+    .photo {
+      width: 118px;
+      height: 118px;
+      margin: 0 auto 16px;
+      border-radius: 28px;
+      object-fit: cover;
+      background: linear-gradient(135deg, #a78bfa, #67e8f9);
+      display: block;
+    }
+
+    .email {
+      color: #a5f3fc;
+      font-size: 14px;
+      word-break: break-word;
+    }
+
+    footer {
+      text-align: center;
+      padding: 36px 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: #94a3b8;
+      font-size: 14px;
+    }
+
+    /* ── Results tabs ───────────────────────────────────────────── */
+    .results-tabs {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+
+    .rtab {
+      padding: 10px 22px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.06);
+      color: #cbd5e1;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .rtab:hover {
+      border-color: #a5f3fc;
+      color: #a5f3fc;
+    }
+
+    .rtab.active {
+      background: linear-gradient(90deg, #7c3aed, #06b6d4);
+      border-color: transparent;
+      color: #fff;
+      box-shadow: 0 0 18px rgba(124, 58, 237, 0.45);
+    }
+
+    .rpanel {
+      display: none;
+    }
+
+    .rpanel.active {
+      display: block;
+    }
+
+    /* ── Result tables ──────────────────────────────────────────── */
+    .rtable-wrap {
+      overflow-x: auto;
+      margin-top: 20px;
+    }
+
+    .rtable {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      color: #e2e8f0;
+    }
+
+    .rtable th {
+      background: rgba(124, 58, 237, 0.22);
+      color: #c4b5fd;
+      padding: 12px 16px;
+      text-align: left;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .rtable td {
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      white-space: nowrap;
+    }
+
+    .rtable tr:last-child td {
+      border-bottom: none;
+    }
+
+    .rtable tr:hover td {
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .rtable .winner {
+      color: #a5f3fc;
+      font-weight: 800;
+    }
+
+    .rtable .sig-yes {
+      color: #86efac;
+      font-size: 12px;
+      font-weight: 700;
+      background: rgba(134, 239, 172, 0.12);
+      border-radius: 6px;
+      padding: 2px 8px;
+    }
+
+    .rtable .sig-no {
+      color: #fca5a5;
+      font-size: 12px;
+      font-weight: 700;
+      background: rgba(252, 165, 165, 0.1);
+      border-radius: 6px;
+      padding: 2px 8px;
+    }
+
+    /* ── Bar rows ───────────────────────────────────────────────── */
+    .bar-group {
+      margin-top: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .bar-row {}
+
+    .bar-label {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      font-size: 14px;
+      color: #e2e8f0;
+    }
+
+    .bar-label span {
+      color: #a5f3fc;
+      font-weight: 800;
+    }
+
+    .bar-track {
+      height: 22px;
+      border-radius: 99px;
+      background: rgba(255, 255, 255, 0.07);
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 99px;
+      background: linear-gradient(90deg, #7c3aed, #06b6d4);
+      transition: width 1s cubic-bezier(.4, 0, .2, 1);
+    }
+
+    .bar-fill.green {
+      background: linear-gradient(90deg, #059669, #34d399);
+    }
+
+    .bar-fill.amber {
+      background: linear-gradient(90deg, #b45309, #fbbf24);
+    }
+
+    /* ── Turing callout ─────────────────────────────────────────── */
+    .turing-hero {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .turing-card {
+      padding: 22px 18px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: center;
+    }
+
+    .turing-card.highlight {
+      background: rgba(124, 58, 237, 0.18);
+      border-color: rgba(167, 243, 252, 0.35);
+      box-shadow: 0 0 28px rgba(6, 182, 212, 0.18);
+    }
+
+    .turing-label {
+      font-size: 13px;
+      color: #94a3b8;
+      margin-bottom: 8px;
+    }
+
+    .turing-pct {
+      font-size: 38px;
+      font-weight: 900;
+      color: white;
+      line-height: 1.1;
+    }
+
+    .turing-sub {
+      font-size: 12px;
+      color: #94a3b8;
+      margin-top: 6px;
+    }
+
+    /* ── Efficiency grid ────────────────────────────────────────── */
+    .eff-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+      margin-top: 20px;
+    }
+
+    .eff-card {
+      padding: 26px 22px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .eff-label {
+      font-size: 13px;
+      color: #94a3b8;
+      margin-bottom: 4px;
+    }
+
+    .eff-value {
+      font-size: 42px;
+      font-weight: 900;
+      color: white;
+      line-height: 1.1;
+    }
+
+    .eff-desc {
+      font-size: 13px;
+      color: #64748b;
+      margin-top: 6px;
+    }
+
+    .insight-box {
+      margin-top: 22px;
+      padding: 20px 24px;
+      border-radius: 16px;
+      background: rgba(124, 58, 237, 0.1);
+      border-left: 3px solid #7c3aed;
+      color: #c4b5fd;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 900px) {
+
+      .hero,
+      .grid-2,
+      .grid-3,
+      .grid-4,
+      .demo-layout,
+      .turing-hero,
+      .eff-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      section {
+        padding: 56px 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a href="#home" class="brand">MusixLTM</a>
+      <div class="nav-links">
+        <a href="#abstract">Abstract</a>
+        <a href="#methodology">Methodology</a>
+        <a href="#results">Results</a>
+        <a href="#demos">Demos</a>
+
+        <a href="#team">Team</a>
+      </div>
+    </div>
+  </nav>
+
+  <header id="home" class="container hero">
+    <div>
+
+      <h1>Evaluating <span class="gradient-text">xLSTM</span> for structural coherence and efficient recurrent inference
+      </h1>
+      <p>A research project exploring whether modern recurrent architectures can generate long-form MIDI music with
+        human-like structure, while avoiding the heavy decoding cost of Transformer-based approaches.</p>
+      <div class="buttons">
+        <a class="btn" href="#demos">Listen to Demos</a>
+        <a class="btn secondary" href="#results">View Results</a>
+      </div>
+    </div>
+    <div class="card hero-card">
+      <h3>Structure + Efficiency</h3>
+      <div class="metric-box"><span>MOS</span><strong>4.04</strong><br>Highest perceptual score</div>
+      <div class="metric-box"><span>A/B vs Museformer</span><strong>76.9%</strong><br>Preference win rate</div>
+      <div class="metric-box"><span>A/B vs Lookback RNN</span><strong>87.2%</strong><br>Preference win rate</div>
+      <div class="metric-box"><span>Speedup</span><strong>25×</strong><br>Recurrent-state inference</div>
+    </div>
+  </header>
+
+  <section id="abstract">
+    <div class="container">
+      <p class="eyebrow">Paper abstract</p>
+      <h2>Abstract</h2>
+      <div class="card abstract">
+        Long-form symbolic music generation requires models to maintain both local musical plausibility and large-scale
+        structure over long sequences. While Transformer-based systems such as Museformer have shown strong long-context
+        modeling ability, they also incur substantial decoding cost. In this work, we investigate the Extended Long
+        Short-Term Memory (xLSTM) architecture as an alternative for long-form symbolic music generation. We train xLSTM
+        on the Lakh MIDI Dataset using REMIGEN encoding, implement recurrent-state inference for efficient
+        autoregressive decoding, and evaluate the model both comparatively and through xLSTM-specific long-sequence
+        analysis. Our comparative framework combines musical quality metrics, human listening tests, and three
+        self-similarity-matrix-based structural coherence metrics: Block Coherence, Repetition Density, and Off-diagonal
+        Similarity. We also introduce Decode Memory Growth Rate (DMGR), a rate-based metric for comparing memory growth
+        during autoregressive decoding across architectures. The results show that xLSTM is the closest model to human
+        music on all three structural coherence metrics, achieves the highest Mean Opinion Score, wins pairwise
+        preference tests against Museformer and Lookback RNN, and is most often mistaken for human-composed music in the
+        Turing test. On the efficiency side, recurrent-state decoding yields up to 25× speedup over the original
+        parallel-style generation loop, and xLSTM maintains near-constant decoding memory growth of 0.49 MB per 1k
+        generated tokens, compared with substantially higher memory growth for Museformer. Additional analysis shows
+        that xLSTM extrapolates beyond its 4,096-token training context, although grammar errors rise gradually at
+        longer lengths. Overall, the study shows that xLSTM is a viable architecture for long-form symbolic music
+        generation and offers a strong practical trade-off between structural quality and decoding efficiency.
+      </div>
+    </div>
+  </section>
+
+  <section id="related">
+    <div class="container">
+      <p class="eyebrow">Background</p>
+      <h2>Related Works</h2>
+      <div class="grid-3">
+        <div class="card content-card">
+          <h3>Symbolic Music Generation</h3>
+          <p>Earlier systems moved from rules and Markov models to RNNs, LSTMs, and Transformers. These models improved
+            local plausibility, but long-range musical form remains difficult.</p>
+        </div>
+        <div class="card content-card">
+          <h3>Long-Sequence Models</h3>
+          <p>Museformer and hierarchical models explicitly encode structure using attention patterns or multi-level
+            design, but this adds architectural complexity and inference cost.</p>
+        </div>
+        <div class="card content-card">
+          <h3>xLSTM Direction</h3>
+          <p>xLSTM revisits recurrent modeling with exponential gating and matrix memory, making it suitable for
+            efficient long-sequence generation without manually imposed segmentation.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="methodology">
+    <div class="container">
+      <p class="eyebrow">Approach</p>
+      <h2>Methodology</h2>
+      <div class="grid-4">
+        <div class="card content-card">
+          <h3>MIDI Dataset</h3>
+          <p>Lakh MIDI Dataset was cleaned and converted into symbolic event sequences.</p>
+        </div>
+        <div class="card content-card">
+          <h3>REMIGEN Encoding</h3>
+          <p>Music was represented using event tokens such as bars, tempo, instruments, pitch, duration, and velocity.
+          </p>
+        </div>
+        <div class="card content-card">
+          <h3>xLSTM Training</h3>
+          <p>The model was trained as a next-token predictor using the Helibrunna training framework.</p>
+        </div>
+        <div class="card content-card">
+          <h3>Recurrent Inference</h3>
+          <p>A recurrent-state generator was implemented to reduce decoding cost and enable long-form generation.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="experiment">
+    <div class="container">
+      <p class="eyebrow">Experiments</p>
+      <h2>Experiment Setup and Implementation</h2>
+      <div class="grid-2">
+        <div class="card content-card">
+          <h3>Comparative Models</h3>
+          <p>The proposed xLSTM model was compared with Museformer and Lookback RNN. Museformer represents a
+            Transformer-based long-context baseline, while Lookback RNN represents a recurrent baseline designed to
+            capture repetition.</p>
+        </div>
+        <div class="card content-card">
+          <h3>Evaluation Design</h3>
+          <p>Evaluation combined modeling metrics, musical quality metrics, SSM-based structural coherence metrics,
+            memory and generation-time analysis, and human listening tests including MOS, pairwise A/B preference, and
+            Turing-style discrimination.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="results">
+    <div class="container">
+      <p class="eyebrow">Findings</p>
+      <h2>Results and Analysis</h2>
+
+      <!-- Tab buttons -->
+      <div class="results-tabs">
+        <button class="rtab active" onclick="showTab('mos',this)">📊 MOS Scores</button>
+        <button class="rtab" onclick="showTab('ab',this)">🔀 A/B Preference</button>
+        <button class="rtab" onclick="showTab('turing',this)">🎭 Turing Test</button>
+        <button class="rtab" onclick="showTab('eff',this)">⚡ Efficiency</button>
+      </div>
+
+      <!-- ── MOS Panel ── -->
+      <div id="panel-mos" class="rpanel active card content-card">
+        <h3 style="margin-bottom:6px;">Mean Opinion Score</h3>
+        <p style="font-size:14px;color:#94a3b8;">13 participants · 153 stimulus evaluations · 5-point Likert scale · α =
+          0.05</p>
+        <div class="rtable-wrap">
+          <table class="rtable">
+            <thead>
+              <tr>
+                <th>Model</th>
+                <th>Struct. Coherence</th>
+                <th>Musical Flow</th>
+                <th>Overall Quality</th>
+                <th>Motivic Consist.</th>
+                <th>Harmonic Coh.</th>
+                <th>MOS (overall)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="winner">xLSTM ★</td>
+                <td>4.18 ± 0.23</td>
+                <td>4.00 ± 0.25</td>
+                <td>4.00 ± 0.22</td>
+                <td class="winner">4.29 ± 0.32</td>
+                <td>4.12 ± 0.42</td>
+                <td class="winner">4.04 ± 0.21</td>
+              </tr>
+              <tr>
+                <td>Museformer</td>
+                <td>3.67 ± 0.29</td>
+                <td>3.67 ± 0.28</td>
+                <td>3.67 ± 0.28</td>
+                <td>3.62 ± 0.43</td>
+                <td>3.71 ± 0.38</td>
+                <td>3.67 ± 0.25</td>
+              </tr>
+              <tr>
+                <td>Lookback RNN</td>
+                <td>2.67 ± 0.32</td>
+                <td>2.51 ± 0.32</td>
+                <td>2.45 ± 0.30</td>
+                <td>2.58 ± 0.46</td>
+                <td>2.50 ± 0.43</td>
+                <td>2.56 ± 0.29</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size:13px;color:#94a3b8;margin-top:10px;">Kruskal-Wallis H = 49.62, p &lt; 0.0001. All pairwise
+          Mann-Whitney U tests significant (p &lt; 0.05).</p>
+        <div class="insight-box">
+          xLSTM scored highest on every criterion, most markedly on <strong>motivic consistency (4.29)</strong> —
+          suggesting its long-range recurrent memory supports more coherent development of musical ideas over time.
+        </div>
+      </div>
+
+      <!-- ── A/B Preference Panel ── -->
+      <div id="panel-ab" class="rpanel card content-card">
+        <h3 style="margin-bottom:6px;">Pairwise A/B Preference</h3>
+        <p style="font-size:14px;color:#94a3b8;">39 comparisons per pair · 117 total · binomial significance test</p>
+        <div class="bar-group">
+          <div class="bar-row">
+            <div class="bar-label">xLSTM vs Museformer <span>76.9% — p = 0.001</span></div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width:76.9%"></div>
+            </div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">xLSTM vs Lookback RNN <span>87.2% — p &lt; 0.001</span></div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width:87.2%"></div>
+            </div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">Museformer vs Lookback RNN <span>84.6% — p &lt; 0.001</span></div>
+            <div class="bar-track">
+              <div class="bar-fill amber" style="width:84.6%"></div>
+            </div>
+          </div>
+        </div>
+        <div class="rtable-wrap" style="margin-top:24px;">
+          <table class="rtable">
+            <thead>
+              <tr>
+                <th>Pair</th>
+                <th>Total</th>
+                <th>Preferred</th>
+                <th>Win %</th>
+                <th>p-value</th>
+                <th>Significant</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>xLSTM vs Museformer</td>
+                <td>39</td>
+                <td class="winner">xLSTM</td>
+                <td class="winner">76.9%</td>
+                <td>0.001</td>
+                <td><span class="sig-yes">Yes</span></td>
+              </tr>
+              <tr>
+                <td>xLSTM vs Lookback RNN</td>
+                <td>39</td>
+                <td class="winner">xLSTM</td>
+                <td class="winner">87.2%</td>
+                <td>&lt; 0.001</td>
+                <td><span class="sig-yes">Yes</span></td>
+              </tr>
+              <tr>
+                <td>Museformer vs Lookback RNN</td>
+                <td>39</td>
+                <td>Museformer</td>
+                <td>84.6%</td>
+                <td>&lt; 0.001</td>
+                <td><span class="sig-yes">Yes</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="insight-box">
+          xLSTM's preference margins are well above chance (50%) in both pairings. Binomial tests confirm these outcomes
+          are not attributable to chance in any case.
+        </div>
+      </div>
+
+      <!-- ── Turing Test Panel ── -->
+      <div id="panel-turing" class="rpanel card content-card">
+        <h3 style="margin-bottom:6px;">Turing Test</h3>
+        <p style="font-size:14px;color:#94a3b8;">13 participants · 10 clips each (4 AI + 6 human) · labelled Human or AI
+        </p>
+        <div class="turing-hero">
+          <div class="turing-card highlight">
+            <div class="turing-label">AI – xLSTM</div>
+            <div class="turing-pct" style="color:#a5f3fc;">76.9%</div>
+            <div class="turing-sub">Rated Human<br><strong style="color:#86efac;">Detection: 23.1%* below
+                chance</strong></div>
+          </div>
+          <div class="turing-card">
+            <div class="turing-label">AI – Museformer</div>
+            <div class="turing-pct">30.8%</div>
+            <div class="turing-sub">Rated Human<br>Detection: 69.2% (p = 0.076)</div>
+          </div>
+          <div class="turing-card">
+            <div class="turing-label">AI – Lookback RNN</div>
+            <div class="turing-pct">42.3%</div>
+            <div class="turing-sub">Rated Human<br>Detection: 57.7% (ns)</div>
+          </div>
+          <div class="turing-card">
+            <div class="turing-label">Human Clips</div>
+            <div class="turing-pct" style="color:#94a3b8;">51.9%</div>
+            <div class="turing-sub">Rated Human<br>Correct: 51.9% (chance)</div>
+          </div>
+        </div>
+        <div class="rtable-wrap" style="margin-top:24px;">
+          <table class="rtable">
+            <thead>
+              <tr>
+                <th>Category</th>
+                <th>N</th>
+                <th>Rated Human</th>
+                <th>Rated AI</th>
+                <th>Human Rate</th>
+                <th>Correct %</th>
+                <th>p-value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="winner">AI – xLSTM</td>
+                <td>26</td>
+                <td class="winner">20</td>
+                <td>6</td>
+                <td class="winner">76.9%</td>
+                <td>23.1%</td>
+                <td>0.009</td>
+              </tr>
+              <tr>
+                <td>AI – Museformer</td>
+                <td>26</td>
+                <td>8</td>
+                <td>18</td>
+                <td>30.8%</td>
+                <td>69.2%</td>
+                <td>0.076</td>
+              </tr>
+              <tr>
+                <td>AI – Lookback RNN</td>
+                <td>26</td>
+                <td>11</td>
+                <td>15</td>
+                <td>42.3%</td>
+                <td>57.7%</td>
+                <td>0.557</td>
+              </tr>
+              <tr>
+                <td>Human Clips</td>
+                <td>52</td>
+                <td>27</td>
+                <td>25</td>
+                <td>51.9%</td>
+                <td>51.9%</td>
+                <td>0.890</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="insight-box">
+          xLSTM's detection rate of <strong>23.1%</strong> is significantly <em>below</em> chance (p = 0.009) —
+          listeners were systematically more likely to label xLSTM output as human than as AI, a level of perceptual
+          realism that even exceeds the human reference clips.
+        </div>
+      </div>
+
+      <!-- ── Efficiency Panel ── -->
+      <div id="panel-eff" class="rpanel card content-card">
+        <h3 style="margin-bottom:6px;">Efficiency Analysis</h3>
+        <p style="font-size:14px;color:#94a3b8;">Decode Memory Growth Rate (DMGR) · recurrent-state inference vs
+          parallel loop</p>
+        <div class="eff-grid">
+          <div class="eff-card">
+            <div class="eff-label">Inference Speedup</div>
+            <div class="eff-value" style="color:#a5f3fc;">25×</div>
+            <div class="eff-desc">Recurrent-state decoding over original parallel-style generation loop</div>
+          </div>
+          <div class="eff-card">
+            <div class="eff-label">xLSTM DMGR</div>
+            <div class="eff-value" style="color:#86efac;">0.49 MB</div>
+            <div class="eff-desc">Near-constant memory growth per 1k generated tokens</div>
+          </div>
+          <div class="eff-card">
+            <div class="eff-label">Context Extrapolation</div>
+            <div class="eff-value" style="color:#c4b5fd;">12k</div>
+            <div class="eff-desc">Tokens tested beyond 4,096-token training context</div>
+          </div>
+          <div class="eff-card">
+            <div class="eff-label">Training Context</div>
+            <div class="eff-value" style="color:#fbbf24;">4,096</div>
+            <div class="eff-desc">Token sequence length used during xLSTM training</div>
+          </div>
+        </div>
+        <div class="insight-box">
+          Recurrent-state inference eliminates the O(n²) attention cost of Transformer-based decoding, giving xLSTM a
+          25× speedup and near-constant memory growth. Museformer's memory growth is substantially higher at equivalent
+          sequence lengths.
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="demos">
+    <div class="container">
+      <p class="eyebrow">Generated samples</p>
+      <h2>Demos</h2>
+      <div class="demo-layout">
+        <div>
+          <button class="demo-button active"
+            onclick="showDemo('xLSTM Demo 01','Long-form generated symbolic music rendered as audio with a visual piano-roll / playback video.','/media/xlstm-demo-01.mp4','/media/xlstm-demo-01.mp3')">xLSTM
+            Demo 01<br><small>Video + Audio</small></button>
+          <button class="demo-button"
+            onclick="showDemo('xLSTM Demo 02','A second xLSTM sample showing phrase-level recurrence and section-level continuity.','/media/xlstm-demo-02.mp4','/media/xlstm-demo-02.mp3')">xLSTM
+            Demo 02<br><small>Video + Audio</small></button>
+          <button class="demo-button"
+            onclick="showDemo('Museformer Baseline','Transformer baseline using structure-aware fine/coarse-grained attention.','','/media/museformer-demo.mp3')">Museformer
+            Baseline<br><small>Audio</small></button>
+          <button class="demo-button"
+            onclick="showDemo('Lookback RNN Baseline','Recurrent baseline with lookback features for short-term repetition.','','/media/lookback-rnn-demo.mp3')">Lookback
+            RNN Baseline<br><small>Audio</small></button>
+        </div>
+        <div class="card content-card">
+          <h3 id="demo-title">xLSTM Demo 01</h3>
+          <p id="demo-desc">Long-form generated symbolic music rendered as audio with a visual piano-roll / playback
+            video.</p>
+          <video id="demo-video" controls src="/media/xlstm-demo-01.mp4"></video>
+          <audio id="demo-audio" controls src="/media/xlstm-demo-01.mp3"></audio>
+          <p style="margin-top: 14px; color: #94a3b8; font-size: 14px;">Replace these media paths with your final
+            MP4/MP3 files.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="conclusion">
+    <div class="container">
+      <p class="eyebrow">Summary</p>
+      <h2>Conclusion</h2>
+      <div class="card content-card">
+        <p>This project shows that xLSTM is a viable architecture for long-form symbolic music generation. Its
+          recurrent-state inference enables efficient long-sequence decoding, while its generated music demonstrates
+          strong structural coherence and favorable human-listening results. Future work can explore longer training
+          contexts, alternative xLSTM configurations, constrained decoding, and larger listening studies.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="links">
+    <div class="container">
+      <p class="eyebrow">Resources</p>
+      <h2>Links</h2>
+      <div class="grid-4">
+        <a class="card content-card" href="#">Paper PDF</a>
+        <a class="card content-card" href="#">GitHub Repository</a>
+        <a class="card content-card" href="#">Listening Test Platform</a>
+        <a class="card content-card" href="#demos">Demo Playlist</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="team">
+    <div class="container">
+      <p class="eyebrow">People</p>
+      <h2>Team and Supervisors</h2>
+      <h3>Research Team</h3>
+      <div class="grid-3">
+        <div class="card person"><img class="photo" src="/images/e20037.jpg" alt="Haritha Bandara">
+          <h3>Haritha Bandara</h3>
+          <p>Research Team</p><a class="email" href="mailto:e20037@eng.pdn.ac.lk">e20037@eng.pdn.ac.lk</a>
+        </div>
+        <div class="card person"><img class="photo" src="/images/e20363.jpg" alt="Yohan Senanayake">
+          <h3>Yohan Senanayake</h3>
+          <p>Research Team</p><a class="email" href="mailto:e20363@eng.pdn.ac.lk">e20363@eng.pdn.ac.lk</a>
+        </div>
+        <div class="card person"><img class="photo" src="/images/e20365.jpg" alt="Chamodi Senaratne">
+          <h3>Chamodi Senaratne</h3>
+          <p>Research Team</p><a class="email" href="mailto:e20365@eng.pdn.ac.lk">e20365@eng.pdn.ac.lk</a>
+        </div>
+      </div>
+
+      <h3 style="margin-top: 48px;">Supervisors</h3>
+      <div class="grid-2">
+        <div class="card person"><img class="photo" src="/images/isuru-nawinne.png" alt="Dr. Isuru Nawinne">
+          <h3>Dr. Isuru Nawinne</h3>
+          <p>Supervisor</p><a class="email" href="mailto:isurunawinne@eng.pdn.ac.lk">isurunawinne@eng.pdn.ac.lk</a>
+        </div>
+        <div class="card person"><img class="photo" src="/images/isuri.png" alt="Ms. Isuri Devindi">
+          <h3>Ms. Isuri Devindi</h3>
+          <p>Supervisor</p><a class="email" href="mailto:isurid@umd.edu">isurid@umd.edu</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Department of Computer Engineering, University of Peradeniya · xLSTM Music Generation Research Project
+  </footer>
+
+  <script>
+    function showTab(id, btn) {
+      document.querySelectorAll('.rpanel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.rtab').forEach(b => b.classList.remove('active'));
+      document.getElementById('panel-' + id).classList.add('active');
+      btn.classList.add('active');
+    }
+
+    function showDemo(title, desc, video, audio) {
+      document.querySelectorAll('.demo-button').forEach(btn => btn.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+      document.getElementById('demo-title').textContent = title;
+      document.getElementById('demo-desc').textContent = desc;
+      const videoEl = document.getElementById('demo-video');
+      const audioEl = document.getElementById('demo-audio');
+      if (video) {
+        videoEl.style.display = 'block';
+        videoEl.src = video;
+      } else {
+        videoEl.pause();
+        videoEl.removeAttribute('src');
+        videoEl.style.display = 'none';
+      }
+      audioEl.src = audio;
+    }
+  </script>
+</body>
+
+</html>
