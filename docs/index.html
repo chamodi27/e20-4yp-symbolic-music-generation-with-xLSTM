@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>xLSTM Music Generation Project</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: Inter, Arial, sans-serif;
+      background: #020617;
+      color: #e5e7eb;
+      line-height: 1.7;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background:
+        radial-gradient(circle at 10% 5%, rgba(124, 58, 237, 0.36), transparent 35%),
+        radial-gradient(circle at 85% 20%, rgba(34, 211, 238, 0.18), transparent 30%),
+        linear-gradient(180deg, #020617, #0f172a);
+    }
+    a { color: inherit; text-decoration: none; }
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(2, 6, 23, 0.82);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .nav-inner, .container {
+      max-width: 1180px;
+      margin: auto;
+      padding: 0 24px;
+    }
+    .nav-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 16px;
+      padding-bottom: 16px;
+    }
+    .brand { font-weight: 800; color: white; }
+    .nav-links { display: flex; gap: 22px; font-size: 14px; color: #cbd5e1; }
+    .nav-links a:hover { color: white; }
+    .hero {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 42px;
+      align-items: center;
+      padding: 96px 24px;
+    }
+    .badge {
+      display: inline-block;
+      padding: 8px 16px;
+      margin-bottom: 22px;
+      border: 1px solid rgba(103, 232, 249, 0.35);
+      border-radius: 999px;
+      background: rgba(103, 232, 249, 0.1);
+      color: #cffafe;
+      font-weight: 700;
+      font-size: 14px;
+    }
+    h1 {
+      font-size: clamp(42px, 7vw, 76px);
+      line-height: 1.05;
+      color: white;
+      letter-spacing: -0.05em;
+    }
+    .gradient-text {
+      background: linear-gradient(90deg, #c4b5fd, #a5f3fc);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .hero p { margin-top: 24px; font-size: 19px; color: #cbd5e1; max-width: 760px; }
+    .buttons { margin-top: 32px; display: flex; flex-wrap: wrap; gap: 14px; }
+    .btn {
+      display: inline-block;
+      padding: 14px 22px;
+      border-radius: 16px;
+      font-weight: 800;
+      background: #8b5cf6;
+      color: white;
+    }
+    .btn.secondary { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.16); }
+    .card {
+      background: rgba(255,255,255,0.09);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 26px;
+      box-shadow: 0 22px 70px rgba(0,0,0,0.28);
+      backdrop-filter: blur(14px);
+    }
+    .hero-card { padding: 28px; }
+    .metric-box {
+      margin-top: 14px;
+      padding: 18px;
+      border-radius: 18px;
+      background: rgba(2,6,23,0.55);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .metric-box span { color: #cbd5e1; font-size: 14px; }
+    .metric-box strong { float: right; font-size: 28px; color: white; }
+    section { padding: 76px 0; }
+    .eyebrow {
+      color: #c4b5fd;
+      text-transform: uppercase;
+      letter-spacing: 0.24em;
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+    h2 { color: white; font-size: clamp(32px, 4vw, 52px); line-height: 1.1; margin-bottom: 32px; }
+    h3 { color: white; margin-bottom: 12px; font-size: 24px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
+    .content-card { padding: 28px; color: #cbd5e1; }
+    .abstract { padding: 34px; font-size: 18px; color: #e2e8f0; }
+    .big-number { color: white; font-size: 42px; font-weight: 900; margin-top: 6px; }
+    .demo-layout { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 28px; }
+    .demo-button {
+      width: 100%;
+      text-align: left;
+      display: block;
+      margin-bottom: 12px;
+      padding: 18px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: white;
+      cursor: pointer;
+    }
+    .demo-button:hover, .demo-button.active { border-color: #67e8f9; background: rgba(103,232,249,0.1); }
+    video, audio { width: 100%; margin-top: 18px; border-radius: 18px; }
+    .person {
+      text-align: center;
+      padding: 28px;
+    }
+    .photo {
+      width: 118px;
+      height: 118px;
+      margin: 0 auto 16px;
+      border-radius: 28px;
+      object-fit: cover;
+      background: linear-gradient(135deg, #a78bfa, #67e8f9);
+      display: block;
+    }
+    .email { color: #a5f3fc; font-size: 14px; word-break: break-word; }
+    footer {
+      text-align: center;
+      padding: 36px 24px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      color: #94a3b8;
+      font-size: 14px;
+    }
+    @media (max-width: 900px) {
+      .hero, .grid-2, .grid-3, .grid-4, .demo-layout { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      section { padding: 56px 0; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a href="#home" class="brand">xLSTM MusicGen</a>
+      <div class="nav-links">
+        <a href="#abstract">Abstract</a>
+        <a href="#methodology">Methodology</a>
+        <a href="#results">Results</a>
+        <a href="#demos">Demos</a>
+        <a href="#publications">Publications</a>
+        <a href="#team">Team</a>
+      </div>
+    </div>
+  </nav>
+
+  <header id="home" class="container hero">
+    <div>
+      <span class="badge">Long-form symbolic music generation</span>
+      <h1>Evaluating <span class="gradient-text">xLSTM</span> for structural coherence and efficient recurrent inference</h1>
+      <p>A research project exploring whether modern recurrent architectures can generate long-form MIDI music with human-like structure, while avoiding the heavy decoding cost of Transformer-based approaches.</p>
+      <div class="buttons">
+        <a class="btn" href="#demos">Listen to Demos</a>
+        <a class="btn secondary" href="#results">View Results</a>
+      </div>
+    </div>
+    <div class="card hero-card">
+      <h3>Structure + Efficiency</h3>
+      <div class="metric-box"><span>MOS</span><strong>4.04</strong><br>Highest perceptual score</div>
+      <div class="metric-box"><span>A/B vs Museformer</span><strong>76.9%</strong><br>Preference win rate</div>
+      <div class="metric-box"><span>A/B vs Lookback RNN</span><strong>87.2%</strong><br>Preference win rate</div>
+      <div class="metric-box"><span>Speedup</span><strong>25×</strong><br>Recurrent-state inference</div>
+    </div>
+  </header>
+
+  <section id="abstract">
+    <div class="container">
+      <p class="eyebrow">Paper abstract</p>
+      <h2>Abstract</h2>
+      <div class="card abstract">
+        Long-form symbolic music generation requires models to maintain both local musical plausibility and large-scale structure over long sequences. While Transformer-based systems such as Museformer have shown strong long-context modeling ability, they also incur substantial decoding cost. In this work, we investigate the Extended Long Short-Term Memory (xLSTM) architecture as an alternative for long-form symbolic music generation. We train xLSTM on the Lakh MIDI Dataset using REMIGEN encoding, implement recurrent-state inference for efficient autoregressive decoding, and evaluate the model both comparatively and through xLSTM-specific long-sequence analysis. Our comparative framework combines musical quality metrics, human listening tests, and three self-similarity-matrix-based structural coherence metrics: Block Coherence, Repetition Density, and Off-diagonal Similarity. We also introduce Decode Memory Growth Rate (DMGR), a rate-based metric for comparing memory growth during autoregressive decoding across architectures. The results show that xLSTM is the closest model to human music on all three structural coherence metrics, achieves the highest Mean Opinion Score, wins pairwise preference tests against Museformer and Lookback RNN, and is most often mistaken for human-composed music in the Turing test. On the efficiency side, recurrent-state decoding yields up to 25× speedup over the original parallel-style generation loop, and xLSTM maintains near-constant decoding memory growth of 0.49 MB per 1k generated tokens, compared with substantially higher memory growth for Museformer. Additional analysis shows that xLSTM extrapolates beyond its 4,096-token training context, although grammar errors rise gradually at longer lengths. Overall, the study shows that xLSTM is a viable architecture for long-form symbolic music generation and offers a strong practical trade-off between structural quality and decoding efficiency.
+      </div>
+    </div>
+  </section>
+
+  <section id="related">
+    <div class="container">
+      <p class="eyebrow">Background</p>
+      <h2>Related Works</h2>
+      <div class="grid-3">
+        <div class="card content-card"><h3>Symbolic Music Generation</h3><p>Earlier systems moved from rules and Markov models to RNNs, LSTMs, and Transformers. These models improved local plausibility, but long-range musical form remains difficult.</p></div>
+        <div class="card content-card"><h3>Long-Sequence Models</h3><p>Museformer and hierarchical models explicitly encode structure using attention patterns or multi-level design, but this adds architectural complexity and inference cost.</p></div>
+        <div class="card content-card"><h3>xLSTM Direction</h3><p>xLSTM revisits recurrent modeling with exponential gating and matrix memory, making it suitable for efficient long-sequence generation without manually imposed segmentation.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="methodology">
+    <div class="container">
+      <p class="eyebrow">Approach</p>
+      <h2>Methodology</h2>
+      <div class="grid-4">
+        <div class="card content-card"><h3>MIDI Dataset</h3><p>Lakh MIDI Dataset was cleaned and converted into symbolic event sequences.</p></div>
+        <div class="card content-card"><h3>REMIGEN Encoding</h3><p>Music was represented using event tokens such as bars, tempo, instruments, pitch, duration, and velocity.</p></div>
+        <div class="card content-card"><h3>xLSTM Training</h3><p>The model was trained as a next-token predictor using the Helibrunna training framework.</p></div>
+        <div class="card content-card"><h3>Recurrent Inference</h3><p>A recurrent-state generator was implemented to reduce decoding cost and enable long-form generation.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="experiment">
+    <div class="container">
+      <p class="eyebrow">Experiments</p>
+      <h2>Experiment Setup and Implementation</h2>
+      <div class="grid-2">
+        <div class="card content-card"><h3>Comparative Models</h3><p>The proposed xLSTM model was compared with Museformer and Lookback RNN. Museformer represents a Transformer-based long-context baseline, while Lookback RNN represents a recurrent baseline designed to capture repetition.</p></div>
+        <div class="card content-card"><h3>Evaluation Design</h3><p>Evaluation combined modeling metrics, musical quality metrics, SSM-based structural coherence metrics, memory and generation-time analysis, and human listening tests including MOS, pairwise A/B preference, and Turing-style discrimination.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="results">
+    <div class="container">
+      <p class="eyebrow">Findings</p>
+      <h2>Results and Analysis</h2>
+      <div class="grid-3">
+        <div class="card content-card"><p>MOS</p><div class="big-number">4.04</div><p>Highest perceptual score</p></div>
+        <div class="card content-card"><p>xLSTM vs Museformer</p><div class="big-number">76.9%</div><p>A/B preference win rate</p></div>
+        <div class="card content-card"><p>xLSTM vs Lookback RNN</p><div class="big-number">87.2%</div><p>A/B preference win rate</p></div>
+        <div class="card content-card"><p>DMGR</p><div class="big-number">0.49 MB</div><p>Per 1k generated tokens</p></div>
+        <div class="card content-card"><p>Speedup</p><div class="big-number">25×</div><p>With recurrent-state inference</p></div>
+        <div class="card content-card"><p>Context</p><div class="big-number">12k</div><p>Tokens tested for extrapolation</p></div>
+      </div>
+      <div class="card content-card" style="margin-top: 24px;">
+        <p>xLSTM showed the strongest overall balance between long-term structural coherence, perceived musical quality, and decoding efficiency. Museformer remained competitive on selected intrinsic modeling metrics, but xLSTM was closer to human music on the structural metrics and was more efficient during long-form decoding.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="demos">
+    <div class="container">
+      <p class="eyebrow">Generated samples</p>
+      <h2>Demos</h2>
+      <div class="demo-layout">
+        <div>
+          <button class="demo-button active" onclick="showDemo('xLSTM Demo 01','Long-form generated symbolic music rendered as audio with a visual piano-roll / playback video.','/media/xlstm-demo-01.mp4','/media/xlstm-demo-01.mp3')">xLSTM Demo 01<br><small>Video + Audio</small></button>
+          <button class="demo-button" onclick="showDemo('xLSTM Demo 02','A second xLSTM sample showing phrase-level recurrence and section-level continuity.','/media/xlstm-demo-02.mp4','/media/xlstm-demo-02.mp3')">xLSTM Demo 02<br><small>Video + Audio</small></button>
+          <button class="demo-button" onclick="showDemo('Museformer Baseline','Transformer baseline using structure-aware fine/coarse-grained attention.','','/media/museformer-demo.mp3')">Museformer Baseline<br><small>Audio</small></button>
+          <button class="demo-button" onclick="showDemo('Lookback RNN Baseline','Recurrent baseline with lookback features for short-term repetition.','','/media/lookback-rnn-demo.mp3')">Lookback RNN Baseline<br><small>Audio</small></button>
+        </div>
+        <div class="card content-card">
+          <h3 id="demo-title">xLSTM Demo 01</h3>
+          <p id="demo-desc">Long-form generated symbolic music rendered as audio with a visual piano-roll / playback video.</p>
+          <video id="demo-video" controls src="/media/xlstm-demo-01.mp4"></video>
+          <audio id="demo-audio" controls src="/media/xlstm-demo-01.mp3"></audio>
+          <p style="margin-top: 14px; color: #94a3b8; font-size: 14px;">Replace these media paths with your final MP4/MP3 files.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="conclusion">
+    <div class="container">
+      <p class="eyebrow">Summary</p>
+      <h2>Conclusion</h2>
+      <div class="card content-card">
+        <p>This project shows that xLSTM is a viable architecture for long-form symbolic music generation. Its recurrent-state inference enables efficient long-sequence decoding, while its generated music demonstrates strong structural coherence and favorable human-listening results. Future work can explore longer training contexts, alternative xLSTM configurations, constrained decoding, and larger listening studies.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="publications">
+    <div class="container">
+      <p class="eyebrow">Outputs</p>
+      <h2>Publications</h2>
+      <div class="card content-card">
+        <h3>Evaluating xLSTM for Long-Form Symbolic Music Generation: Structural Coherence and Efficient Recurrent Inference</h3>
+        <p>Final research paper / manuscript for the project. Add conference, arXiv, or institutional repository details here when available.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="links">
+    <div class="container">
+      <p class="eyebrow">Resources</p>
+      <h2>Links</h2>
+      <div class="grid-4">
+        <a class="card content-card" href="#">Paper PDF</a>
+        <a class="card content-card" href="#">GitHub Repository</a>
+        <a class="card content-card" href="#">Listening Test Platform</a>
+        <a class="card content-card" href="#demos">Demo Playlist</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="team">
+    <div class="container">
+      <p class="eyebrow">People</p>
+      <h2>Team and Supervisors</h2>
+      <h3>Research Team</h3>
+      <div class="grid-3">
+        <div class="card person"><img class="photo" src="/team/haritha.jpg" alt="Haritha Bandara"><h3>Haritha Bandara</h3><p>Research Team</p><a class="email" href="mailto:e20037@eng.pdn.ac.lk">e20037@eng.pdn.ac.lk</a></div>
+        <div class="card person"><img class="photo" src="/team/yohan.jpg" alt="Yohan Senanayake"><h3>Yohan Senanayake</h3><p>Research Team</p><a class="email" href="mailto:e20363@eng.pdn.ac.lk">e20363@eng.pdn.ac.lk</a></div>
+        <div class="card person"><img class="photo" src="/team/chamodi.jpg" alt="Chamodi Senaratne"><h3>Chamodi Senaratne</h3><p>Research Team</p><a class="email" href="mailto:e20365@eng.pdn.ac.lk">e20365@eng.pdn.ac.lk</a></div>
+      </div>
+
+      <h3 style="margin-top: 48px;">Supervisors</h3>
+      <div class="grid-2">
+        <div class="card person"><img class="photo" src="/team/isuru.jpg" alt="Dr. Isuru Nawinne"><h3>Dr. Isuru Nawinne</h3><p>Supervisor</p><a class="email" href="mailto:isurunawinne@eng.pdn.ac.lk">isurunawinne@eng.pdn.ac.lk</a></div>
+        <div class="card person"><img class="photo" src="/team/isuri.jpg" alt="Dr. Isuri Devindi"><h3>Dr. Isuri Devindi</h3><p>Supervisor</p><a class="email" href="mailto:isurid@umd.edu">isurid@umd.edu</a></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Department of Computer Engineering, University of Peradeniya · xLSTM Music Generation Research Project
+  </footer>
+
+  <script>
+    function showDemo(title, desc, video, audio) {
+      document.querySelectorAll('.demo-button').forEach(btn => btn.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+      document.getElementById('demo-title').textContent = title;
+      document.getElementById('demo-desc').textContent = desc;
+      const videoEl = document.getElementById('demo-video');
+      const audioEl = document.getElementById('demo-audio');
+      if (video) {
+        videoEl.style.display = 'block';
+        videoEl.src = video;
+      } else {
+        videoEl.pause();
+        videoEl.removeAttribute('src');
+        videoEl.style.display = 'none';
+      }
+      audioEl.src = audio;
+    }
+  </script>
+</body>
+</html>
