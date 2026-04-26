@@ -35,6 +35,12 @@ __pycache__/
 Thumbs.db
 
 *.wav
+# ...except these demo files
+!docs/media/xLSTM-5.wav
+!docs/media/xLSTM-10.wav
+!docs/media/Museformer-10.wav
+!docs/media/LookBack_RNN-10.wav
+
 *.mid
 notebooks/xLSTM/generated_music/
 
