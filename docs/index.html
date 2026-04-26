@@ -954,26 +954,22 @@
       <div class="demo-layout">
         <div>
           <button class="demo-button active"
-            onclick="showDemo('xLSTM Demo 01','Long-form generated symbolic music rendered as audio with a visual piano-roll / playback video.','/media/xlstm-demo-01.mp4','/media/xlstm-demo-01.mp3')">xLSTM
-            Demo 01<br><small>Video + Audio</small></button>
+            onclick="showDemo('xLSTM — Sample 1','xLSTM generated music, sample 1 (5-minute sequence).','media/xLSTM-5.wav')">
+            xLSTM Sample 1<br><small>Audio</small></button>
           <button class="demo-button"
-            onclick="showDemo('xLSTM Demo 02','A second xLSTM sample showing phrase-level recurrence and section-level continuity.','/media/xlstm-demo-02.mp4','/media/xlstm-demo-02.mp3')">xLSTM
-            Demo 02<br><small>Video + Audio</small></button>
+            onclick="showDemo('xLSTM — Sample 2','xLSTM generated music, sample 2 (10-minute sequence).','media/xLSTM-10.wav')">
+            xLSTM Sample 2<br><small>Audio</small></button>
           <button class="demo-button"
-            onclick="showDemo('Museformer Baseline','Transformer baseline using structure-aware fine/coarse-grained attention.','','/media/museformer-demo.mp3')">Museformer
-            Baseline<br><small>Audio</small></button>
+            onclick="showDemo('Museformer Baseline','Transformer baseline using structure-aware fine/coarse-grained attention.','media/Museformer-10.wav')">
+            Museformer Baseline<br><small>Audio</small></button>
           <button class="demo-button"
-            onclick="showDemo('Lookback RNN Baseline','Recurrent baseline with lookback features for short-term repetition.','','/media/lookback-rnn-demo.mp3')">Lookback
-            RNN Baseline<br><small>Audio</small></button>
+            onclick="showDemo('Lookback RNN Baseline','Recurrent baseline with lookback features for short-term repetition.','media/LookBack_RNN-10.wav')">
+            Lookback RNN Baseline<br><small>Audio</small></button>
         </div>
         <div class="card content-card">
-          <h3 id="demo-title">xLSTM Demo 01</h3>
-          <p id="demo-desc">Long-form generated symbolic music rendered as audio with a visual piano-roll / playback
-            video.</p>
-          <video id="demo-video" controls src="/media/xlstm-demo-01.mp4"></video>
-          <audio id="demo-audio" controls src="/media/xlstm-demo-01.mp3"></audio>
-          <p style="margin-top: 14px; color: #94a3b8; font-size: 14px;">Replace these media paths with your final
-            MP4/MP3 files.</p>
+          <h3 id="demo-title">xLSTM — Sample 1</h3>
+          <p id="demo-desc">xLSTM generated music, sample 1 (5-minute sequence).</p>
+          <audio id="demo-audio" controls src="media/xLSTM-5.wav" style="margin-top:18px;"></audio>
         </div>
       </div>
     </div>
@@ -998,8 +994,8 @@
       <h2>Links</h2>
       <div class="grid-4">
         <a class="card content-card" href="#">Paper PDF</a>
-        <a class="card content-card" href="#">GitHub Repository</a>
-        <a class="card content-card" href="#">Listening Test Platform</a>
+        <a class="card content-card" href="https://github.com/cepdnaclk/e20-4yp-symbolic-music-generation-with-xLSTM" target="_blank" rel="noopener">GitHub Repository</a>
+        <a class="card content-card" href="https://instructions.musixltm.perapulse.org/" target="_blank" rel="noopener">Listening Test Platform</a>
         <a class="card content-card" href="#demos">Demo Playlist</a>
       </div>
     </div>
@@ -1051,22 +1047,14 @@
       btn.classList.add('active');
     }
 
-    function showDemo(title, desc, video, audio) {
+    function showDemo(title, desc, audio) {
       document.querySelectorAll('.demo-button').forEach(btn => btn.classList.remove('active'));
       event.currentTarget.classList.add('active');
       document.getElementById('demo-title').textContent = title;
       document.getElementById('demo-desc').textContent = desc;
-      const videoEl = document.getElementById('demo-video');
       const audioEl = document.getElementById('demo-audio');
-      if (video) {
-        videoEl.style.display = 'block';
-        videoEl.src = video;
-      } else {
-        videoEl.pause();
-        videoEl.removeAttribute('src');
-        videoEl.style.display = 'none';
-      }
       audioEl.src = audio;
+      audioEl.play();
     }
   </script>
 </body>
